@@ -1,4 +1,6 @@
 Options -Indexes
-ErrorDocument 404 /?404
-RewriteEngine On
-RewriteRule .* index.php
+ErrorDocument 404 /?err=404
+RewriteEngine on
+RewriteRule vue/* /?err=404
+RewriteRule modele/* /?err=404
+RewriteRule controleur/* /?err=404
