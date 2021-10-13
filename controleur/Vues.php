@@ -18,13 +18,13 @@
 
         static public function charger(string $vue)
         {
-            if (strlen($vue) === 0)                            // Aucune vue spécifiée
-                $vue = self::PAR_DEFAUT;                           // On chargera la vue par défaut
-            $vue = self::_vue($vue);                       // Traduction en nom de fichier vue
-            if (file_exists($vue))                                      // Recherche du fichier
-                include $vue;                                               // On charge la vue   
-            else                                                        // Le fichier n'existe pas
-                include self::_vue(self::INTROUVABLE);                  // On charge la vue d'erreur 404
+            if (strlen($vue) === 0)                             // Aucune vue spécifiée
+                $vue = self::PAR_DEFAUT;                            // On chargera la vue par défaut
+            $vue = self::_vue($vue);                            // Traduction en nom de fichier vue
+            if (file_exists($vue))                              // Recherche du fichier
+                include $vue;                                       // On charge la vue   
+            else                                                // Le fichier n'existe pas
+                include self::_vue(self::INTROUVABLE);              // On charge la vue d'erreur 404
         }
         
         static public function composant(string $nom, array $parametres = [])   // Permet d'inclure rapidement un composant dans une vue

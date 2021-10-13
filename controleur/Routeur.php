@@ -12,6 +12,7 @@
             $vue = key($requete);
             if ($vue === self::INDICATEUR_ERREUR)
                 return $vue . '/' . $requete[$vue];
+            return $vue;
         }
 
         static function charger_page(array $requete)
