@@ -4,10 +4,10 @@
     require_once 'controleur/Authentification.php';
 
     $vue = Routeur::definir_vue($_REQUEST);                                     // Définir la vue
-    $auth = new TAuthentification(TAuthentification::ADMIN);                    // Non authentifié par défaut
+    $auth = new JetonAuthentification();                                        // Non authentifié par défaut
     if (Authentification::OBLIGATOIRE || Authentification::requise($vue))       // Si l'authentification est requise
     {
-        $auth = Authentification::verifier($_SESSION);                          // Vérifie l'authentification
+        $auth = Authentification::jeton($_SESSION);                             // Vérifie l'authentification
         if (!$auth)                                                             // Si elle échoue
             $vue = Authentification::VUE;                                           // Définir la vue sur la page de connexion
     }

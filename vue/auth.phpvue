@@ -1,0 +1,9 @@
+<?php
+    if ($_AUTH->valide())
+        header('Location: /');
+?>
+<form method="post">
+    <input type="text" name="<?= Authentification::CLE_ID ?>" id="<?= Authentification::CLE_ID ?>">
+    <input type="password" name="<?= Authentification::CLE_MDP ?>" id="<?= Authentification::CLE_MDP ?>">
+    <input type="submit" name="<?= Authentification::FORMULAIRE ?>" value="Se connecter">
+</form>

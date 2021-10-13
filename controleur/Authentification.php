@@ -1,23 +1,5 @@
 <?php
-
-    class TAuthentification
-    {
-        // TYPE D'AUTHENTIFICATION
-        const ADMIN = 0;
-        const ENTREPRISE = 1;
-        const LOUEUR = 2;
-
-        private $_type;                                                     // Type de l'authentification
-        public function type() : ?int { return $this->_type; }
-
-        private $_valide;                                                   // Validité de l'authentification
-        public function est_valide() : bool { return $this->_valide; }
-        public function __construct(?int $type = null)                      
-        {
-            $this->_valide = !is_null($type);                               // A REFAIRE
-            $this->_type = $type;
-        }
-    }
+    include_once 'modele/JetonAuthentification.php';
 
     abstract class Authentification
     {
@@ -35,9 +17,23 @@
             return false;
         }
 
-        static public function verifier(array $session) : TAuthentification
+        const FORMULAIRE = 'form_auth';
+        const CLE_ID = 'auth_id';
+        const CLE_PSD = 'auth_psd';
+        const CLE_MDP = 'auth_mdp';
+
+        static public function connexion(array $post, array $session)
         {
-            return new TAuthentification();
+            if (isset($post[self::FORMULAIRE], $post[self::CLE_PSD], $post[self::CLE_MDP]))
+            {
+                // Authentification a faire
+                unset($post[self::CLE_MDP]);
+            }
+        }
+
+        static public function jeton(array $session) : JetonAuthentification
+        {
+            return new JetonAuthentification();
         }
     }
 

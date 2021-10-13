@@ -24,7 +24,7 @@
         // chargé.e. Elles sont utilisées pour passer des informations aux fichiers .phpvue et permet de modifier le
         // rendu selon ces informations.
 
-        static public function charger(string $vue, TAuthentification $_AUTH, array $_PARAMS = [])
+        static public function charger(string $vue, JetonAuthentification $_AUTH, array $_PARAMS = [])
         {
             $vue = self::_vue($vue);                            // Traduction en nom de fichier vue
             if (file_exists($vue))                              // Recherche du fichier
@@ -35,7 +35,7 @@
         
         
         // FONCTIONS UTILES AUX VUES
-        static public function composant(string $nom, TAuthentification $_AUTH, array $_PARAMS = [])
+        static public function composant(string $nom, JetonAuthentification $_AUTH, array $_PARAMS = [])
         { include self::_composant($nom); }   // Permet d'inclure rapidement un composant dans une vue
         static public function val(array $_PARAMS, string $cle, string $defaut = '') : string
         { return htmlspecialchars(isset($_PARAMS[$cle]) ? $_PARAMS[$cle] : $defaut); }
