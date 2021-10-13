@@ -1,5 +1,5 @@
 <?php
-    Vues::composant('entete', [
+    Vues::composant('entete', $_AUTH, [
         'nom_page' => '404'
     ]);
 ?>
@@ -9,5 +9,5 @@
         </h1>
     </div>
 <?php 
-    Vues::composant('pied');
+    Vues::composant('pied', $_AUTH);
 ?>
