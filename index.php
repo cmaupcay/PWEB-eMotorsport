@@ -1,5 +1,5 @@
 <?php
-    require_once 'controleur/Routeur.php';
+    require_once 'controleur/Vues.php';
 
-    Routeur::charger_vue((isset($_GET['p']) ? $_GET['p'] : ''));
+    Vues::charger((isset($_GET['p']) ? $_GET['p'] : ''));
 ?>

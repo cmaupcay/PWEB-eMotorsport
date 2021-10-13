@@ -1,10 +1,10 @@
 <?php
     $titre_page = 'Accueil';
-    require 'vue/composants/entete.tpl';
+    require 'vue/composants/entete';
 ?>
 
     <h1>Wesh la zone.</h1>
 
 <?php 
-    require 'vue/composants/pied.tpl';
+    require 'vue/composants/pied';
 ?>
