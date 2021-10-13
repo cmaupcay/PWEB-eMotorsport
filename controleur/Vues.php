@@ -1,6 +1,8 @@
 <?php
 
-    class Vues
+    include_once 'vue/parametres/Vues.php';
+
+    abstract class Vues
     {
         const EXTENSION = 'phpvue';                 // Extension des fichiers de vue
         const EXTENSION_COMPOSANT = 'cmpvue';       // Extension des fichiers de composant de vue
@@ -18,11 +20,11 @@
         { return self::DOSSIER . self::DOSSIER_COMPOSANTS . $nom . '.' . self::EXTENSION_COMPOSANT; }
 
         // NOTE        
-        // Le booléen $_AUTH et le tableau $_PARAMS sont des constantes définie dès qu'une vue ou qu'un composant est
+        // L'objet $_AUTH et le tableau $_PARAMS sont des constantes définie dès qu'une vue ou qu'un composant est
         // chargé.e. Elles sont utilisées pour passer des informations aux fichiers .phpvue et permet de modifier le
         // rendu selon ces informations.
 
-        static public function charger(string $vue, bool $_AUTH, array $_PARAMS = [])
+        static public function charger(string $vue, TAuthentification $_AUTH, array $_PARAMS = [])
         {
             $vue = self::_vue($vue);                            // Traduction en nom de fichier vue
             if (file_exists($vue))                              // Recherche du fichier
@@ -31,10 +33,12 @@
                 include self::_vue(self::INTROUVABLE);              // On charge la vue d'erreur 404
         }
         
-        static public function composant(string $nom, bool $_AUTH, array $_PARAMS = [])
-        {
-            include self::_composant($nom);     // Permet d'inclure rapidement un composant dans une vue
-        }
+        
+        // FONCTIONS UTILES AUX VUES
+        static public function composant(string $nom, TAuthentification $_AUTH, array $_PARAMS = [])
+        { include self::_composant($nom); }   // Permet d'inclure rapidement un composant dans une vue
+        static public function val(array $_PARAMS, string $cle, string $defaut = '') : string
+        { return htmlspecialchars(isset($_PARAMS[$cle]) ? $_PARAMS[$cle] : $defaut); }
     }
 
 ?>

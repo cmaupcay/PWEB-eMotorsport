@@ -1,6 +1,6 @@
 <?php
     Vues::composant('entete', $_AUTH, [
-        'nom_page' => 'Accueil'
+        PVue::NOM_PAGE => 'Accueil'
     ]);
 ?>
 

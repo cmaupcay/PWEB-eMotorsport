@@ -5,7 +5,7 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>eMotorsport<?= isset($_PARAMS['nom_page']) ? ' - ' . $_PARAMS['nom_page'] : '' ?></title>
+        <title>eMotorsport<?= isset($_PARAMS[PVue::NOM_PAGE]) ? ' - ' . $_PARAMS[PVue::NOM_PAGE] : '' ?></title>
         <!-- MDB 4.19.1 (CSS) -->
         <!-- Font Awesome -->
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
@@ -20,6 +20,7 @@
         <link href="vue/style/style.css" rel="stylesheet">
     </head>
     <body>
+        <?php if ($_AUTH->type() === TAuthentification::ADMIN) print('<h5>Vous êtes connecté en tant qu\'administrateur.</h5>'); ?>
 <?php else: ?>
     <h3><strong>Problème lors du chargement du composant...</strong></h3>
 <?php endif ?>

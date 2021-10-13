@@ -1,6 +1,6 @@
 <?php
 
-    class Routeur
+    abstract class Routeur
     {
         const PAR_DEFAUT = 'accueil';               // Nom de la vue par défaut
      
