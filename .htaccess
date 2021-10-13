@@ -1,0 +1,4 @@
+Options -Indexes
+ErrorDocument 404 /?404
+RewriteEngine On
+RewriteRule .* index.php

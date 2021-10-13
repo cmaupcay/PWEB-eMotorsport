@@ -1,10 +1,15 @@
 <?php
-    $titre_page = 'Accueil';
-    require 'vue/composants/entete';
+    Vues::composant('entete', [
+        'nom_page' => 'Accueil'
+    ]);
 ?>
 
-    <h1>Wesh la zone.</h1>
+    <div class="container text-center">
+        <h1 class="text-danger pt-4">
+            <strong>Wesh la zone.</strong>
+        </h1>
+    </div>
 
 <?php 
-    require 'vue/composants/pied';
+    Vues::composant('pied');
 ?>
