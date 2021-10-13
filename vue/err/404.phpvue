@@ -1,6 +1,6 @@
 <?php
     $titre_page = '404';
-    require 'vue/composants/entete.tpl';
+    require 'vue/composants/entete';
 ?>
     <div class="container text-center">
         <h1 class="text-danger pt-4">
@@ -8,5 +8,5 @@
         </h1>
     </div>
 <?php 
-    require 'vue/composants/pied.tpl';
+    require 'vue/composants/pied';
 ?>
