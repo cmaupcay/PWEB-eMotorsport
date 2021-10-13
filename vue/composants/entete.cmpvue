@@ -20,7 +20,6 @@
         <link href="vue/style/style.css" rel="stylesheet">
     </head>
     <body>
-        <?php if ($_AUTH->type() === TAuthentification::ADMIN) print('<h5>Vous êtes connecté en tant qu\'administrateur.</h5>'); ?>
 <?php else: ?>
     <h3><strong>Problème lors du chargement du composant...</strong></h3>
 <?php endif ?>

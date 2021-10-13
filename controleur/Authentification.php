@@ -15,7 +15,7 @@
         public function __construct(?int $type = null)                      
         {
             $this->_valide = !is_null($type);                               // A REFAIRE
-            $this->_type = $type;                                           // Si l'authentification échoue, aucun type n'est définie
+            $this->_type = $type;
         }
     }
 
