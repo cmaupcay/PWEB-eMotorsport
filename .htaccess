@@ -2,4 +2,4 @@ Options -Indexes
 ErrorDocument 404 /?err=404
 RewriteEngine on
 RewriteCond %{REQUEST_URI} !index.php
-RewriteRule (.*) index.php?$1
+RewriteRule (.*/) index.php?$1
