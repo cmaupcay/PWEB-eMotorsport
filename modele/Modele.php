@@ -6,7 +6,7 @@
 
         public function __construct(string $json) { $this->depuis_json($json); }    // Construction depuis un texte JSON
         
-        protected function _formater_ignorer(array &$ignorer)
+        static protected function _formater_ignorer(array &$ignorer)
         {
             foreach ($ignorer as $k => $i)                                               // On inverse les valeurs et les clés
             { $ignorer[$i] = $k; unset($ignorer[$k]); }                                  // On retrouvera facilement la valeur avec isset
@@ -15,7 +15,7 @@
         {
             $infos = $this->informations();                                         // Chargement des informations du modèle
             $reussi = false;
-            $this->_formater_ignorer($ignorer);
+            self::_formater_ignorer($ignorer);
             foreach ($infos as $info) 
             {
                 if (isset($ignorer[$info])) continue;                                    // On doit ignorer la valeur
@@ -27,7 +27,9 @@
                 }
                 try { $this->{'modifier_' . $info}($data[$info]); }                      // Appel de la méthode de modfication de l'attribut
                 catch (\Error $e)                                                        // La méthode n'existe pas
-                { $this->{'_' . $info} = $data[$info]; }                                        // On essaie de modifier directement
+                {                                                                        // On essaie de modifier directement 
+                    $this->{'_' . $info} = $data[$info];
+                }
             }
             return $reussi;
         }

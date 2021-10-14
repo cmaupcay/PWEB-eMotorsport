@@ -16,5 +16,7 @@
         if (!$jeton_auth->valide())                                                             // Si elle échoue
             $vue = $auth->vue();                                           // Définir la vue sur la page de connexion
     }
-    Vues::charger($vue, $jeton_auth);                                                 // Charger la vue
+
+    $_V = new Vues();
+    $_V->charger($vue, $jeton_auth);                                                 // Charger la vue
 ?>

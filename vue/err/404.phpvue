@@ -1,6 +1,6 @@
 <?php
-    Vues::composant('entete', $_AUTH, [
-        'nom_page' => '404'
+    $_V->composant('entete', $_AUTH, [
+        NOM_PAGE => '404'
     ]);
 ?>
     <div class="container text-center">
@@ -9,5 +9,5 @@
         </h1>
     </div>
 <?php 
-    Vues::composant('pied', $_AUTH);
+    $_V->composant('pied', $_AUTH);
 ?>

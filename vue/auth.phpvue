@@ -1,9 +1,18 @@
 <?php
-    if ($_AUTH->valide())
+    if ($_AUTH !== null && $_AUTH->valide())
         header('Location: /');
+    
+    $_V->composant('entete', $_V, $_AUTH, [
+        NOM_PAGE => 'Connexion'
+    ]);
 ?>
-<form method="post">
-    <input type="text" name="<?= Authentification::CLE_ID ?>" id="<?= Authentification::CLE_ID ?>">
-    <input type="password" name="<?= Authentification::CLE_MDP ?>" id="<?= Authentification::CLE_MDP ?>">
-    <input type="submit" name="<?= Authentification::FORMULAIRE ?>" value="Se connecter">
-</form>
+
+    <form method="post">
+        <input type="text" name="<?= Authentification::CLE_ID ?>" id="<?= Authentification::CLE_ID ?>">
+        <input type="password" name="<?= Authentification::CLE_MDP ?>" id="<?= Authentification::CLE_MDP ?>">
+        <input type="submit" name="<?= Authentification::FORMULAIRE ?>" value="Se connecter">
+    </form>
+
+<?php 
+    $_V->composant('pied', $_V, $_AUTH);
+?>

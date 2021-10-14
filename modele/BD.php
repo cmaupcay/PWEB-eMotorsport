@@ -4,7 +4,10 @@
     class BD extends Modele
     {
         public function informations(): array
-        { return ['driver', 'domaine', 'port', 'base', 'id', 'accepter_hors_ligne', 'debug']; }
+        { return [
+            'driver', 'domaine', 'port', 'base', 'id',
+            'accepter_hors_ligne', 'debug'
+        ]; }
         private const INI = 'ini/bd.ini';
         
         protected $_driver;                                             // Nom du driver SQL (ex: mysql)

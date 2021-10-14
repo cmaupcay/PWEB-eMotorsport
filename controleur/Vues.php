@@ -1,44 +1,60 @@
 <?php
+    include_once 'modele/Modele.php';
+    include_once 'ini/vues.ini.php';
 
-    include_once 'vue/parametres/Vues.php';
-
-    abstract class Vues
+    class Vues extends Modele
     {
-        const EXTENSION = 'phpvue';                 // Extension des fichiers de vue
-        const EXTENSION_COMPOSANT = 'cmpvue';       // Extension des fichiers de composant de vue
-
-        const DOSSIER = 'vue/';                     // Dossier de base pour les fichiers de vue
-        const DOSSIER_COMPOSANTS = 'composants/';   // Dossier des composants de vue
-
-        const INTROUVABLE = 'err/404';              // Nom de la vue à charger quand la vue demandée n'existe pas
-
-        static private function _vue(string $nom) : string          // Transforme un nom de vue en son chemin de fichier
-        { 
-            return self::DOSSIER . $nom . '.' . self::EXTENSION;
+        public function informations(): array
+        { return [
+            'ext_vue', 'ext_composant',
+            'dos_vue', 'dos_composant',
+            'ERR'
+        ]; }
+        private const INI = 'ini/vues.ini';
+  
+        public function __construct(?string $fichier_ini = null)
+        {
+            if ($fichier_ini === null)                                  // Initialisation des attributs depuis un fichier INI
+                $fichier_ini = self::INI;
+            $this->depuis_ini($fichier_ini);
         }
-        static private function _composant(string $nom) : string    // Transforme un nom de composant en son chemin de fichier    
-        { return self::DOSSIER . self::DOSSIER_COMPOSANTS . $nom . '.' . self::EXTENSION_COMPOSANT; }
+        
+        protected $_ext_vue;                        // Extension des fichiers de vue
+        protected function ext_vue() : string { return $this->_ext_vue; }
+        protected $_ext_composant;                  // Extension des fichiers de composant de vue
+        protected function ext_composant() : string { return $this->_ext_composant; }
+        protected $_dos_vue;                        // Dossier de base pour les fichiers de vue
+        protected function dos_vue() : string { return $this->_dos_vue; }
+        protected $_dos_composant;                  // Dossier des composants de vue
+        protected function dos_composant() : string { return $this->_dos_composant; }
+        
+        protected $_ERR;                            // Nom des vues à charger lors des erreurs
+        public function ERR() : array { return $this->_ERR; }
+
+        private function _vue(string $nom) : string          // Transforme un nom de vue en son chemin de fichier
+        { return $this->_dos_vue . $nom . '.' . $this->_ext_vue; }
+        private function _composant(string $nom) : string    // Transforme un nom de composant en son chemin de fichier    
+        { return $this->_dos_vue . $this->_dos_composant . $nom . '.' . $this->_ext_composant; }
 
         // NOTE        
         // L'objet $_AUTH et le tableau $_PARAMS sont des constantes définie dès qu'une vue ou qu'un composant est
         // chargé.e. Elles sont utilisées pour passer des informations aux fichiers .phpvue et permet de modifier le
         // rendu selon ces informations.
 
-        static public function charger(string $vue, JetonAuthentification $_AUTH, array $_PARAMS = [])
+        public function charger(string $vue, ?JetonAuthentification $_AUTH = null, array $_PARAMS = [])
         {
-            $vue = self::_vue($vue);                            // Traduction en nom de fichier vue
+            $_V = $this;
+            $vue = $this->_vue($vue);                           // Traduction en nom de fichier vue
             if (file_exists($vue))                              // Recherche du fichier
-                include $vue;                                       // On charge la vue   
+                include $vue;                                   // On charge la vue   
             else                                                // Le fichier n'existe pas
-                include self::_vue(self::INTROUVABLE);              // On charge la vue d'erreur 404
+                include $this->_vue($this->_ERR['404']);       // On charge la vue d'erreur 404
         }
         
         
         // FONCTIONS UTILES AUX VUES
-        static public function composant(string $nom, JetonAuthentification $_AUTH, array $_PARAMS = [])
-        { include self::_composant($nom); }   // Permet d'inclure rapidement un composant dans une vue
-        static public function val(array $_PARAMS, string $cle, string $defaut = '') : string
-        { return htmlspecialchars(isset($_PARAMS[$cle]) ? $_PARAMS[$cle] : $defaut); }
+        public function composant(string $nom, ?JetonAuthentification $_AUTH = null, array $_PARAMS = [])
+        { $_V = $this; include $this->_composant($nom); }   // Permet d'inclure rapidement un composant dans une vue
     }
 
 ?>
