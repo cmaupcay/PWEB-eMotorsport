@@ -1,5 +1,5 @@
 <?php
-    include_once 'modele/Modele.php';
+    include_once 'modele/ModeleBD.php';
 
     class Client extends ModeleBD
     {

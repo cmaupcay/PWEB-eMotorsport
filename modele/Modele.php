@@ -1,63 +1,57 @@
 <?php
-    include_once 'modele/BD.php';
 
     abstract class Modele
     {
         abstract public function informations() : array;
 
         public function __construct(string $json) { $this->depuis_json($json); }    // Construction depuis un texte JSON
-        public function json() : string                                             // Transformation en texte JSON
-        { 
-            $infos = $this->informations();
-            $_data = [];
-            foreach ($infos as $info)
-            { $_data[$info] = $this->{(string)$info}(); }
-            return json_encode($_data); 
-        }
-        public function depuis_json(string $json, bool $effacer = true) : bool                           // Charge les informations du modèle depuis un texte JSON
+        
+        protected function _formater_ignorer(array &$ignorer)
         {
-            $json = json_decode($json, true);                                       // Transformation en tableau associatif
+            foreach ($ignorer as $k => $i)                                               // On inverse les valeurs et les clés
+            { $ignorer[$i] = $k; unset($ignorer[$k]); }                                  // On retrouvera facilement la valeur avec isset
+        }
+        public function depuis_tableau(?array $data, bool $effacer = true, array $ignorer = []) : bool
+        {
             $infos = $this->informations();                                         // Chargement des informations du modèle
             $reussi = false;
-            var_dump($infos);
+            $this->_formater_ignorer($ignorer);
             foreach ($infos as $info) 
             {
-                $reussi = isset($json[$info]);                                           // Recherche dans le JSON
+                if (isset($ignorer[$info])) continue;                                    // On doit ignorer la valeur
+                $reussi = isset($data[$info]);                                           // Recherche dans le JSON
                 if (!$reussi)                                                            // Si on n'a pas de valeur
                 {
                     if (!$effacer) continue;                                                 // Et si on ne doit pas effacer, on continue
-                    $json[$info] = null;
+                    $data[$info] = null;
                 }
-                try { $this->{'modifier_' . $info}($json[$info]); }                      // Appel de la méthode de modfication de l'attribut
+                try { $this->{'modifier_' . $info}($data[$info]); }                      // Appel de la méthode de modfication de l'attribut
                 catch (\Error $e)                                                        // La méthode n'existe pas
-                { $this->{'_' . $info} = $json[$info]; }                                        // On essaie de modifier directement
+                { $this->{'_' . $info} = $data[$info]; }                                        // On essaie de modifier directement
             }
             return $reussi;
         }
-    }
+        public function vider(array $ignorer = []) { $this->depuis_tableau([], true, $ignorer); }
 
-    abstract class ModeleBD extends Modele
-    {
-        abstract public function table() : string;
-
-        protected $_id;
-        public function id() : ?int { return $this->_id; }
-
-        protected function __construct(?int $id = null, ?BD $bd = null)
-        {
-            $this->_id = $id;
-            if ($bd === null) return;
-            if (!$this->recevoir($bd))
-                throw new Exception('Echec lors de l\'initialisation du modèle depuis la base de données.');
+        public function json(bool $inclure_null = true, array $ignorer = []) : string
+        {                                                                                // Transformation en texte JSON
+            $infos = $this->informations();
+            $this->_formater_ignorer($ignorer);
+            $_data = [];
+            foreach ($infos as $info)
+            {
+                if (isset($ignorer[$info])) continue;                                    // On doit ignorer la valeur
+                $val = $this->{(string)$info}();                                         // On récupère la valeur depuis la fonction <nom>()
+                if ($val === null && !$inclure_null) continue;                           // La valeur est nulle et on ne doit pas l'inclure
+                $_data[$info] = $val;                                                    // Sinon on ajoute au tableau
+            }
+            return json_encode($_data);                                                  // On transforme le tableau en texte JSON
         }
-        
-        // SQL
-        public function existe(BD $bd) : bool
-        { throw new Exception('Aucune méthode de comparaison avec la base de données.'); }
-        public function envoyer(BD $bd) : bool                                      // Envoie les informations du modèle vers la BD
-        { throw new Exception('Aucune méthode d\'envoi vers la base de données.'); }
-        public function recevoir(BD $bd) : bool                                     // Charge les informations du modèle depuis la BD
-        { throw new Exception('Aucune méthode de construction depuis la base de données.'); }
+        public function depuis_json(string $json, bool $effacer = true, array $ignorer = []) : bool
+        {                                                                           // Charge les informations du modèle depuis un texte JSON
+            $json = json_decode($json, true);                                       // Transformation en tableau associatif
+            return $this->depuis_tableau($json, $effacer, $ignorer);
+        }
     }
 
 ?>
