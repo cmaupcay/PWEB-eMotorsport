@@ -2,7 +2,7 @@
     if ($_AUTH !== null && $_AUTH->valide())
         header('Location: /');
     
-    $_V->composant('entete', $_V, $_AUTH, [
+    $_V->composant('entete', $_AUTH, [
         NOM_PAGE => 'Connexion'
     ]);
 ?>
@@ -14,5 +14,5 @@
     </form>
 
 <?php 
-    $_V->composant('pied', $_V, $_AUTH);
+    $_V->composant('pied', $_AUTH);
 ?>

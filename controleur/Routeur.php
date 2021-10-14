@@ -27,12 +27,17 @@
             if (strlen($uri) === 0)                 // La requête est vide
                 return $this->_index;                  // On chargera la vue par défaut
             if 
-            (
-                $uri[0] == '?'                                  // Appel GET
-                && (strpos($uri, '+', 1) < strpos($uri, '=', 1))// 1er argument GET sans valeur 
-                && $this->_strict                               // Mode strict
+            (   // MODE STRICT
+                ((
+                    $uri[0] == '?'                                  // Appel GET
+                    && (strpos($uri, '+', 1) < strpos($uri, '=', 1))// 1er argument GET sans valeur 
+                )
+                || $uri[-1] !== '/')                                // Pas de slash a la fin
+                && $this->_strict                               // Mode strict activé
             ) $uri = $this->_ierr . '=404';                     // => 404
             
+            if ($uri[0] == '?')              // Adaptation des requêtes depuis GET
+                $uri = substr($uri, 1);              // On retire le '?'
             if ($uri[-1] == '/')             // Adaptation des requêtes de la forme */<vue>/
                 $uri = substr($uri, 0, -1);             // On retire le dernier '/'
             
