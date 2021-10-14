@@ -52,6 +52,15 @@
             $json = json_decode($json, true);                                       // Transformation en tableau associatif
             return $this->depuis_tableau($json, $effacer, $ignorer);
         }
+
+        public function depuis_ini(string $fichier_ini = null) : ?array
+        {
+            if (!($ini = parse_ini_file($fichier_ini, true)))
+                throw new Exception('Impossible d\'initialiser la base de données.');
+            $this->depuis_tableau($ini);
+            return $ini;
+        }
+
     }
 
 ?>

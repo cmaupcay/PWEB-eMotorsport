@@ -1,18 +1,30 @@
 <?php
     include_once 'modele/JetonAuthentification.php';
 
-    abstract class Authentification
+    class Authentification extends Modele
     {
-        const VUE = 'auth';                     // Vue chargée lorsqu'une authentification échoue
+        public function informations(): array
+        { return ['vue', 'obligatoire', 'requise']; }
+        private const INI = 'ini/auth.ini';
 
-        const OBLIGATOIRE = false;              // Définie si l'authentification doit toujours être active
-        const REQUISE = [                       // Définie les vues où l'authentification est requise
-        ];
+        protected $_vue;
+        public function vue() : string { return $this->_vue; }
+        protected $_obligatoire;                  // Définie si l'authentification doit toujours être active
+        public function obligatoire() : bool { return $this->_obligatoire; }
+        protected function modifier_obligatoire(bool $valeur) { $this->_obligatoire = $valeur; }
+        protected $_requise;                      // Définie les vues où l'authentification est requise
+        public function requise() : array { return $this->_requise; }
 
-        static public function requise(string $nom_vue) : bool
+        public function __construct(?string $fichier_ini = null)
+        {
+            if ($fichier_ini === null) $fichier_ini = self::INI;             // Initialisation des attributs depuis un fichier INI
+            $this->depuis_ini($fichier_ini);
+        }
+
+        public function est_requise(string $nom_vue) : bool
         {
             // Recherche la vue dans les vues demandant l'authentification
-            foreach (self::REQUISE as $vue)
+            foreach ($this->_requise as $vue)
                 if ($vue === $nom_vue) return true;
             return false;
         }
@@ -22,7 +34,7 @@
         const CLE_PSD = 'auth_psd';
         const CLE_MDP = 'auth_mdp';
 
-        static public function connexion(array $post, array $session, BD $bd)
+        public function connexion(array $post, array $session, BD $bd)
         {
             if (isset($post[self::FORMULAIRE], $post[self::CLE_PSD], $post[self::CLE_MDP]))
             {
@@ -31,7 +43,7 @@
             }
         }
 
-        static public function jeton(array $session, BD $bd) : JetonAuthentification
+        public function jeton(array $session, BD $bd) : JetonAuthentification
         {
             return new JetonAuthentification();
         }
