@@ -22,7 +22,7 @@
         const CLE_PSD = 'auth_psd';
         const CLE_MDP = 'auth_mdp';
 
-        static public function connexion(array $post, array $session)
+        static public function connexion(array $post, array $session, BD $bd)
         {
             if (isset($post[self::FORMULAIRE], $post[self::CLE_PSD], $post[self::CLE_MDP]))
             {
@@ -31,7 +31,7 @@
             }
         }
 
-        static public function jeton(array $session) : JetonAuthentification
+        static public function jeton(array $session, BD $bd) : JetonAuthentification
         {
             return new JetonAuthentification();
         }

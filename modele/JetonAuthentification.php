@@ -13,10 +13,11 @@
 
         private $_valide;                                                   // Validité de l'authentification
         public function valide() : bool { return $this->_valide; }
-        public function __construct(?int $id = null)                      
-        { // TEMPORAIRE
+        public function __construct(?int $id = null, ?BD $bd = null)                      
+        { 
+            parent::__construct($id, $bd);
+            // TEMPORAIRE
             $this->_valide = !is_null($id);
-            $this->_id = $id;
             $this->_type = $id % (self::LOUEUR + 1);
         }
     }
