@@ -17,9 +17,8 @@
         public function __construct(?int $id = null, ?BD &$bd = null)                      
         { 
             parent::__construct($id, $bd);
-            // TEMPORAIRE
             $this->_valide = !is_null($id);
-            $this->_type = $id % (self::LOUEUR + 1);
+            $this->_type = 2;
         }
     }
 

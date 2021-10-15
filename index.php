@@ -5,11 +5,9 @@
 
     $bd = new BD();                                                             // Initialise la base de données
     
-    $dupont = new Utilisateur(4, $bd);
-    var_dump($dupont);
-
     $auth = new Authentification();
-    $jeton_auth = $auth->jeton($_SESSION, $_POST, $bd);                                 // On récupère le jeton d'authentification
+    $jeton_auth = $auth->jeton($_SESSION, $_POST, $_COOKIE, $bd);                                 // On récupère le jeton d'authentification
+    var_dump($jeton_auth);
 
     $routeur = new Routeur();
     $vue = $routeur->definir_vue($_SERVER['REQUEST_URI']);                                     // Définir la vue

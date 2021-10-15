@@ -1,0 +1,22 @@
+<?php if (isset($_PARAMS)): ?>
+    
+    <?php if ($_AUTH->valide() || isset($_PARAMS[Authentification::CLE_DECO])): ?>
+        <form method="post">
+            <input type="submit" name="<?= Authentification::CLE_DECO ?>" value="Se déconnecter">
+        </form>
+    <?php else: ?>
+    <form method="post">
+        <label for="<?= Authentification::CLE_ID_CONNEXION ?>">Pseudo</label>
+        <input type="text" name="<?= Authentification::CLE_ID_CONNEXION ?>" id="<?= Authentification::CLE_ID_CONNEXION ?>"
+        value="<?= $_AUTH->pseudo() ?? '' ?>">
+        <label for="<?= Authentification::CLE_MDP ?>">Mot de passe</label>
+        <input type="password" name="<?= Authentification::CLE_MDP ?>" id="<?= Authentification::CLE_MDP ?>">
+        <input type="submit" name="<?= Authentification::FORMULAIRE ?>" value="Se connecter">
+        <input type="checkbox" name="<?= Authentification::CLE_COOKIE ?>" id="<?= Authentification::CLE_COOKIE ?>">
+        <label for="<?= Authentification::CLE_COOKIE ?>">Rester connecté</label>
+    </form>
+    <?php endif ?>
+    
+<?php else: ?>
+    <h3><strong>Problème lors du chargement du composant...</strong></h3>
+<?php endif ?>

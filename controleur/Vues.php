@@ -44,6 +44,7 @@
         public function charger(string $vue, ?JetonAuthentification $_AUTH = null, array $_PARAMS = [])
         {
             $_V = $this;
+            unset($_POST, $_GET);                               // POST et GET ne peuvent pas être utilisés dans les vues.
             $vue = $this->_vue($vue);                           // Traduction en nom de fichier vue
             if (file_exists($vue))                              // Recherche du fichier
                 include $vue;                                   // On charge la vue   

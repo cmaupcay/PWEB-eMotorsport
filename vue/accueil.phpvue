@@ -8,6 +8,7 @@
         <h1 class="text-danger pt-4">
             <strong>Wesh la zone.</strong>
         </h1>
+    <?php $_V->composant('connexion', $_AUTH, $_PARAMS); ?>
     </div>
 
 <?php 

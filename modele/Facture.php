@@ -6,6 +6,7 @@
         public function informations(): array
         { return ['id', 'ide', 'idv', 'date_d', 'date_f', 'valeur', 'etat_r']; }
         public function table() : string { return 'facture'; }
+        public function composant(): string { return 'facture'; }
 
         private $_id;
         public function id() : ?int { return $this->_id; }

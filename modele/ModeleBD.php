@@ -5,6 +5,8 @@
     {
         abstract public function table() : string;
 
+        abstract public function composant() : string; // Composant de vue associé au modèle
+
         protected $_id;
         public function id() : ?int { return $this->_id; }
 
@@ -34,10 +36,10 @@
             return $params;
         }
 
-        public function existe(BD &$bd) : bool                                       // Vérifie si l'objet existe dans la BD
+        public function existe(BD &$bd, string $param = 'id') : bool                                       // Vérifie si l'objet existe dans la BD
         { 
-            $sql = "SELECT * FROM " . $this->table() . " WHERE id = :id";
-            $params = [':id' => $this->_id];
+            $sql = "SELECT * FROM " . $this->table() . " WHERE $param = :$param";
+            $params = [':' . $param => $this->{$param}()];
             return count($bd->executer($sql, $params)) == 1;
         }
         public function envoyer(BD &$bd) : bool                                      // Envoie les informations du modèle vers la BD
@@ -57,20 +59,20 @@
             }
             return (bool)$bd->executer($sql, $params);
         }
-        public function recevoir(BD &$bd) : bool                                     // Charge les informations du modèle depuis la BD
+        public function recevoir(BD &$bd, string $param = 'id', ?array $infos = null) : bool                                     // Charge les informations du modèle depuis la BD
         { 
-            $liste_infos = $this->_formater_informations(', ', '%i');
-            $sql = "SELECT " . $liste_infos . " FROM " . $this->table() . " WHERE id = :id";
-            $params = [':id' => $this->_id];
+            $liste_infos = $this->_formater_informations(', ', '%i', $infos);
+            $sql = "SELECT " . $liste_infos . " FROM " . $this->table() . " WHERE $param = :$param";
+            $params = [':' . $param => $this->{$param}()];
             $obj = $bd->executer($sql, $params);
             if (count($obj) == 1)
                 return $this->depuis_tableau($obj[0]);
             return false;
         }
-        public function supprimer(BD $bd, bool $effacer_local = false) : bool        // Supprime l'equivalent du modèle dans la BD
+        public function supprimer(BD $bd, bool $effacer_local = false, string $param = 'id') : bool        // Supprime l'equivalent du modèle dans la BD
         {
-            $sql = "DELETE FROM " . $this->table() . " WHERE id = :id";
-            $params = [':id' => $this->_id];
+            $sql = "DELETE FROM " . $this->table() . " WHERE $param = :$param";
+            $params = [':' . $param => $this->{$param}()];
             $resultat = (bool)$bd->executer($sql, $params);
             if ($effacer_local) $this->vider();
             return $resultat;

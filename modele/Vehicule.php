@@ -6,6 +6,7 @@
         public function informations(): array
         { return ['id', 'type', 'nb', 'caract', 'photo', 'etatL']; }
         public function table() : string { return 'vehicule'; }
+        public function composant(): string { return 'vehicule'; }
 
         private $_id;
         public function id() : ?int { return $this->_id; }

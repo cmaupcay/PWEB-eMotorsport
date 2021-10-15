@@ -6,6 +6,7 @@
         public function informations(): array
         { return ['id', 'nom', 'pseudo', 'email', 'nomE', 'adresseE']; }
         public function table(): string { return 'utilisateur'; }
+        public function composant(): string { return 'utilisateur'; }
 
         public function __construct(?int $id = null, ?BD &$bd = null)
         { parent::__construct($id, $bd); }
@@ -30,6 +31,17 @@
         private $_adresseE;
         public function adresseE() : ?string { return $this->_adresseE; }
         public function modifier_adresseE(?string $valeur) { $this->_adresseE = $valeur; }
+
+        public function mdp(BD &$bd, string $param = 'id') : ?string
+        {
+            $res = $bd->executer(
+                "SELECT mdp FROM " . $this->table() . " WHERE $param = :$param",
+                [$param => $this->{$param}()]
+            );
+            if (isset($res[0], $res[0]['mdp']))
+                return $res[0]['mdp'];
+            return null;
+        }
     }
 
 ?>
