@@ -14,7 +14,7 @@
 
         private $_valide;                                                   // Validité de l'authentification
         public function valide() : bool { return $this->_valide; }
-        public function __construct(?int $id = null, ?BD $bd = null)                      
+        public function __construct(?int $id = null, ?BD &$bd = null)                      
         { 
             parent::__construct($id, $bd);
             // TEMPORAIRE

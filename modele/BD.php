@@ -42,22 +42,44 @@
             }
             catch (\PDOException $err)                                  // Erreur de connexion
             {
-                if ($this->_debug)
-                {                                                       // Informations de débogage
-                    print("<p class=\"erreur\">La base de données est injoignable.<br>\n");
-                    print($this->json(true, ['debug']) . "</p>");
-                }
-                if (!$this->_accepter_hors_ligne) throw $err;
+                $this->_gerer_erreur_PDO($err);
                 return false;
             }
             return true;
         }
+        private function _gerer_erreur_PDO(\PDOException $erreur)
+        {
+            $this->_pdo = null;
+            if ($this->_debug)
+            {                                                       // Informations de débogage
+                print("<p class=\"erreur\">La base de données est injoignable.<br>\n");
+                print($this->json(true, ['debug']) . "</p>");
+            }
+            if (!$this->_accepter_hors_ligne) throw $erreur;
+        }
+
         public function __construct(?string $fichier_ini = null)
         {
             if ($fichier_ini === null)                                  // Initialisation des attributs depuis un fichier INI
                 $fichier_ini = self::INI;
             $ini = $this->depuis_ini($fichier_ini);
             $this->_initialiser_pdo($ini['mdp']);
+        }
+
+        public function executer(string $sql, array $params = [])
+        {
+            if ($this->_pdo === null)
+            {
+                $this->_gerer_erreur_PDO(
+                    new PDOException("Impossible d'executer la requête \"" . $sql . "\" car la base de donnèes n'est pas initialisée.")
+                );
+            }
+
+            $statut = $this->_pdo->prepare($sql);
+            foreach ($params as $cle => $val)
+                $statut->bindParam($cle, $val);
+            $statut->execute();
+            return $statut;
         }
     }
 

@@ -7,7 +7,7 @@
         { return ['id', 'nom', 'pseudo', 'email', 'nom_e', 'adresse_e']; }
         public function table(): string { return 'client'; }
 
-        public function __construct(?int $id = null, ?BD $bd = null)
+        public function __construct(?int $id = null, ?BD &$bd = null)
         { parent::__construct($id, $bd); }
 
         private $_nom;
