@@ -36,7 +36,7 @@
                     $this->_driver .
                     ':host=' . $this->_domaine .
                     (($this->_port !== null) ? ';port=' . $this->_port : '') .
-                    ';dbanme=' . $this->_base,
+                    ';dbname=' . $this->_base,
                     $this->_id, $mdp
                 );
             }
@@ -49,10 +49,9 @@
         }
         private function _gerer_erreur_PDO(\PDOException $erreur)
         {
-            $this->_pdo = null;
             if ($this->_debug)
             {                                                       // Informations de débogage
-                print("<p class=\"erreur\">La base de données est injoignable.<br>\n");
+                print("<p class=\"erreur\">" . utf8_encode($erreur->getMessage()) . "<br>\n");
                 print($this->json(true, ['debug']) . "</p>");
             }
             if (!$this->_accepter_hors_ligne) throw $erreur;
@@ -66,7 +65,7 @@
             $this->_initialiser_pdo($ini['mdp']);
         }
 
-        public function executer(string $sql, array $params = [])
+        public function executer(string $sql, array $params = []) : array
         {
             if ($this->_pdo === null)
             {
@@ -78,8 +77,10 @@
             $statut = $this->_pdo->prepare($sql);
             foreach ($params as $cle => $val)
                 $statut->bindParam($cle, $val);
-            $statut->execute();
-            return $statut;
+            if ($statut->execute())
+                return $statut->fetchAll(PDO::FETCH_ASSOC);
+            $this->_gerer_erreur_PDO(new PDOException($statut->errorInfo()[2]));
+            return false;
         }
     }
 

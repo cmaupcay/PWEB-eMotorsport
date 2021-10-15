@@ -5,6 +5,9 @@
 
     $bd = new BD();                                                             // Initialise la base de données
     
+    $dupont = new Utilisateur(4, $bd);
+    var_dump($dupont);
+
     $auth = new Authentification();
     $jeton_auth = $auth->jeton($_SESSION, $_POST, $bd);                                 // On récupère le jeton d'authentification
 

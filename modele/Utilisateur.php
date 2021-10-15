@@ -1,11 +1,11 @@
 <?php
     include_once 'modele/ModeleBD.php';
 
-    class Client extends ModeleBD
+    class Utilisateur extends ModeleBD
     {
         public function informations(): array
-        { return ['id', 'nom', 'pseudo', 'email', 'nom_e', 'adresse_e']; }
-        public function table(): string { return 'client'; }
+        { return ['id', 'nom', 'pseudo', 'email', 'nomE', 'adresseE']; }
+        public function table(): string { return 'utilisateur'; }
 
         public function __construct(?int $id = null, ?BD &$bd = null)
         { parent::__construct($id, $bd); }
@@ -24,12 +24,12 @@
                 $this->_email = $valeur;
             return $accepte;
         }
-        private $_nom_e;
-        public function nom_e() : ?string { return $this->_nom_e; }
-        public function modifier_nom_e(?string $valeur) { $this->_nom_e = $valeur; }
-        private $_adresse_e;
-        public function adresse_e() : ?string { return $this->_adresse_e; }
-        public function modifier_adresse_e(?string $valeur) { $this->_adresse_e = $valeur; }
+        private $_nomE;
+        public function nomE() : ?string { return $this->_nomE; }
+        public function modifier_nomE(?string $valeur) { $this->_nomE = $valeur; }
+        private $_adresseE;
+        public function adresseE() : ?string { return $this->_adresseE; }
+        public function modifier_adresseE(?string $valeur) { $this->_adresseE = $valeur; }
     }
 
 ?>

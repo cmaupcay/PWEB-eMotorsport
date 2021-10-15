@@ -1,8 +1,8 @@
 <?php
-    include_once 'modele/Client.php';
+    include_once 'modele/Utilisateur.php';
 
     // A REFAIRE
-    class JetonAuthentification extends Client
+    class JetonAuthentification extends Utilisateur
     {
         // TYPE D'AUTHENTIFICATION
         const ADMIN = 0;

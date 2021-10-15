@@ -62,7 +62,10 @@
             $liste_infos = $this->_formater_informations(', ', '%i');
             $sql = "SELECT " . $liste_infos . " FROM " . $this->table() . " WHERE id = :id";
             $params = [':id' => $this->_id];
-            return (bool)$bd->executer($sql, $params);
+            $obj = $bd->executer($sql, $params);
+            if (count($obj) == 1)
+                return $this->depuis_tableau($obj[0]);
+            return false;
         }
         public function supprimer(BD $bd, bool $effacer_local = false) : bool        // Supprime l'equivalent du modèle dans la BD
         {
