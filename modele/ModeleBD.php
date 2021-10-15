@@ -11,7 +11,7 @@
         protected function __construct(?int $id = null, ?BD $bd = null)
         {
             $this->_id = $id;
-            if ($bd === null) return;
+            if ($id === null || $bd === null) return;
             if (!$this->recevoir($bd))
                 throw new Exception('Echec lors de l\'initialisation du modèle depuis la base de données.');
         }

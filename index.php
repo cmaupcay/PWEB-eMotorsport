@@ -4,15 +4,15 @@
     require_once 'controleur/Authentification.php';
 
     $bd = new BD();                                                             // Initialise la base de données
+    
     $auth = new Authentification();
-    $jeton_auth = null;                                                         // Non authentifié par défaut
+    $jeton_auth = $auth->jeton($_SESSION, $_POST, $bd);                                 // On récupère le jeton d'authentification
 
     $routeur = new Routeur();
     $vue = $routeur->definir_vue($_SERVER['REQUEST_URI']);                                     // Définir la vue
 
     if ($auth->obligatoire() || $auth->est_requise($vue))                       // Si l'authentification est requise
     {
-        $jeton_auth = $auth->jeton($_SESSION, $bd);                        // Vérifie l'authentification
         if (!$jeton_auth->valide())                                                             // Si elle échoue
             $vue = $auth->vue();                                           // Définir la vue sur la page de connexion
     }

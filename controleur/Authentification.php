@@ -34,18 +34,25 @@
         const CLE_PSD = 'auth_psd';
         const CLE_MDP = 'auth_mdp';
 
-        public function connexion(array $post, array $session, BD $bd)
+        private function _connexion(array &$post, array &$session, BD &$bd) : bool
         {
             if (isset($post[self::FORMULAIRE], $post[self::CLE_PSD], $post[self::CLE_MDP]))
             {
                 // Authentification a faire
                 unset($post[self::CLE_MDP]);
             }
+            return false;
         }
 
-        public function jeton(array $session, BD $bd) : JetonAuthentification
+        public function jeton(array &$session, array &$post, BD &$bd) : JetonAuthentification
         {
-            return new JetonAuthentification();
+            $id = $session[self::CLE_ID] ?? null;
+            if ($id === null && isset($post[self::FORMULAIRE]))
+            {
+                if ($this->_connexion($post, $session, $bd))
+                    $id = $session[self::CLE_ID];
+            }
+            return new JetonAuthentification($id, $bd);
         }
     }
 

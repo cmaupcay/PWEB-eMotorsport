@@ -1,6 +1,7 @@
 <?php
     include_once 'modele/Client.php';
 
+    // A REFAIRE
     class JetonAuthentification extends Client
     {
         // TYPE D'AUTHENTIFICATION
