@@ -1,6 +1,7 @@
 <?php if (isset($_PARAMS)): ?>
     
     <?php if ($_AUTH->valide() || isset($_PARAMS[Authentification::CLE_DECO])): ?>
+        <?= $_AUTH->admin() ? "<h4>Vous êtes administrateur</h4>\n" : '' ?>
         <form method="post">
             <input type="submit" name="<?= Authentification::CLE_DECO ?>" value="Se déconnecter">
         </form>

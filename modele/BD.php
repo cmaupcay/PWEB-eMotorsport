@@ -80,7 +80,7 @@
             if ($statut->execute())
                 return $statut->fetchAll(PDO::FETCH_ASSOC);
             $this->_gerer_erreur_PDO(new PDOException($statut->errorInfo()[2]));
-            return false;
+            return [];
         }
     }
 

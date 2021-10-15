@@ -55,11 +55,11 @@
             return $this->depuis_tableau($json, $effacer, $ignorer);
         }
 
-        public function depuis_ini(string $fichier_ini = null) : ?array
+        public function depuis_ini(string $fichier_ini = null, bool $effacer = true, array $ignorer = []) : ?array
         {
-            if (!($ini = parse_ini_file($fichier_ini, true)))
-                throw new Exception('Impossible d\'initialiser la base de données.');
-            $this->depuis_tableau($ini);
+            if (!($ini = parse_ini_file($fichier_ini)))
+                throw new Exception("Impossible d\'initialiser le modèle depuis le fichier \"$fichier_ini.");
+            $this->depuis_tableau($ini, $effacer, $ignorer);
             return $ini;
         }
 

@@ -91,7 +91,7 @@
                 setcookie($this->nom_cookie(), $id, 1, '/');
                 $id = null;
             }
-            return new JetonAuthentification($id, $bd);
+            return new JetonAuthentification(self::INI, $id, $bd);
         }
     }
 
