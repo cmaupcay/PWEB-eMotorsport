@@ -1,8 +1,8 @@
 <?php
-    include_once 'modele/Modele.php';
+    include_once 'controleur/Controleur.php';
     include_once 'ini/vues.ini.php';
 
-    class Vues extends Modele
+    class Vues extends _Controleur
     {
         public function informations(): array
         { return [
@@ -10,15 +10,8 @@
             'dos_vue', 'dos_composant',
             'ERR'
         ]; }
-        private const INI = 'ini/vues.ini';
-  
-        public function __construct(?string $fichier_ini = null)
-        {
-            if ($fichier_ini === null)                                  // Initialisation des attributs depuis un fichier INI
-                $fichier_ini = self::INI;
-            $this->depuis_ini($fichier_ini);
-        }
-        
+        public function ini() : string { return 'ini/vues.ini'; }
+
         protected $_ext_vue;                        // Extension des fichiers de vue
         protected function ext_vue() : string { return $this->_ext_vue; }
         protected $_ext_composant;                  // Extension des fichiers de composant de vue
@@ -41,10 +34,10 @@
         // chargé.e. Elles sont utilisées pour passer des informations aux fichiers .phpvue et permet de modifier le
         // rendu selon ces informations.
 
-        public function charger(string $vue, ?JetonAuthentification $_AUTH = null, array $_PARAMS = [])
+        public function charger(string $vue, array &$post, array &$get, ?JetonAuthentification $_JETON = null, array $_PARAMS = [])
         {
             $_V = $this;
-            unset($_POST, $_GET);                               // POST et GET ne peuvent pas être utilisés dans les vues.
+            $post = []; $get = [];                               // POST et GET ne peuvent pas être utilisés dans les vues.
             $vue = $this->_vue($vue);                           // Traduction en nom de fichier vue
             if (file_exists($vue))                              // Recherche du fichier
                 include $vue;                                   // On charge la vue   
@@ -54,10 +47,10 @@
         
         
         // FONCTIONS UTILES AUX VUES
-        public function composant(string $nom, ?JetonAuthentification $_AUTH = null, array $_PARAMS = [])
+        public function composant(string $nom, ?JetonAuthentification $_JETON = null, array $_PARAMS = [])
         { $_V = $this; include $this->_composant($nom); }   // Permet d'inclure rapidement un composant dans une vue
-        public function redirection(?string $vue, ?JetonAuthentification $_AUTH = null, array $_PARAMS = [])
-        { $this->charger(($vues ?? $this->_ERR[404]), $_AUTH, $_PARAMS); die(); }
+        public function redirection(?string $vue, array &$post, array &$get, ?JetonAuthentification $_JETON = null, array $_PARAMS = [])
+        { $this->charger(($vues ?? $this->_ERR[404]), $post, $get, $_JETON, $_PARAMS); die(); }
     }
 
 ?>

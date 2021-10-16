@@ -2,11 +2,11 @@
     include_once 'modele/JetonAuthentification.php';
     include_once 'modele/Cookie.php';
 
-    class Authentification extends Modele
+    class Authentification extends _Controleur
     {
         public function informations(): array
         { return ['vue_connexion', 'vue_interdit', 'identifiant', 'cookie', 'nom_cookie', 'obligatoire', 'requise', 'admin_requis']; }
-        private const INI = 'ini/auth.ini';
+        public function ini() : string { return 'ini/auth.ini'; }
 
         protected $_vue_connexion;
         public function vue_connexion() : string { return $this->_vue_connexion; }
@@ -30,8 +30,7 @@
         public function __construct(?string $fichier_ini = null)
         {
             if (session_status() != PHP_SESSION_ACTIVE) session_start();
-            if ($fichier_ini === null) $fichier_ini = self::INI;             // Initialisation des attributs depuis un fichier INI
-            $this->depuis_ini($fichier_ini);
+            parent::__construct($fichier_ini);
         }
 
         public function est_requise(string $nom_vue) : bool
@@ -99,7 +98,7 @@
                 $this->deconnexion($session, $cookie, $bd);
                 $id = null;
             }
-            return new JetonAuthentification(self::INI, $id, $bd);
+            return new JetonAuthentification($this->ini(), $id, $bd);
         }
 
         public function verifier_droits(string $vue, JetonAuthentification $auth, Routeur $routeur) : string

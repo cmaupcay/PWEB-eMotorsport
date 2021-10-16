@@ -1,12 +1,12 @@
 <?php
-    $_V->composant('entete', $_AUTH, [
+    $_V->composant('entete', $_JETON, [
         NOM_PAGE => 'Connexion',
         FORM_CONNEXION => false
     ]);
 ?>
 
-<?php $_V->composant('connexion', $_AUTH, $_PARAMS); ?>
+<?php $_V->composant('connexion', $_JETON, $_PARAMS); ?>
 
 <?php 
-    $_V->composant('pied', $_AUTH);
+    $_V->composant('pied', $_JETON);
 ?>

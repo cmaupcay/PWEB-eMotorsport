@@ -1,5 +1,5 @@
 <?php
-    $_V->composant('entete', $_AUTH, [
+    $_V->composant('entete', $_JETON, [
         NOM_PAGE => 'Accueil'
     ]);
 ?>
@@ -11,5 +11,5 @@
     </div>
 
 <?php 
-    $_V->composant('pied', $_AUTH);
+    $_V->composant('pied', $_JETON);
 ?>

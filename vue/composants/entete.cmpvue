@@ -27,7 +27,7 @@
     <body>
     <?php 
         if (!isset($_PARAMS[FORM_CONNEXION]) || $_PARAMS[FORM_CONNEXION])
-            $_V->composant('connexion', $_AUTH);
+            $_V->composant('connexion', $_JETON);
     ?>
 <?php else: ?>
     <h3><strong>Problème lors du chargement du composant...</strong></h3>
