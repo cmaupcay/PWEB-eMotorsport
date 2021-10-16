@@ -1,0 +1,11 @@
+<?php
+    $_V->composant('entete', $_AUTH, [
+        NOM_PAGE => 'Administration'
+    ]);
+?>
+
+
+
+<?php 
+    $_V->composant('pied', $_AUTH);
+?>

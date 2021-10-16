@@ -25,12 +25,12 @@
                 $this->_email = $valeur;
             return $accepte;
         }
-        private $_nomE;
-        public function nomE() : ?string { return $this->_nomE; }
-        public function modifier_nomE(?string $valeur) { $this->_nomE = $valeur; }
-        private $_adresseE;
-        public function adresseE() : ?string { return $this->_adresseE; }
-        public function modifier_adresseE(?string $valeur) { $this->_adresseE = $valeur; }
+        private $_nom_e;
+        public function nom_e() : ?string { return $this->_nom_e; }
+        public function modifier_nom_e(?string $valeur) { $this->_nom_e = $valeur; }
+        private $_adresse_e;
+        public function adresse_e() : ?string { return $this->_adresse_e; }
+        public function modifier_adresse_e(?string $valeur) { $this->_adresse_e = $valeur; }
 
         public function mdp(BD &$bd, string $param = 'id') : ?string
         {

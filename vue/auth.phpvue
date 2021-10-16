@@ -1,9 +1,7 @@
 <?php
-    if ($_AUTH !== null && $_AUTH->valide())
-        header('Location: /');
-    
     $_V->composant('entete', $_AUTH, [
-        NOM_PAGE => 'Connexion'
+        NOM_PAGE => 'Connexion',
+        FORM_CONNEXION => false
     ]);
 ?>
 

@@ -5,7 +5,11 @@
     {
         private const CLE_ADMIN = 'id_admin';
         private $_admin;
-        public function admin() : ?bool { return $this->_admin; }
+        public function admin() : ?bool 
+        {
+            if (!$this->_admin) return false;   // Si il n'est pas admin, faux
+            return $this->valide();             // Si il l'est, on vérifie que le jeton est valide
+        }
 
         private $_valide;                                                   // Validité de l'authentification
         public function valide() : bool { return $this->_valide; }

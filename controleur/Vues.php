@@ -56,6 +56,8 @@
         // FONCTIONS UTILES AUX VUES
         public function composant(string $nom, ?JetonAuthentification $_AUTH = null, array $_PARAMS = [])
         { $_V = $this; include $this->_composant($nom); }   // Permet d'inclure rapidement un composant dans une vue
+        public function redirection(?string $vue, ?JetonAuthentification $_AUTH = null, array $_PARAMS = [])
+        { $this->charger(($vues ?? $this->_ERR[404]), $_AUTH, $_PARAMS); die(); }
     }
 
 ?>

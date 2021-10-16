@@ -47,6 +47,9 @@
             
             return $uri;
         }
+        
+        public function redirection(?string $vue)
+        { header('Location: /' . ($vue ?? '')); die('Redirection...'); }
     }
 
 ?>
