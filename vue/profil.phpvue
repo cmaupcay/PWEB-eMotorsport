@@ -1,0 +1,13 @@
+<?php
+    $_V->composant('entete', $_JETON, [
+        NOM_PAGE => $_JETON->pseudo()
+    ]);
+
+    var_dump($_JETON);
+?>
+
+
+
+<?php 
+    $_V->composant('pied', $_JETON);
+?>

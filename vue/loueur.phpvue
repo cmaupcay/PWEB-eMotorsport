@@ -1,0 +1,9 @@
+<?php
+    $_V->composant('entete', $_JETON, [
+        NOM_PAGE => 'Loueur'
+    ]);
+?>
+
+<?php 
+    $_V->composant('pied', $_JETON);
+?>

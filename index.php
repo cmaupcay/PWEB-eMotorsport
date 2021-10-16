@@ -9,7 +9,6 @@
     $_V = new Vues();
 
     $_JETON = $_AUTH->jeton($_SESSION, $_POST, $_COOKIE, $_SERVER['REMOTE_ADDR'], $_BD);   // On récupère le jeton d'authentification
-    var_dump($_JETON);
 
     $vue = $_ROUTEUR->definir_vue($_SERVER['REQUEST_URI'], $_AUTH);                                     // Définir la vue
     $vue = $_AUTH->verifier_droits($vue, $_JETON, $_ROUTEUR);

@@ -8,7 +8,8 @@
         { return [
             'vue_connexion', 'vue_interdit', 
             'identifiant', 'cookie', 'nom_cookie', 
-            'obligatoire', 'requise', 'admin_requis'
+            'obligatoire', 'requise', 
+            'admin_requis', 'prop_requis'
         ]; }
         public function ini() : string { return 'ini/auth.ini'; }
 
@@ -30,6 +31,8 @@
         public function requise() : array { return $this->_requise; }
         protected $_admin_requis;                      // Définie les vues où l'authentification en tant qu'admin est requise
         public function admin_requis() : array { return $this->_admin_requis; }
+        protected $_prop_requis;                      // Définie les vues où l'authentification en tant que propriétaire est requise
+        public function prop_requis() : array { return $this->_prop_requis; }
 
         public function __construct(?string $fichier_ini = null)
         {
@@ -41,6 +44,8 @@
         { return (array_search($nom_vue, $this->_requise ?? []) !== false); }
         public function admin_est_requis(string $nom_vue) : bool
         { return (array_search($nom_vue, $this->_admin_requis ?? []) !== false); }
+        public function prop_est_requis(string $nom_vue) : bool
+        { return (array_search($nom_vue, $this->_prop_requis ?? []) !== false); }
 
         const FORMULAIRE = 'form_auth';
         const CLE_ID = 'auth_id';
@@ -109,8 +114,9 @@
         {
             if ($auth->valide() && $vue === $this->vue_connexion())
                 $routeur->redirection(null);
-            if ($this->admin_est_requis($vue) && !$auth->admin())             // Si on est sur une vue admin et que le jeton n'est pas admin
-                return $this->vue_interdit();                                 // Un jeton admin est obligatoirement valide (cf. JetonAuthentification::admin()).
+            if (($this->admin_est_requis($vue) && !$auth->admin()) // Si on est sur une vue admin|prop et que le jeton n'est pas admin|prop
+               || ($this->prop_est_requis($vue) && !$auth->prop()))
+                return $this->vue_interdit();    // Un jeton admin|prop est obligatoirement valide (cf. JetonAuthentification::admin()).
             if (!$auth->valide() && ($this->obligatoire() || $this->est_requise($vue)))
                 return $this->vue_connexion();
             return $vue;
