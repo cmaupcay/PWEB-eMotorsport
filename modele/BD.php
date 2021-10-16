@@ -6,6 +6,7 @@
         public function informations(): array
         { return [
             'driver', 'domaine', 'port', 'base', 'id',
+            'accepter_vidage_table',
             'accepter_hors_ligne', 'debug'
         ]; }
         private const INI = 'ini/bd.ini';
@@ -22,6 +23,9 @@
         public function id() : ?string { return $this->_id; }
         
         // PARAMETRES
+        protected $_accepter_vidage_table;                                // Defini l'acceptation des requetes "DELETE FROM ... WHERE 1"
+        public function accepter_vidage_table() : ?bool { return $this->_accepter_vidage_table; } // (verif dans les modèles)
+        // DEV
         protected $_accepter_hors_ligne;                                // Les erreurs de connexion ne sont plus fatales
         public function accepter_hors_ligne() : ?bool { return $this->_accepter_hors_ligne; }
         protected $_debug;                                              // Active l'affichage des informations de débogage
@@ -65,7 +69,7 @@
             $this->_initialiser_pdo($ini['mdp']);
         }
 
-        public function executer(string $sql, array $params = []) : array
+        public function executer(string $sql, array $params = []) : ?array
         {
             if ($this->_pdo === null)
             {
@@ -76,11 +80,15 @@
 
             $statut = $this->_pdo->prepare($sql);
             foreach ($params as $cle => $val)
-                $statut->bindParam($cle, $val);
+            {
+                $type = PDO::PARAM_STR;
+                if (is_int($val)) $type = PDO::PARAM_INT;
+                $statut->bindValue($cle, $val, $type);
+            }
             if ($statut->execute())
                 return $statut->fetchAll(PDO::FETCH_ASSOC);
             $this->_gerer_erreur_PDO(new PDOException($statut->errorInfo()[2]));
-            return [];
+            return null;
         }
     }
 

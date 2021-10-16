@@ -4,7 +4,13 @@
     require_once 'controleur/Authentification.php';
 
     $bd = new BD();                                                             // Initialise la base de données
-    
+
+    // $u = new Utilisateur(7);
+    // $u->depuis_tableau([
+    //     'mdp' => 'ok'
+    // ]);
+    // $u->envoyer($bd);
+
     $auth = new Authentification();
     $jeton_auth = $auth->jeton($_SESSION, $_POST, $_COOKIE, $bd);                                 // On récupère le jeton d'authentification
     var_dump($jeton_auth);

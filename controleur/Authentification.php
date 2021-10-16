@@ -1,5 +1,6 @@
 <?php
     include_once 'modele/JetonAuthentification.php';
+    include_once 'modele/Cookie.php';
 
     class Authentification extends Modele
     {
@@ -64,10 +65,17 @@
             return false;
         }
 
+        public function deconnexion(array &$session, array $cookie, ?BD &$bd)
+        {
+            unset($session[self::CLE_ID]);
+            if ($this->_cookie && isset($cookie[$this->nom_cookie()]))
+                Cookie::effacer($bd, $cookie[$this->nom_cookie()], $this->nom_cookie());
+        }
         public function jeton(array &$session, array &$post, array &$cookie, BD &$bd) : JetonAuthentification
         {
-            if ($this->_cookie)
-                $id = $cookie[$this->_nom_cookie] ?? null;
+            $id = null;
+            if ($this->_cookie && isset($cookie[$this->nom_cookie()]))
+                $id = Cookie::lire($bd, $cookie[$this->nom_cookie()]);
             if ($id === null)
                 $id = $session[self::CLE_ID] ?? null;
             if ($id === null)
@@ -77,7 +85,7 @@
                     if (isset($post[self::CLE_MDP])) unset($post[self::CLE_MDP]);
                     $id = $session[self::CLE_ID];
                     if ($this->_cookie && isset($post[self::CLE_COOKIE]))
-                        setcookie($this->nom_cookie(), $id, time() + 3600, '/'); 
+                        Cookie::ecrire($bd, $id, $this->nom_cookie());
                 }
                 else if (isset($post[self::FORMULAIRE], $post[self::CLE_ID_CONNEXION]))
                 {
@@ -87,8 +95,7 @@
             }
             if ($id != null && isset($post[self::CLE_DECO]))
             {
-                unset($session[self::CLE_ID]);
-                setcookie($this->nom_cookie(), $id, 1, '/');
+                $this->deconnexion($session, $cookie, $bd);
                 $id = null;
             }
             return new JetonAuthentification(self::INI, $id, $bd);

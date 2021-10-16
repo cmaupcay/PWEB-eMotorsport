@@ -1,7 +1,6 @@
 <?php
     include_once 'modele/Utilisateur.php';
 
-    // A REFAIRE
     class JetonAuthentification extends Utilisateur
     {
         private const CLE_ADMIN = 'id_admin';

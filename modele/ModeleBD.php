@@ -54,28 +54,56 @@
             }
             else
             {
-                $sql = "INSERT INTO " . $this->table() . " (" . implode(',', $infos) . ") VALUES (";
-                $sql .= $this->_formater_informations(', ', ':%i', $infos);
+                $sql = "INSERT INTO " . $this->table() . " (" . implode(', ', $infos) . ") VALUES (";
+                $sql .= $this->_formater_informations(', ', ':%i', $infos) . ")";
             }
-            return (bool)$bd->executer($sql, $params);
+            return is_array($bd->executer($sql, $params));
         }
         public function recevoir(BD &$bd, string $param = 'id', ?array $infos = null) : bool                                     // Charge les informations du modèle depuis la BD
         { 
             $liste_infos = $this->_formater_informations(', ', '%i', $infos);
             $sql = "SELECT " . $liste_infos . " FROM " . $this->table() . " WHERE $param = :$param";
             $params = [':' . $param => $this->{$param}()];
-            $obj = $bd->executer($sql, $params);
+            $obj = $bd->executer($sql, $params) ?? [];
             if (count($obj) == 1)
                 return $this->depuis_tableau($obj[0]);
             return false;
         }
-        public function supprimer(BD $bd, bool $effacer_local = false, string $param = 'id') : bool        // Supprime l'equivalent du modèle dans la BD
+        public function supprimer(BD &$bd, bool $effacer_local = false, string $param = 'id') : bool        // Supprime l'equivalent du modèle dans la BD
         {
             $sql = "DELETE FROM " . $this->table() . " WHERE $param = :$param";
             $params = [':' . $param => $this->{$param}()];
-            $resultat = (bool)$bd->executer($sql, $params);
-            if ($effacer_local) $this->vider();
-            return $resultat;
+            $res = $bd->executer($sql, $params) ?? [];
+            if ($effacer_local && $res) $this->vider();
+            return is_array($res);
+        }
+
+        public function selection(BD &$bd, ?array $infos = null, string $where = '1', bool $brut = false) : array
+        {
+            $sql = "SELECT ";
+            if ($infos === null) $sql .= '*';
+            else $sql .= implode(', ', $infos);
+            $sql .= " FROM " . $this->table() . " WHERE " . $where;
+            $ret = $bd->executer($sql);
+            if (!$brut)
+            {
+                foreach ($ret as $i => $t)
+                {
+                    $class = static::class;
+                    ($ret[$i] = new $class())->depuis_tableau($t);
+                }
+            }
+            return $ret;
+        }
+        public function total(BD &$bd) : int { return count($this->selection($bd, null, '1', true)); }
+        public function suppression(BD &$bd, string $where = '1') : int
+        {
+            if (!$bd->accepter_vidage_table() && $where == '1')
+                throw new Error("Impossible de supprimer le contenu de la table \"" . $this->table() . "\".");
+            $total = $this->total($bd);
+            $sql = "DELETE FROM " . $this->table() . " WHERE " . $where;
+            $bd->executer($sql);
+            return $total - $this->total($bd);
         }
     }
 
