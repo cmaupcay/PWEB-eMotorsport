@@ -15,7 +15,6 @@
     $vue = $_AUTH->verifier_droits($vue, $_JETON, $_ROUTEUR);
 
     $controleurs = $_ROUTEUR->charger_controleurs($vue);
-    var_dump($controleurs);
     foreach ($controleurs as $c)
         $c->executer(
             $_SESSION, $_POST, $_GET,

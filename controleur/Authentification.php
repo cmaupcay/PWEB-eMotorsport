@@ -5,7 +5,11 @@
     class Authentification extends _Controleur
     {
         public function informations(): array
-        { return ['vue_connexion', 'vue_interdit', 'identifiant', 'cookie', 'nom_cookie', 'obligatoire', 'requise', 'admin_requis']; }
+        { return [
+            'vue_connexion', 'vue_interdit', 
+            'identifiant', 'cookie', 'nom_cookie', 
+            'obligatoire', 'requise', 'admin_requis'
+        ]; }
         public function ini() : string { return 'ini/auth.ini'; }
 
         protected $_vue_connexion;
