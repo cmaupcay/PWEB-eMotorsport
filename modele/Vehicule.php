@@ -4,7 +4,7 @@
     class Vehicule extends ModeleBD
     {
         public function informations(): array
-        { return ['id', 'type', 'nb', 'caract', 'photo', 'etatL']; }
+        { return ['id', 'type', 'nb', 'caract', 'photo', 'dispo']; }
         public function table() : string { return 'vehicule'; }
         public function composant(): string { return 'vehicule'; }
 
@@ -23,10 +23,9 @@
         private $_photo;
         public function photo() : ?string { return $this->_photo; }
         public function modifier_photo(?string $valeur) { $this->_type = $valeur; }
-        private $_etat_l;
-        public function etat_l() : ?bool { return $this->_etat_l; }
-        public function modifier_etat_l(?bool $valeur) 
-        { $this->_etat_l = $valeur; }
+        private $_dispo;
+        public function dispo() : ?bool { return $this->_dispo; }
+        public function modifier_dispo(?bool $valeur) { $this->_dispo = $valeur; }
     }
 
 ?>

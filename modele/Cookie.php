@@ -4,43 +4,40 @@
     class Cookie extends ModeleBD
     {
         public function informations(): array
-        { return ['id', 'u']; }
+        { return ['id', 'idu', 'ip']; }
         public function table(): string { return 'cookie'; }
         public function composant(): string { return ''; }
 
-        private $_u;
-        public function u() : ?int { return $this->_u; }
-        public function modifier_u(?int $valeur) { $this->_u = $valeur; }
-
-        public function __construct(?int $id = null, ?BD &$bd = null)
+        private $_idu;
+        public function idu() : ?int { return $this->_idu; }
+        public function modifier_idu(?int $valeur) { $this->_idu = $valeur; }
+        private $_ip;
+        public function ip() : ?string { return $this->_ip; }
+        public function modifier_ip(?string $valeur) 
         {
-            if ($id === null && $bd === null)
-                $this->regenerer_id();
-            else
-                parent::__construct($id, $bd);
+            if (filter_var($valeur, FILTER_VALIDATE_IP))
+                $this->_ip = $valeur; 
         }
 
-        public function regenerer_id() { $this->_id = rand(); }
-
-        static public function ecrire(BD &$bd, int $u, string $nom, int $survie_h = 1, string $chemin = '/') : ?int
+        static public function ecrire(BD &$bd, int $idu, string $ip, string $nom, int $survie_h = 1, string $chemin = '/') : ?int
         {
-            ($c = new Cookie())->modifier_u($u);
-            while ($c->existe($bd))
-                $c->regenerer_id();
-            if ($c->envoyer($bd))
+            ($c = new Cookie())->depuis_tableau(['idu' => $idu, 'ip' => $ip]);
+            if ($c->envoyer($bd, ['id']))
             {
+                $c->recevoir($bd, 'ip');
                 if (setcookie($nom, $c->id(), time() + ($survie_h * 3600), $chemin))
                     return $c->id();
                 else $c->supprimer($bd);
             }
             return null;
         }
-        static public function lire(BD &$bd, int $id) : ?int
+        static public function lire(BD &$bd, int $id, string $ip) : ?int
         {
             try { $c = new Cookie($id, $bd); }
-            catch (\Exception $e)
-            { return null; }
-            return $c->u();
+            catch (\Exception $e) { return null; }
+            if ($c->ip() == $ip)
+                return $c->idu();
+            return null;
         }
         static public function effacer(BD &$bd, int $id, string $nom, string $chemin = '/') : bool
         { 

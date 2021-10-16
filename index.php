@@ -12,7 +12,7 @@
     // $u->envoyer($bd);
 
     $auth = new Authentification();
-    $jeton_auth = $auth->jeton($_SESSION, $_POST, $_COOKIE, $bd);                                 // On récupère le jeton d'authentification
+    $jeton_auth = $auth->jeton($_SESSION, $_POST, $_COOKIE, $_SERVER['REMOTE_ADDR'], $bd);   // On récupère le jeton d'authentification
     var_dump($jeton_auth);
 
     $routeur = new Routeur();

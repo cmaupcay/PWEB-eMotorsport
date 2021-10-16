@@ -4,7 +4,7 @@
     class Utilisateur extends ModeleBD
     {
         public function informations(): array
-        { return ['id', 'nom', 'pseudo', 'email', 'nomE', 'adresseE']; }
+        { return ['id', 'nom', 'pseudo', 'email', 'nom_e', 'adresse_e']; }
         public function table(): string { return 'utilisateur'; }
         public function composant(): string { return 'utilisateur'; }
 

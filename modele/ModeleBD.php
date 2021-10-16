@@ -42,9 +42,11 @@
             $params = [':' . $param => $this->{$param}()];
             return count($bd->executer($sql, $params)) == 1;
         }
-        public function envoyer(BD &$bd) : bool                                      // Envoie les informations du modèle vers la BD
+        public function envoyer(BD &$bd, array $ignorer = []) : bool                                      // Envoie les informations du modèle vers la BD
         {
             $infos = $this->informations();
+            foreach ($ignorer as $i)
+                if (isset($infos[$i])) unset($infos[$i]);
             $params = $this->_liste_parametres($infos);
             if ($this->existe($bd))
             {

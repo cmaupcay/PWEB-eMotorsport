@@ -71,11 +71,11 @@
             if ($this->_cookie && isset($cookie[$this->nom_cookie()]))
                 Cookie::effacer($bd, $cookie[$this->nom_cookie()], $this->nom_cookie());
         }
-        public function jeton(array &$session, array &$post, array &$cookie, BD &$bd) : JetonAuthentification
+        public function jeton(array &$session, array &$post, array &$cookie, string $ip, BD &$bd) : JetonAuthentification
         {
             $id = null;
             if ($this->_cookie && isset($cookie[$this->nom_cookie()]))
-                $id = Cookie::lire($bd, $cookie[$this->nom_cookie()]);
+                $id = Cookie::lire($bd, $cookie[$this->nom_cookie()], $ip);
             if ($id === null)
                 $id = $session[self::CLE_ID] ?? null;
             if ($id === null)
@@ -85,7 +85,7 @@
                     if (isset($post[self::CLE_MDP])) unset($post[self::CLE_MDP]);
                     $id = $session[self::CLE_ID];
                     if ($this->_cookie && isset($post[self::CLE_COOKIE]))
-                        Cookie::ecrire($bd, $id, $this->nom_cookie());
+                        Cookie::ecrire($bd, $id, $ip, $this->nom_cookie());
                 }
                 else if (isset($post[self::FORMULAIRE], $post[self::CLE_ID_CONNEXION]))
                 {

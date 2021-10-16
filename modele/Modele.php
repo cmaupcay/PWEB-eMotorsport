@@ -27,9 +27,7 @@
                 }
                 try { $this->{'modifier_' . $info}($data[$info]); }                      // Appel de la méthode de modfication de l'attribut
                 catch (\Error $e)                                                        // La méthode n'existe pas
-                {                                                                        // On essaie de modifier directement 
-                    $this->{'_' . $info} = $data[$info];
-                }
+                { $this->{'_' . $info} = $data[$info]; }
             }
             return $reussi;
         }
