@@ -4,6 +4,7 @@
         <ul>
             <li><a href="/">Accueil</a></li>
             <li><a href="/auth/">Connexion</a></li>
+            <li><a href="/inscription/">Inscription</a></li>
             <li><a href="/profil/">Profil</a></li>
             <li><a href="/loueur/">Espace Loueur</a></li>
             <li><a href="/admin/">Espace Administration</a></li>

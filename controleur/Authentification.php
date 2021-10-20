@@ -8,43 +8,49 @@
         { return [
             'vue_connexion', 'vue_interdit', 
             'identifiant', 'cookie', 'nom_cookie', 
-            'obligatoire', 'requise', 
+            'obligatoire', 'requise', 'interdite',
             'admin_requis', 'prop_requis'
         ]; }
-        public function ini() : string { return 'ini/auth.ini'; }
 
         protected $_vue_connexion;
-        public function vue_connexion() : string { return $this->_vue_connexion; }
+        protected function vue_connexion() : string { return $this->_vue_connexion; }
         protected $_vue_interdit;
-        public function vue_interdit() : string { return $this->_vue_interdit; }
+        protected function vue_interdit() : string { return $this->_vue_interdit; }
 
         protected $_identifiant;
-        public function identifiant() : string { return $this->_identifiant; }
+        protected function identifiant() : string { return $this->_identifiant; }
         protected $_cookie;                  
-        public function cookie() : bool { return $this->_cookie; }
+        protected function cookie() : bool { return $this->_cookie; }
         protected $_nom_cookie;
-        public function nom_cookie() : string { return $this->_nom_cookie; }
+        protected function nom_cookie() : string { return $this->_nom_cookie; }
         protected $_obligatoire;                  // Définie si l'authentification doit toujours être active
-        public function obligatoire() : bool { return $this->_obligatoire; }
+        protected function obligatoire() : bool { return $this->_obligatoire; }
         protected function modifier_obligatoire(bool $valeur) { $this->_obligatoire = $valeur; }
         protected $_requise;                      // Définie les vues où l'authentification est requise
-        public function requise() : array { return $this->_requise; }
+        protected function requise() : array { return $this->_requise; }
+        protected $_interdite;                      // Définie les vues où l'authentification est interdite
+        protected function interdite() : array { return $this->_interdite; }
         protected $_admin_requis;                      // Définie les vues où l'authentification en tant qu'admin est requise
-        public function admin_requis() : array { return $this->_admin_requis; }
+        protected function admin_requis() : array { return $this->_admin_requis; }
         protected $_prop_requis;                      // Définie les vues où l'authentification en tant que propriétaire est requise
-        public function prop_requis() : array { return $this->_prop_requis; }
+        protected function prop_requis() : array { return $this->_prop_requis; }
 
-        public function __construct(?string $fichier_ini = null)
+        private $_ini;
+
+        public function __construct(string $fichier_ini)
         {
             if (session_status() != PHP_SESSION_ACTIVE) session_start();
             parent::__construct($fichier_ini);
+            $this->_ini = $fichier_ini;
         }
 
-        public function est_requise(string $nom_vue) : bool
+        protected function est_interdite(string $nom_vue) : bool
+        { return (array_search($nom_vue, $this->_interdite ?? []) !== false); }
+        protected function est_requise(string $nom_vue) : bool
         { return (array_search($nom_vue, $this->_requise ?? []) !== false); }
-        public function admin_est_requis(string $nom_vue) : bool
+        protected function admin_est_requis(string $nom_vue) : bool
         { return (array_search($nom_vue, $this->_admin_requis ?? []) !== false); }
-        public function prop_est_requis(string $nom_vue) : bool
+        protected function prop_est_requis(string $nom_vue) : bool
         { return (array_search($nom_vue, $this->_prop_requis ?? []) !== false); }
 
         const FORMULAIRE = 'form_auth';
@@ -107,12 +113,12 @@
                 $this->deconnexion($session, $ip, $bd);
                 $id = null;
             }
-            return new JetonAuthentification($this->ini(), $id, $bd);
+            return new JetonAuthentification($this->_ini, $id, $bd);
         }
 
         public function verifier_droits(string $vue, JetonAuthentification $auth, Routeur $routeur) : string
         {
-            if ($auth->valide() && $vue === $this->vue_connexion())
+            if ($auth->valide() && ($vue === $this->vue_connexion() || $this->est_interdite($vue)))
                 $routeur->redirection(null);
             if (($this->admin_est_requis($vue) && !$auth->admin()) // Si on est sur une vue admin|prop et que le jeton n'est pas admin|prop
                || ($this->prop_est_requis($vue) && !$auth->prop()))

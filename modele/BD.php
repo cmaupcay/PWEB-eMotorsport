@@ -9,7 +9,6 @@
             'accepter_vidage_table',
             'accepter_hors_ligne', 'debug'
         ]; }
-        private const INI = 'ini/bd.ini';
         
         protected $_driver;                                             // Nom du driver SQL (ex: mysql)
         public function driver() : ?string { return $this->_driver; }
@@ -61,10 +60,8 @@
             if (!$this->_accepter_hors_ligne) throw $erreur;
         }
 
-        public function __construct(?string $fichier_ini = null)
+        public function __construct(string $fichier_ini)
         {
-            if ($fichier_ini === null)                                  // Initialisation des attributs depuis un fichier INI
-                $fichier_ini = self::INI;
             $ini = $this->depuis_ini($fichier_ini);
             $this->_initialiser_pdo($ini['mdp']);
         }

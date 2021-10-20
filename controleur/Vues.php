@@ -10,7 +10,6 @@
             'dos_vue', 'dos_composant',
             'ERR'
         ]; }
-        public function ini() : string { return 'ini/vues.ini'; }
 
         protected $_ext_vue;                        // Extension des fichiers de vue
         protected function ext_vue() : string { return $this->_ext_vue; }
@@ -37,12 +36,13 @@
         public function charger(string $vue, array &$post, array &$get, ?JetonAuthentification $_JETON = null, array $_PARAMS = [])
         {
             $_V = $this;
-            $post = []; $get = [];                               // POST et GET ne peuvent pas être utilisés dans les vues.
+            if ($_JETON === null) $_JETON = new JetonAuthentification();
+            $post = []; $get = [];                              // POST et GET ne peuvent pas être utilisés dans les vues.
             $vue = $this->_vue($vue);                           // Traduction en nom de fichier vue
             if (file_exists($vue))                              // Recherche du fichier
                 include $vue;                                   // On charge la vue   
             else                                                // Le fichier n'existe pas
-                include $this->_vue($this->_ERR['404']);       // On charge la vue d'erreur 404
+                include $this->_vue($this->_ERR['404']);        // On charge la vue d'erreur 404
         }
         
         
@@ -52,7 +52,7 @@
         public function composant_modele(ModeleBD $modele, ?JetonAuthentification $_JETON = null, array $_PARAMS = [])
         { $_V = $this; include $this->_composant($modele->composant()); }   // Permet d'inclure rapidement un composant depuis un modele dans une vue
         public function redirection(?string $vue, array &$post, array &$get, ?JetonAuthentification $_JETON = null, array $_PARAMS = [])
-        { $this->charger(($vues ?? $this->_ERR[404]), $post, $get, $_JETON, $_PARAMS); die(); }
+        { $this->charger(($vue ?? $this->_ERR[404]), $post, $get, $_JETON, $_PARAMS); die(); }
     }
 
 ?>
