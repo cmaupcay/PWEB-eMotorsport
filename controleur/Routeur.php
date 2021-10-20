@@ -43,15 +43,23 @@
             if ($uri[0] == '?')         // CHARGEMENT DE RESSOURCES
             {
                 $var = explode('=', substr($uri, 1), 2);
+                $rediriger = true;
                 if (count($var) === 2)
                 {   
-                    if ($var[0] === $this->_ierr)   // Spécification d'une erreur
+                    $rediriger = false;
+                    switch ($var[0]) 
+                    {
+                    case $this->_ierr:
                         return implode('/', $var);
-                    else if ($var[0] === $this->_icss)   // Spécification d'une feuille de style
+                    case $this->_icss:
                         $this->_charger_css($var[1]);
-                    else $this->redirection($var[0] . '/');
+                    default:
+                        $rediriger = true;
+                        break;
+                    }
                 }
-                else $this->redirection($var[0] . '/');
+                if ($rediriger) 
+                    $this->redirection($var[0] . '/');
                 die();
             }
 
