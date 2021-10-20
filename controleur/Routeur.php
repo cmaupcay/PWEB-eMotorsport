@@ -17,11 +17,16 @@
         protected $_control;
         public function control() : array { return $this->_control; }
 
+        // Ressources
+        const MSG_RESSOURCE_INTROUVABLE = "La ressource demandée n'existe pas.";
         private function _charger_css(string $fichier)
         {
-            header('Content-type: text/css');
-            include 'vue/style/' . $fichier . '.css';
-            die();
+            $fichier = 'vue/style/' . $fichier . '.css';
+            if (file_exists($fichier))
+            {
+                header('Content-type: text/css');
+                include $fichier;
+            } print($this::MSG_RESSOURCE_INTROUVABLE);
         }
 
         public function definir_vue(string $uri) : string
@@ -32,17 +37,22 @@
             
             if ($uri[-1] == '/')             // Adaptation des requêtes de la forme */<vue>/
                 $uri = substr($uri, 0, -1);             // On retire le dernier '/'
-            else if ($uri[0] != '?')
+            else if ($uri[0] != '?')        // On vérifie que c'est un chargement de ressource
                 return $this->_ierr . '=404';
 
             if ($uri[0] == '?')         // CHARGEMENT DE RESSOURCES
             {
                 $var = explode('=', substr($uri, 1), 2);
-                if ($var[0] === $this->_ierr)   // Spécification d'une erreur
-                    return implode('/', $var);
-                else if ($var[0] === $this->_icss)   // Spécification d'une feuille de style
-                    $this->_charger_css($var[1]);
-                else return $this->_ierr . '=404';
+                if (count($var) === 2)
+                {   
+                    if ($var[0] === $this->_ierr)   // Spécification d'une erreur
+                        return implode('/', $var);
+                    else if ($var[0] === $this->_icss)   // Spécification d'une feuille de style
+                        $this->_charger_css($var[1]);
+                    else $this->redirection($var[0] . '/');
+                }
+                else $this->redirection($var[0] . '/');
+                die();
             }
 
             return $uri;

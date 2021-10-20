@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eMotorsport - Erreur fatale</title>
+    <link href="/?css=debug" rel="stylesheet">
+</head>
+<body>
+    <div class="erreur-fatale">
+        <h4>Erreur fatale : <i><?= $_PARAMS[0]->getMessage() ?></i></h4>
+        <ul>
+            <?php
+                $trace = $_PARAMS[0]->getTrace();
+                foreach ($trace as $i => $t)
+                    print(
+                        '<li>' . $t['class'] . $t['type'] . '<b>' . $t['function'] . '</b>()<br>' .
+                        '<i>' . $t['file'] . ' @ ' . $t['line'] . '</i><br>'
+                    );
+            ?>
+        </ul>
+    </div>
+</body>
+</html>

@@ -7,7 +7,7 @@
     {
         public function informations(): array
         { return [
-            'debug', 'vue_erreur',
+            'debug', 'vue_erreur', 'vue_debug',
             'ini_bd', 'ini_routeur', 'ini_auth', 'ini_vues'
         ]; }
 
@@ -16,6 +16,8 @@
         protected function modifier_debug(bool $valeur) { $this->_debug = $valeur; }
         protected $_vue_erreur;
         public function vue_erreur() : string { return $this->_vue_erreur; }
+        protected $_vue_debug;
+        public function vue_debug() : string { return $this->_vue_debug; }
 
         protected $_ini_bd;
         private $_bd;
@@ -61,8 +63,8 @@
             catch (\Throwable $e) 
             {
                 if ($this->debug())
-                    $this->_vues->charger($this->_vue_erreur, $post, $get, null, [$e]);
-                else throw $e;
+                    $this->_vues->charger($this->_vue_debug, $post, $get, null, [$e]);
+                else $this->_vues->charger($this->_vue_erreur, $post, $get, null, [$e]);
             }
         }
     }
