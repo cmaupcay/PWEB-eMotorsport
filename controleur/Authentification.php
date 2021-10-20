@@ -74,11 +74,11 @@
             return false;
         }
 
-        public function deconnexion(array &$session, array $cookie, ?BD &$bd)
+        public function deconnexion(array &$session, string $ip, ?BD &$bd)
         {
             unset($session[self::CLE_ID]);
-            if ($this->_cookie && isset($cookie[$this->nom_cookie()]))
-                Cookie::effacer($bd, $cookie[$this->nom_cookie()], $this->nom_cookie());
+            if ($this->_cookie) // On supprime tous les cookies associés à l'adresse IP
+                Cookie::effacer($bd, $ip, $this->nom_cookie());
         }
         public function jeton(array &$session, array &$post, array &$cookie, string $ip, BD &$bd) : JetonAuthentification
         {
@@ -104,7 +104,7 @@
             }
             if ($id != null && isset($post[self::CLE_DECO]))
             {
-                $this->deconnexion($session, $cookie, $bd);
+                $this->deconnexion($session, $ip, $bd);
                 $id = null;
             }
             return new JetonAuthentification($this->ini(), $id, $bd);

@@ -3,11 +3,10 @@
         NOM_PAGE => $_JETON->pseudo()
     ]);
 
-    var_dump($_JETON);
-?>
+    $_V->composant_modele($_JETON, $_JETON, [
+        UTILISATEUR => $_JETON,
+        U_EDITION => true
+    ]);
 
-
-
-<?php 
     $_V->composant('pied', $_JETON);
 ?>

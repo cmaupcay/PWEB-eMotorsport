@@ -1,0 +1,22 @@
+<?php
+
+use function PHPSTORM_META\type;
+
+if (isset($_PARAMS) && isset($_PARAMS[UTILISATEUR])): ?>
+
+        <div>
+            <ul>
+                <li><b>Nom : </b><?= $_PARAMS[UTILISATEUR]->nom() ?></li>
+                <li><b>Pseudo : </b><?= $_PARAMS[UTILISATEUR]->pseudo() ?></li>
+                <li><b>Email : </b><?= $_PARAMS[UTILISATEUR]->email() ?></li>
+            </ul>
+            <h4>Entreprise</h4>
+            <ul>
+                <li><b>Nom : </b><?= $_PARAMS[UTILISATEUR]->nom_e() ?></li>
+                <li><b>Adresse : </b><?= $_PARAMS[UTILISATEUR]->adresse_e() ?></li>
+            </ul>
+        </div>
+
+<?php else: ?>
+<h3><strong>Problème lors du chargement du composant...</strong></h3>
+<?php endif ?>

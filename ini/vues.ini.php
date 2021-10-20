@@ -8,4 +8,7 @@
     const UTILISATEUR = 'u';
     const VEHICULE = 'v';
     const FACTURE = 'f';
+
+    // Profil
+    const U_EDITION = 'u_edit';
 ?>

@@ -24,10 +24,9 @@
             ($c = new Cookie())->depuis_tableau(['idu' => $idu, 'ip' => $ip]);
             if ($c->envoyer($bd, ['id']))
             {
-                $c->recevoir($bd, 'ip');
-                if (setcookie($nom, $c->id(), time() + ($survie_h * 3600), $chemin))
+                if ($c->recevoir($bd, 'ip') && setcookie($nom, $c->id(), time() + ($survie_h * 3600), $chemin))
                     return $c->id();
-                else $c->supprimer($bd);
+                else $c->supprimer($bd, true, 'ip');
             }
             return null;
         }
@@ -39,10 +38,14 @@
                 return $c->idu();
             return null;
         }
-        static public function effacer(BD &$bd, int $id, string $nom, string $chemin = '/') : bool
+        static public function effacer(BD &$bd, string $ip, string $nom, string $chemin = '/') : bool
         { 
             $reussi = false;
-            try { $reussi = (new Cookie($id, $bd))->supprimer($bd); } 
+            try 
+            {
+                ($c = new Cookie())->depuis_tableau(['ip' => $ip]);
+                $reussi = $c->supprimer($bd, true, 'ip'); 
+            } 
             catch (\Exception $e) {}
             return setcookie($nom, 0, 1, $chemin) && $reussi;
         }
