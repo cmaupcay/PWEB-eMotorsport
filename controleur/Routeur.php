@@ -18,7 +18,7 @@
         public function control() : array { return $this->_control; }
 
         // Ressources
-        const MSG_RESSOURCE_INTROUVABLE = "La ressource demandée n'existe pas.";
+        private const MSG_RESSOURCE_INTROUVABLE = "La ressource demandée n'existe pas.";
         private function _charger_css(string $fichier)
         {
             $fichier = 'vue/style/' . $fichier . '.css';

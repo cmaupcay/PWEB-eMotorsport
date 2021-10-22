@@ -23,16 +23,25 @@
         {
             if ($infos == null) $infos = $this->informations();
             $valeurs = [];
-            foreach ($infos as $info)
-                $valeur[] = str_replace($indicateur, $info, $format);
+            foreach ($infos as $i => $info)
+            {
+                if (is_int($i))
+                    $valeur[] = str_replace($indicateur, $info, $format);
+                else
+                    $valeur[] = str_replace($indicateur, $i, $format);
+            }
             return implode($sep, $valeur);
         }
         private function _liste_parametres(?array $infos = null) : array
         {
             if ($infos === null) $infos = $this->informations();
             $params = [];
-            foreach ($infos as $info)
-                $params[':' . $info] = $this->{$info}();
+            foreach ($infos as $i => $info)
+            {
+                try { $params[':' . $info] = $this->{$info}(); }
+                catch (\Error $e)
+                { $params[':' . $i] = $info; }
+            }
             return $params;
         }
 
@@ -42,9 +51,9 @@
             $params = [':' . $param => $this->{$param}()];
             return count($bd->executer($sql, $params)) == 1;
         }
-        public function envoyer(BD &$bd, array $ignorer = []) : bool                                      // Envoie les informations du modèle vers la BD
+        public function envoyer(BD &$bd, array $ignorer = [], array $ajouter = []) : bool                 // Envoie les informations du modèle vers la BD
         {
-            $infos = $this->informations();
+            $infos = array_merge($this->informations(), $ajouter);
             foreach ($ignorer as $i)
                 if (isset($infos[$i])) unset($infos[$i]);
             $params = $this->_liste_parametres($infos);
@@ -56,8 +65,8 @@
             }
             else
             {
-                $sql = "INSERT INTO " . $this->table() . " (" . implode(', ', $infos) . ") VALUES (";
-                $sql .= $this->_formater_informations(', ', ':%i', $infos) . ")";
+                $sql = "INSERT INTO " . $this->table() . " (" . $this->_formater_informations(', ', '%i', $infos);
+                $sql .= ") VALUES (" . $this->_formater_informations(', ', ':%i', $infos) . ")";
             }
             return is_array($bd->executer($sql, $params));
         }

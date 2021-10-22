@@ -22,7 +22,7 @@
         protected $_cookie;                  
         protected function cookie() : bool { return $this->_cookie; }
         protected $_nom_cookie;
-        protected function nom_cookie() : string { return $this->_nom_cookie; }
+        public function nom_cookie() : string { return $this->_nom_cookie; }
         protected $_obligatoire;                  // Définie si l'authentification doit toujours être active
         protected function obligatoire() : bool { return $this->_obligatoire; }
         protected function modifier_obligatoire(bool $valeur) { $this->_obligatoire = $valeur; }
@@ -36,6 +36,10 @@
         protected function prop_requis() : array { return $this->_prop_requis; }
 
         private $_ini;
+        private const ALGO_HASH = 'sha256';
+
+        public function hash(string $mdp)
+        { return hash(self::ALGO_HASH, $mdp); }
 
         public function __construct(string $fichier_ini)
         {
@@ -69,7 +73,7 @@
                 {
                     $mdp = $u->mdp($bd, $this->_identifiant);
                     if ($mdp != null)
-                        if (password_verify($post[self::CLE_MDP], $mdp))
+                        if ($this->hash($post[self::CLE_MDP]) === $mdp)
                         {
                             $u->recevoir($bd, $this->_identifiant, ['id']);
                             $session[self::CLE_ID] = $u->id();

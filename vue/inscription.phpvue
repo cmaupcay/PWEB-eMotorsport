@@ -1,10 +1,10 @@
 <?php
     $_V->composant('entete', $_JETON, [
-        NOM_PAGE => 'Connexion',
+        NOM_PAGE => 'Inscription',
         FORM_CONNEXION => false
     ]);
 
-    $_V->composant('connexion', $_JETON, $_PARAMS);
+    $_V->composant('inscription', $_JETON, $_PARAMS);
 
     $_V->composant('pied', $_JETON);
 ?>

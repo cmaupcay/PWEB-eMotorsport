@@ -2,6 +2,7 @@
     
     <?php if ($_JETON->valide() || isset($_PARAMS[Authentification::CLE_DECO])): ?>
         <?= $_JETON->admin() ? "<h4>Vous êtes administrateur</h4>\n" : '' ?>
+        <?= $_JETON->prop() ? "<h4>Vous êtes propriétaire</h4>\n" : '' ?>
         <form method="post">
             <input type="submit" name="<?= Authentification::CLE_DECO ?>" value="Se déconnecter">
         </form>

@@ -1,5 +1,8 @@
 <?php
     // PARAMETRES PRE DEFINIS POUR LES VUES
+    // Controleurs
+    const CTRL_MESSAGE = 'ctrl_msg';
+
     // Entête
     const NOM_PAGE = 'np';
     const FORM_CONNEXION = 'fconnexion';

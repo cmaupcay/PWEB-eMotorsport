@@ -51,14 +51,15 @@
                 $vue = $this->_routeur->definir_vue($server['REQUEST_URI'], $this->_auth);                // Définir la vue
                 $vue = $this->_auth->verifier_droits($vue, $_JETON, $this->_routeur);
             
+                $_PARAMS = [];
                 $controleurs = $this->_routeur->charger_controleurs($vue);
                 foreach ($controleurs as $c)
                     $c->executer(
-                        $session, $post, $get,
-                        $this->_bd, $this->_auth, $this->_auth, $_JETON
+                        $server, $session, $post, $get, $_PARAMS,
+                        $this->_bd, $this->_auth, $this->_routeur, $_JETON
                     );
             
-                $this->_vues->charger($vue, $post, $get, $_JETON);                                        // Charger la vue
+                $this->_vues->charger($vue, $post, $get, $_JETON, $_PARAMS);                                        // Charger la vue
             }
             catch (\Throwable $e) 
             {

@@ -1,0 +1,29 @@
+<?php if (isset($_PARAMS)): ?>
+    
+    <form method="post">
+        <label for="<?= Inscription::CLE_NOM ?>">Nom</label>
+        <input type="text" name="<?= Inscription::CLE_NOM ?>" id="<?= Inscription::CLE_NOM ?>"
+        required autocomplete="off">
+        <label for="<?= Inscription::CLE_EMAIL ?>">Adresse eMail</label>
+        <input type="email" name="<?= Inscription::CLE_EMAIL ?>" id="<?= Inscription::CLE_EMAIL ?>"
+        required autocomplete="off">
+        <label for="<?= Inscription::CLE_PSD ?>">Pseudo</label>
+        <input type="text" name="<?= Inscription::CLE_PSD ?>" id="<?= Inscription::CLE_PSD ?>"
+        required autocomplete="off">
+        <label for="<?= Inscription::CLE_MDP ?>">Mot de passe</label>
+        <input type="password" name="<?=Inscription::CLE_MDP ?>" id="<?=Inscription::CLE_MDP ?>"
+        required>
+        <h4>Entreprise</h4>
+        <label for="<?= Inscription::CLE_NOM_E ?>">Nom</label>
+        <input type="text" name="<?= Inscription::CLE_NOM_E ?>" id="<?= Inscription::CLE_NOM_E ?>"
+        required autocomplete="off">
+        <label for="<?= Inscription::CLE_ADR_E ?>">Adresse</label>
+        <input type="text" name="<?= Inscription::CLE_ADR_E ?>" id="<?= Inscription::CLE_ADR_E ?>"
+        required autocomplete="off">
+        <input type="submit" name="<?= Inscription::FORMULAIRE ?>" value="S'inscrire">
+        <?= $_PARAMS[CTRL_MESSAGE] ?? null ?>
+    </form>
+    
+<?php else: ?>
+    <h3><strong>Problème lors du chargement du composant...</strong></h3>
+<?php endif ?>
