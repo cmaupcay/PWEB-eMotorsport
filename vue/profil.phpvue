@@ -3,7 +3,7 @@
         NOM_PAGE => $_JETON->pseudo()
     ]);
 
-    $_V->composant_modele($_JETON, $_JETON, [
+    $_V->composant('utilisateur', $_JETON, [
         UTILISATEUR => $_JETON,
         U_EDITION => true
     ]);

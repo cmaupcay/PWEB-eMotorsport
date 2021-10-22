@@ -45,8 +45,8 @@
         {
             try 
             {
-                $_JETON = $this->_auth->jeton($session, $post, $cookie, $server['REMOTE_ADDR'], $this->_bd);   
                 // On récupère le jeton d'authentification
+                $_JETON = $this->_auth->jeton($session, $post, $cookie, $server['REMOTE_ADDR'], $this->_bd);   
             
                 $vue = $this->_routeur->definir_vue($server['REQUEST_URI'], $this->_auth);                // Définir la vue
                 $vue = $this->_auth->verifier_droits($vue, $_JETON, $this->_routeur);

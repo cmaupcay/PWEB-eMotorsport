@@ -1,9 +1,5 @@
-<?php
-
-use function PHPSTORM_META\type;
-
-if (isset($_PARAMS) && isset($_PARAMS[UTILISATEUR])): ?>
-
+<?php if (isset($_PARAMS) && isset($_PARAMS[UTILISATEUR])): ?>
+    
         <div>
             <ul>
                 <li><b>Nom : </b><?= $_PARAMS[UTILISATEUR]->nom() ?></li>
@@ -18,5 +14,5 @@ if (isset($_PARAMS) && isset($_PARAMS[UTILISATEUR])): ?>
         </div>
 
 <?php else: ?>
-<h3><strong>Problème lors du chargement du composant...</strong></h3>
+    <h3><strong>Problème lors du chargement du composant...</strong></h3>
 <?php endif ?>

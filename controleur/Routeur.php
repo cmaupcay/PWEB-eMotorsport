@@ -4,7 +4,10 @@
     class Routeur extends _Controleur
     {
         public function informations(): array
-        { return ['index', 'control', 'ierr', 'icss']; }
+        { return [
+            'index', 'control',
+            'ierr', 'icss', 'iimg'
+        ]; }
         public function ini() : string { return 'ini/routeur.ini'; }
          
         protected $_index;                          // Nom de la vue par défaut
@@ -14,6 +17,8 @@
         public function ierr() : string { return $this->_ierr; }
         protected $_icss;                           // Clé d'appel de CSS
         public function icss() : string { return $this->_icss; }
+        protected $_imedia;                           // Clé d'appel de contenu multimedia
+        public function imedia() : string { return $this->_imedia; }
         protected $_control;
         public function control() : array { return $this->_control; }
 
@@ -25,6 +30,15 @@
             if (file_exists($fichier))
             {
                 header('Content-type: text/css');
+                include $fichier;
+            } print($this::MSG_RESSOURCE_INTROUVABLE);
+        }
+        private function _charger_media(string $fichier)
+        {
+            $fichier = 'vue/media/' . $fichier;
+            if (file_exists($fichier))
+            {
+                header('Content-type: ' . mime_content_type($fichier));
                 include $fichier;
             } print($this::MSG_RESSOURCE_INTROUVABLE);
         }
@@ -49,6 +63,8 @@
                     $rediriger = false;
                     switch ($var[0]) 
                     {
+                    case $this->_imedia:
+                        $this->_charger_media($var[1]);
                     case $this->_ierr:
                         return implode('/', $var);
                     case $this->_icss:

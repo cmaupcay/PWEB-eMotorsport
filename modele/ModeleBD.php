@@ -5,8 +5,6 @@
     {
         abstract public function table() : string;
 
-        abstract public function composant() : string; // Composant de vue associé au modèle
-
         protected $_id;
         public function id() : ?int { return $this->_id; }
 

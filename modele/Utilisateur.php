@@ -6,7 +6,6 @@
         public function informations(): array
         { return ['id', 'nom', 'pseudo', 'email', 'nom_e', 'adresse_e']; }
         public function table(): string { return 'utilisateur'; }
-        public function composant(): string { return 'utilisateur'; }
 
         public function __construct(?int $id = null, ?BD &$bd = null)
         { parent::__construct($id, $bd); }
