@@ -15,7 +15,7 @@
                 $trace = $_PARAMS[0]->getTrace();
                 foreach ($trace as $i => $t)
                     print(
-                        '<li>' . $t['class'] . $t['type'] . '<b>' . $t['function'] . '</b>()<br>' .
+                        '<li>' . ($t['class'] ?? '') . ($t['type'] ?? '') . '<b>' . $t['function'] . '</b>()<br>' .
                         '<i>' . $t['file'] . ' @ ' . $t['line'] . '</i><br>'
                     );
             ?>

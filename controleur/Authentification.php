@@ -9,7 +9,7 @@
             'vue_connexion', 'vue_interdit', 
             'identifiant', 'cookie', 'nom_cookie', 
             'obligatoire', 'requise', 'interdite',
-            'admin_requis', 'prop_requis'
+            'role_requis'
         ]; }
 
         protected $_vue_connexion;
@@ -30,10 +30,9 @@
         protected function requise() : array { return $this->_requise; }
         protected $_interdite;                      // Définie les vues où l'authentification est interdite
         protected function interdite() : array { return $this->_interdite; }
-        protected $_admin_requis;                      // Définie les vues où l'authentification en tant qu'admin est requise
-        protected function admin_requis() : array { return $this->_admin_requis; }
-        protected $_prop_requis;                      // Définie les vues où l'authentification en tant que propriétaire est requise
-        protected function prop_requis() : array { return $this->_prop_requis; }
+        private const SEP_ROLES_REQUIS = ',';
+        protected $_role_requis;                      // Définie les vues où l'authentification avec un role spécifique est requise
+        protected function role_requis() : array { return $this->_role_requis; }
 
         private $_ini;
         private const ALGO_HASH = 'sha256';
@@ -52,6 +51,12 @@
         { return (array_search($nom_vue, $this->_interdite ?? []) !== false); }
         protected function est_requise(string $nom_vue) : bool
         { return (array_search($nom_vue, $this->_requise ?? []) !== false); }
+        protected function roles_autorises(string $nom_vue) : ?array
+        {
+            // Si aucun role n'est requis pour la vue, tout le monde est autorisé.
+            if (!isset($this->_role_requis[$nom_vue])) return null;
+            return explode(self::SEP_ROLES_REQUIS, $this->_role_requis[$nom_vue]);
+        }
         protected function admin_est_requis(string $nom_vue) : bool
         { return (array_search($nom_vue, $this->_admin_requis ?? []) !== false); }
         protected function prop_est_requis(string $nom_vue) : bool
@@ -124,9 +129,14 @@
         {
             if ($auth->valide() && ($vue === $this->vue_connexion() || $this->est_interdite($vue)))
                 $routeur->redirection(null);
-            if (($this->admin_est_requis($vue) && !$auth->admin()) // Si on est sur une vue admin|prop et que le jeton n'est pas admin|prop
-               || ($this->prop_est_requis($vue) && !$auth->prop()))
-                return $this->vue_interdit();    // Un jeton admin|prop est obligatoirement valide (cf. JetonAuthentification::admin()).
+            $roles_autorises = $this->roles_autorises($vue);
+            if ($roles_autorises !== null)
+            {
+                $autorise = false;
+                foreach ($roles_autorises as $role)
+                    if ($autorise = $auth->est_du_role($role)) break;
+                if (!$autorise) return $this->vue_interdit();
+            }
             if (!$auth->valide() && ($this->obligatoire() || $this->est_requise($vue)))
                 return $this->vue_connexion();
             return $vue;
