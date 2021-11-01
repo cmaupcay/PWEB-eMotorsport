@@ -3,11 +3,18 @@
     <div class="container text-center">
         <ul>
             <li><a href="/">Accueil</a></li>
-            <li><a href="/auth/">Connexion</a></li>
-            <li><a href="/inscription/">Inscription</a></li>
-            <li><a href="/profil/">Profil</a></li>
-            <li><a href="/loueur/">Espace Loueur</a></li>
-            <li><a href="/admin/">Espace Administration</a></li>
+            <?php if ($_JETON === null || !$_JETON->valide()): ?>
+                <li><a href="/connexion/">Connexion</a></li>
+                <li><a href="/inscription/">Inscription</a></li>
+            <?php else: ?>
+                <li><a href="/profil/">Profil</a></li>
+            <?php endif ?>
+            <?php if ($_JETON != null && $_JETON->est_du_role('loueur')): ?>
+                <li><a href="/loueur/">Espace Loueur</a></li>
+            <?php endif ?>
+            <?php if ($_JETON != null && $_JETON->est_du_role('admin')): ?>
+                <li><a href="/admin/">Espace Administration</a></li>
+            <?php endif ?>
         </ul>
     </div>
 
