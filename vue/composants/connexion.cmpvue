@@ -8,10 +8,10 @@
     <?php else: ?>
         <form method="post" class="mb-2">
             <label for="<?= Authentification::CLE_ID_CONNEXION ?>">Pseudo</label>
-            <input type="text" name="<?= Authentification::CLE_ID_CONNEXION ?>" id="<?= Authentification::CLE_ID_CONNEXION ?>"
+            <input type="text" name="<?= Authentification::CLE_ID_CONNEXION ?>" id="<?= Authentification::CLE_ID_CONNEXION ?>" required
             value="<?= $_JETON->pseudo() ?? '' ?>">
             <label for="<?= Authentification::CLE_MDP ?>">Mot de passe</label>
-            <input type="password" name="<?= Authentification::CLE_MDP ?>" id="<?= Authentification::CLE_MDP ?>">
+            <input type="password" name="<?= Authentification::CLE_MDP ?>" id="<?= Authentification::CLE_MDP ?>" required>
             <input type="submit" name="<?= Authentification::FORMULAIRE ?>" value="Se connecter">
             <input type="checkbox" name="<?= Authentification::CLE_COOKIE ?>" id="<?= Authentification::CLE_COOKIE ?>" checked>
             <label for="<?= Authentification::CLE_COOKIE ?>">Rester connecté</label>
