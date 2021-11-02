@@ -6,6 +6,7 @@
         public function informations(): array
         { return [
             'index', 'control',
+            'args',
             'ierr', 'icss', 'imedia'
         ]; }
          
@@ -26,6 +27,26 @@
         // Liste des associations vue / controleur
         protected $_control;
         public function control() : array { return $this->_control; }
+        // Liste des vues acceptants des arguments
+        protected $_args;
+        protected function est_URI_argumente(string $uri) : ?string
+        {
+            if ($this->_args !== null)
+            {
+                $longueur = strlen($uri);
+                foreach ($this->_args as $vue)
+                {
+                    if ($longueur > strlen($vue) + 1 && strpos($uri, $vue) === 0) return $vue;
+                }
+            }
+            return null;
+        }
+        public static function extraire_arguments(string $uri, string $vue) : array
+        {
+            $args = explode('/', substr($uri, strlen($vue) + 1));
+            if (strlen($args[0]) === 0) return [];
+            return $args;
+        }
 
         /// APPEL RESSOURCES
         // Chargement d'un fichier
@@ -92,19 +113,30 @@
             return $this->_ierr . '=404';
         }
         // Définition de la vue selon l'URI
-        public function definir_vue(string $uri) : string
+        public function definir_vue(string $uri, array &$params) : string
         {
             // Retirer le premier '/'
             $uri = substr($uri, 1);
             // Si la requête est vide, renvoyer à la page par défaut
             if (strlen($uri) === 0) return $this->_index;
             // Retirer le dernier '/' si il existe (c'est un appel de vue)
-            if ($uri[-1] == '/') $uri = substr($uri, 0, -1);
-            // Si pas de '/' à la fin, vérifier que c'est un appel de ressource
-            // Sinon, on renvoit vers la page d'erreur 404.
-            else if ($uri[0] != '?') return $this->_ierr . '=404';
+            if ($uri[-1] === '/') $uri = substr($uri, 0, -1);
+            else 
+            {
+                // Sinon, vérifier que c'est un appel de ressource.
+                if ($uri[0] === '?') return $this->_appel_ressource($uri);
+                // Si ce n'en est pas un, renvoyer vers la page d'erreur 404.
+                return $this->_ierr . '=404';
+            }
+            // Vérifier si c'est une vue argumentée
+            if (($vue = $this->est_URI_argumente($uri)) !== null)
+            {
+                // Extraire les arguments de l'URI et les ajouter les arguments de l'URI au tableau des paramètres
+                $params[URI] = self::extraire_arguments($uri, $vue);
+                // Retourner la vue ayant acceptée les arguments
+                return $vue;
+            }
             // APPEL DE RESSOURCE
-            if ($uri[0] == '?') return $this->_appel_ressource($uri);
             // Retourner la vue définie
             return $uri;
         }

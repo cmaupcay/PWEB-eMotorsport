@@ -1,6 +1,5 @@
 <?php
     include_once 'controleur/Controleur.php';
-    include_once 'ini/vues.ini.php';
 
     class Vues extends _Controleur
     {

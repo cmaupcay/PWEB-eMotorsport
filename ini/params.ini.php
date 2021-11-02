@@ -1,5 +1,6 @@
 <?php
-    // PARAMETRES PRE DEFINIS POUR LES VUES
+    // PARAMETRES PRE DEFINIS POUR LE TABLEAU $_PARAMS
+    const URI = 'uri';
     // Controleurs
     const CTRL_MESSAGE = 'ctrl_msg';
 

@@ -1,5 +1,6 @@
 <?php
     include_once 'modele/Modele.php';
+    include_once 'ini/params.ini.php';
 
     // Classe de base de la classe Controleur et des controleurs centraux (cf. App).
     // Cette classe est une extension de Modèle car elle utilise la fonction depuis_ini dans

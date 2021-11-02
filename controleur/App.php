@@ -56,14 +56,15 @@
         {
             try 
             {
+                $_PARAMS = []; // Tableau des paramètres passés à la vue et partagé entre les controleurs
+
                 // Récupèration du jeton d'authentification
                 $_JETON = $this->_auth->jeton($session, $post, $cookie, $server['REMOTE_ADDR'], $this->_bd);   
                 // Définition de la vue selon l'URI
-                $vue = $this->_routeur->definir_vue($server['REQUEST_URI']);
+                $vue = $this->_routeur->definir_vue($server['REQUEST_URI'], $_PARAMS);
                 // Vérification des droits d'accès de l'utilisateur sur la vue définie
                 $vue = $this->_auth->verifier_droits($vue, $_JETON, $this->_routeur);
 
-                $_PARAMS = []; // Tableau des paramètres passés à la vue et partagé entre les controleurs
                 // Chargement les controleurs liés à la vue défine précedemment
                 $controleurs = $this->_routeur->charger_controleurs($vue);
                 // Execution du code des controleurs
