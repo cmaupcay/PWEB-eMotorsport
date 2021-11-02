@@ -6,12 +6,13 @@
         private const CLE_ROLE = 'role';
         private const SEP_ROLE = ',';
         private $_roles;
+        public function roles() : array { return $this->_roles; }
         public function est_du_role(string $role) : bool
         {
             if ($this->_roles === null) return false;
             return array_search($role, $this->_roles, true) !== false;
         }
-        public static function roles(int $id, array $ini) : array
+        public static function liste_roles(int $id, array $ini) : array
         {
             if (!isset($ini[self::CLE_ROLE])) return [];
             $roles = [];
@@ -35,7 +36,7 @@
             {
                 if (!($ini = parse_ini_file($fichier_ini)))
                     throw new Exception("Impossible d'initialiser le jeton depuis le fichier \"$fichier_ini\".");
-                $this->_roles = self::roles($id, $ini);
+                $this->_roles = self::liste_roles($id, $ini);
             }
             else $this->_roles = [];
         }

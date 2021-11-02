@@ -80,11 +80,13 @@
                     if ($mdp != null)
                         if ($this->hash($post[self::CLE_MDP]) === $mdp)
                         {
+                            unset($post[self::CLE_MDP]);
                             $u->recevoir($bd, $this->_identifiant, ['id']);
                             $session[self::CLE_ID] = $u->id();
                             return true;
                         }
                 }
+                unset($post[self::CLE_MDP]);
             }
             return false;
         }
@@ -106,12 +108,11 @@
             {
                 if ($this->_connexion($post, $session, $bd))
                 {
-                    if (isset($post[self::CLE_MDP])) unset($post[self::CLE_MDP]);
                     $id = $session[self::CLE_ID];
                     if ($this->_cookie && isset($post[self::CLE_COOKIE]))
                         Cookie::ecrire($bd, $id, $ip, $this->nom_cookie());
                 }
-                else if (isset($post[self::FORMULAIRE], $post[self::CLE_ID_CONNEXION]))
+                else if (isset($post[self::FORMULAIRE], $post[self::CLE_ID_CONNEXION])) // Connexion échouée
                 {
                     ($j = new JetonAuthentification())->depuis_tableau([$this->_identifiant => $post[self::CLE_ID_CONNEXION]]);
                     return $j;
