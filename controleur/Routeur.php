@@ -6,7 +6,7 @@
         public function informations(): array
         { return [
             'index', 'control',
-            'ierr', 'icss', 'iimg'
+            'ierr', 'icss', 'imedia'
         ]; }
          
         /// PARAMETRES
@@ -28,37 +28,69 @@
         public function control() : array { return $this->_control; }
 
         /// APPEL RESSOURCES
-        private const MSG_RESSOURCE_INTROUVABLE = "La ressource demandée n'existe pas.";
+        // Chargement d'un fichier
+        private function _charger_fichier(string $fichier, ?string $type = null)
+        {
+            if (strlen($fichier) > 0 && $fichier[-1] !== '/' && file_exists($fichier))
+            {
+                // Changer le type MIME du contenu
+                if ($type === null)
+                    header('Content-type: ' . mime_content_type($fichier));
+                else 
+                    header('Content-type: ' . $type);
+                include $fichier;
+                die();
+            }
+        }
         // Chargement d'un fichier CSS
         private function _charger_css(string $fichier)
         {
             // Les fichiers CSS ne sont chargés que depuis la racine '/vue/style/' !
             // L'extension de fichier '.css' ne doit pas être spécifiée.
             $fichier = 'vue/style/' . $fichier . '.css';
-            if (file_exists($fichier))
-            {
-                // Changer le type MIME du contenu
-                header('Content-type: text/css');
-                include $fichier;
-            }
-            else print($this::MSG_RESSOURCE_INTROUVABLE);
+            $this->_charger_fichier($fichier, 'text/css');
         }
         // Chargement d'un fichier multimédia
         private function _charger_media(string $fichier)
         {
             // Les médias ne sont chargés que depuis la racine '/vue/media/' !
             // L'extension de fichier doit être spécifiée.
-            $fichier = 'vue/media/' . $fichier;
-            if (file_exists($fichier))
-            {
-                // Changer le type MIME du contenu
-                header('Content-type: ' . mime_content_type($fichier));
-                include $fichier;
-            } 
-            else print($this::MSG_RESSOURCE_INTROUVABLE);
+            $fichier = 'media/' . $fichier;
+            $this->_charger_fichier($fichier);
         }
 
         /// ROUTAGE
+        // Gestion des appels de ressource
+        private function _appel_ressource(string $uri) : string
+        {
+            // Récupération de la clé de type de ressource et du nom de la ressource
+            // Au format <cle_type>=<nom> dans l'URI
+            $var = explode('=', substr($uri, 1), 2);
+            // Vérifier que le format est respecté
+            if (count($var) === 2)
+            {   
+                // TYPES D'APPEL RESSOURCE
+                switch ($var[0]) 
+                {
+                // Spécifiaction d'une erreur
+                case $this->_ierr:
+                    // Retourner <cle_erreur>/<nom_erreur>
+                    return implode('/', $var);
+                // Chargement d'un fichier multimédia
+                case $this->_imedia:
+                    $this->_charger_media($var[1]);
+                    break;
+                // Chargement d'un fichier CSS
+                case $this->_icss:
+                    $this->_charger_css($var[1]);
+                    break;
+                // Type inconnu : redirection vers la page d'erreur 404
+                default:
+                    break;
+                }
+            }
+            return $this->_ierr . '=404';
+        }
         // Définition de la vue selon l'URI
         public function definir_vue(string $uri) : string
         {
@@ -72,36 +104,7 @@
             // Sinon, on renvoit vers la page d'erreur 404.
             else if ($uri[0] != '?') return $this->_ierr . '=404';
             // APPEL DE RESSOURCE
-            if ($uri[0] == '?')
-            {
-                // Récupération de la clé de type de ressource et du nom de la ressource
-                // Au format <cle_type>=<nom> dans l'URI
-                $var = explode('=', substr($uri, 1), 2);
-                // Vérifier que le format est respecté
-                if (count($var) === 2)
-                {   
-                    // TYPES D'APPEL RESSOURCE
-                    switch ($var[0]) 
-                    {
-                    // Spécifiaction d'une erreur
-                    case $this->_ierr:
-                        // Retourner <cle_erreur>=<nom_erreur>
-                        return implode('/', $var);
-                    // Chargement d'un fichier multimédia
-                    case $this->_imedia:
-                        $this->_charger_media($var[1]);
-                        break;
-                    // Chargement d'un fichier CSS
-                    case $this->_icss:
-                        $this->_charger_css($var[1]);
-                        break;
-                    // Type inconnu : redirection vers la page d'erreur 404
-                    default:
-                        return $this->_ierr . '=404';
-                        break;
-                    }
-                }
-            }
+            if ($uri[0] == '?') return $this->_appel_ressource($uri);
             // Retourner la vue définie
             return $uri;
         }
