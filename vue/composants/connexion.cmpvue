@@ -1,4 +1,4 @@
-<?php if (isset($_PARAMS)): ?>
+<?php if (isset($_PARAMS, $_JETON)): ?>
     <?php if ($_JETON->valide() || isset($_PARAMS[Authentification::CLE_DECO])): ?>
         <h5>Connecté en tant que <b><?= $_JETON->pseudo() ?></b></h5>
         <h6><b>Rôle<?= (count($_JETON->roles()) > 1) ? 's' : '' ?> : </b><?= implode(', ', $_JETON->roles()) ?></h6>

@@ -37,6 +37,7 @@
             $_V = $this;
             if ($_JETON === null) $_JETON = new JetonAuthentification();
             $post = []; $get = [];                              // POST et GET ne peuvent pas être utilisés dans les vues.
+            if (isset($_PARAMS[URI])) unset($_PARAMS[URI]);     // De même, on efface les informations relatives à l'URI.
             $vue = $this->_vue($vue);                           // Traduction en nom de fichier vue
             if (file_exists($vue))                              // Recherche du fichier
                 include $vue;                                   // On charge la vue   

@@ -23,10 +23,11 @@
             if ($fichier_ini != null) $this->depuis_ini($fichier_ini);
         }
         // Défini le fichier ini de base pour parametrer le controleur.
-        abstract public function ini() : ?string;
+        public function ini() : ?string { return null; }
+        public function informations(): array { return []; }
         // Défini le code à executer lorsque le controleur est appelé.
         abstract public function executer(
-            array &$server, array &$session, array &$post, array &$get, array &$params_vue,
+            array &$server, array &$session, array &$post, array &$get, array &$params,
             BD &$_BD, Authentification &$_AUTH, Routeur &$_ROUTEUR, ?JetonAuthentification &$_JETON = null);
     }
 ?>

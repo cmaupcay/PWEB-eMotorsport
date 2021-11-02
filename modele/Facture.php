@@ -7,8 +7,9 @@
         { return ['id', 'ide', 'idv', 'date_d', 'date_f', 'valeur', 'etat_r']; }
         public function table() : string { return 'facture'; }
 
-        private $_id;
-        public function id() : ?int { return $this->_id; }
+        public function __construct(?int $id = null, ?BD &$bd = null)
+        { parent::__construct($id, $bd); }
+        
         private $_ide;
         public function ide() : ?int { return $this->_ide; }
         private $_idv;

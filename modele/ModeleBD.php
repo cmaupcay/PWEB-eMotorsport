@@ -7,6 +7,7 @@
 
         protected $_id;
         public function id() : ?int { return $this->_id; }
+        protected function modifier_id(int $id) { $this->_id = $id; }
 
         protected function __construct(?int $id = null, ?BD &$bd = null)
         {

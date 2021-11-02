@@ -3,11 +3,6 @@
 
     class Inscription extends Controleur
     {
-        public function informations(): array
-        { return []; }
-        public function ini(): ?string
-        { return null; }
-
         const FORMULAIRE = 'form_insc';
         const CLE_NOM = 'insc_nom';
         const CLE_PSD = 'insc_psd';
@@ -17,7 +12,7 @@
         const CLE_ADR_E = 'insc_adr_e';
 
         public function executer(
-            array &$server, array &$session, array &$post, array &$get, array &$params_vue, 
+            array &$server, array &$session, array &$post, array &$get, array &$params, 
             BD &$_BD, Authentification &$_AUTH, Routeur &$_ROUTEUR, ?JetonAuthentification &$_JETON = null)
         {
             if (isset($post[self::FORMULAIRE]))
@@ -40,11 +35,11 @@
                             Cookie::ecrire($_BD, $u->id(), $server['REMOTE_ADDR'], $_AUTH->nom_cookie());
                             $_ROUTEUR->redirection(null);
                         }
-                        else $params_vue[CTRL_MESSAGE] = "L'inscription n'a pas pu aboutir.";
+                        else $params[CTRL_MESSAGE] = "L'inscription n'a pas pu aboutir.";
                     }
-                    else $params_vue[CTRL_MESSAGE] = "Cette adresse email est déjà associée à un compte.";
+                    else $params[CTRL_MESSAGE] = "Cette adresse email est déjà associée à un compte.";
                 }
-                else $params_vue[CTRL_MESSAGE] = "Veuillez completer le formulaire.";
+                else $params[CTRL_MESSAGE] = "Veuillez completer le formulaire.";
             }
         }
     }

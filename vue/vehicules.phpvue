@@ -1,0 +1,18 @@
+<?php
+    if (isset($_PARAMS[VEHICULE]))
+    {
+        if (is_array($_PARAMS[VEHICULE])) $titre = $_PARAMS[VEHICULE][0]->marque();
+        else $titre = $_PARAMS[VEHICULE]->marque() . ' ' . $_PARAMS[VEHICULE]->modele();
+        $_V->composant('entete', $_JETON, [
+            NOM_PAGE => $titre
+        ]);
+        
+        var_dump($_PARAMS[VEHICULE]);
+        // $_V->composant('vehicule', $_JETON, [
+        //     VEHICULE => $_PARAMS[VEHICULE]
+        // ]);
+
+        $_V->composant('pied', $_JETON);
+    }
+    else include 'vue/err/404.phpvue';
+?>

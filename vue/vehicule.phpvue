@@ -1,6 +1,0 @@
-<?php
-    if (isset($_PARAMS[URI]))
-        var_dump($_PARAMS[URI]);
-    else
-        print('pas de parametres');
-?>

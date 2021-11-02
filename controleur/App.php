@@ -64,7 +64,6 @@
                 $vue = $this->_routeur->definir_vue($server['REQUEST_URI'], $_PARAMS);
                 // Vérification des droits d'accès de l'utilisateur sur la vue définie
                 $vue = $this->_auth->verifier_droits($vue, $_JETON, $this->_routeur);
-
                 // Chargement les controleurs liés à la vue défine précedemment
                 $controleurs = $this->_routeur->charger_controleurs($vue);
                 // Execution du code des controleurs
