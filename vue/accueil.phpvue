@@ -11,5 +11,7 @@
     </div>
 
 <?php 
+    var_dump($_PARAMS[VEHICULE]);
+
     $_V->composant('pied', $_JETON);
 ?>

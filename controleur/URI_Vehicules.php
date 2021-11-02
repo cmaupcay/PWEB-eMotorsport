@@ -14,13 +14,15 @@
                         $vehicules = (new Vehicule())->selection($_BD, null, 'marque = \'' . $params[URI][0] . '\'');
                         if (count($vehicules) > 0) $params[VEHICULE] = $vehicules;
                         else $params[CTRL_MESSAGE] = 'Cette marque est inconnue.';
+                        $params[NOM_PAGE] = $params[URI][0];
                         break;
                     case 2:
                         $vehicule = (new Vehicule())->selection(
                             $_BD, null, 'marque = \'' . $params[URI][0] . '\' AND modele = \'' . $params[URI][1] . '\''
                         );
-                        if (count($vehicule) === 1) $params[VEHICULE] = $vehicule;
+                        if (count($vehicule) === 1) $params[VEHICULE] = $vehicule[0];
                         else $params[CTRL_MESSAGE] = 'Ce véhicule est inconnu.';
+                        $params[NOM_PAGE] = $params[URI][0] . ' ' . $params[URI][1];
                         break;
                     default:
                         $params[CTRL_MESSAGE] = "Paramètres invalides.";
