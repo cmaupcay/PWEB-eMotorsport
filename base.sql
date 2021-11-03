@@ -37,12 +37,12 @@ CREATE TABLE vehicule(
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO vehicule (typeV, marque, modele, nb, caract, photo, dispo) VALUES
-('voiture', 'Peugeot', '208', 2, '{"Moteur":"Essence","Portes":"5","Puissance":"5CV","Boite":"Mecanique"}', '?media=peugeot_208.jpg', 1),
-('voiture', 'Peugeot ', '308', 6, '{"Moteur":"Diesel","Portes":"5","Puissance":"6CV","Boite":"Automatique"}', '?media=peugeot_308.jpg', 1),
-('voiture', 'Porsche ', '911 ', 1, '{"Moteur":"Essence","Portes":"2","Puissance":"26CV","Boite":"Automatique"}', '?media=porsche_911.jpg', 1),
-('voiture', 'Porsche ', 'Cayenne ', 2, '{"Moteur":"Essence","Portes":"5","Puissance":"33CV","Boite":"Automatique"}', '?media=porsche_cayenne.jpg', 1),
-('voiture', 'Audi ', 'R8', 1, '{"Moteur":"Essence","Portes":"2","Puissance":"46CV","Boite":"Automatique"}', '?media=audi_r8.jpg', 0),
-('voiture', 'Renault', 'ZOE', 3, '{"Moteur":"Electrique","Portes":"5","Puissance":"4CV","Boite":"Automatique"}', '?media=renault_zoe.jpg', 1);
+('voiture', 'Peugeot', '208', 2, '{"Moteur":"Essence","Portes":"5","Puissance":"5CV","Boite":"Mecanique"}', '/?media=peugeot_208.jpg', 1),
+('voiture', 'Peugeot ', '308', 6, '{"Moteur":"Diesel","Portes":"5","Puissance":"6CV","Boite":"Automatique"}', '/?media=peugeot_308.jpg', 1),
+('voiture', 'Porsche ', '911 ', 1, '{"Moteur":"Essence","Portes":"2","Puissance":"26CV","Boite":"Automatique"}', '/?media=porsche_911.jpg', 1),
+('voiture', 'Porsche ', 'Cayenne ', 2, '{"Moteur":"Essence","Portes":"5","Puissance":"33CV","Boite":"Automatique"}', '/?media=porsche_cayenne.jpg', 1),
+('voiture', 'Audi ', 'R8', 1, '{"Moteur":"Essence","Portes":"2","Puissance":"46CV","Boite":"Automatique"}', '/?media=audi_r8.jpg', 0),
+('voiture', 'Renault', 'ZOE', 3, '{"Moteur":"Electrique","Portes":"5","Puissance":"4CV","Boite":"Automatique"}', '/?media=renault_zoe.jpg', 1);
 
 CREATE TABLE facture(
    id BIGINT AUTO_INCREMENT,
