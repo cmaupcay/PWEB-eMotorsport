@@ -63,7 +63,7 @@
         public function __construct(string $fichier_ini)
         {
             $ini = $this->depuis_ini($fichier_ini);
-            $this->_initialiser_pdo($ini['mdp']);
+            $this->_initialiser_pdo($ini['mdp'] ?? '');
         }
 
         public function executer(string $sql, array $params = []) : ?array
