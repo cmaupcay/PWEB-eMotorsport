@@ -3,10 +3,12 @@
         NOM_PAGE => '404'
     ]);
 ?>
-    <div class="container text-center">
-        <h1 class="text-danger pt-4">
-            <strong><a href='/'>Vous êtes perdu ?</a></strong>
-        </h1>
+    <div class="container text-center text-danger mt-4">
+        <h3>
+            <strong>
+                <?= $_PARAMS[CTRL_MESSAGE] ?? '<a href='/'>Vous êtes perdu ?</a>' ?>
+            </strong>
+        </h3>
     </div>
 <?php 
     $_V->composant('pied', $_JETON);

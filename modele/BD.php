@@ -74,14 +74,9 @@
                     new PDOException("Impossible d'executer la requête \"" . $sql . "\" car la base de donnèes n'est pas initialisée.")
                 );
             }
-
             $statut = $this->_pdo->prepare($sql);
             foreach ($params as $cle => $val)
-            {
-                $type = PDO::PARAM_STR;
-                if (is_int($val)) $type = PDO::PARAM_INT;
-                $statut->bindValue($cle, $val, $type);
-            }
+                $statut->bindValue($cle, $val, is_int($val) ? PDO::PARAM_INT : PDO::PARAM_STR);
             if ($statut->execute())
                 return $statut->fetchAll(PDO::FETCH_ASSOC);
             $this->_gerer_erreur_PDO(new PDOException($statut->errorInfo()[2]));
