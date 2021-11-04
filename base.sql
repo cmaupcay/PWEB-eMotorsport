@@ -49,7 +49,7 @@ CREATE TABLE facture(
    idu INT NOT NULL,
    idv INT NOT NULL,
    date_d DATE,
-   date_f DATE NOT NULL,
+   date_f DATE,
    valeur DECIMAL(19,4),
    etat_r BOOLEAN NOT NULL,
    PRIMARY KEY(id, date_d),
