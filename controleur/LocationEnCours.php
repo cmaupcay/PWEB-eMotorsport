@@ -12,7 +12,7 @@
             else // Afficher les location en cours
             {
                 $factures = (new Facture())->selection(
-                    $_BD, ['date_d','date_f','idv'], "date_f >= CURRENT_DATE AND idu = " . $_JETON->id()
+                    $_BD, ['date_d','date_f','idv'], "date_f >= CURRENT_DATE AND idu = " . $_JETON->id() . " ORDER BY date_d DESC"
                 );
                 if (count($factures) > 0)
                 {

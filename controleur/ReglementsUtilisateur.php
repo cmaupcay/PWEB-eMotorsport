@@ -11,7 +11,7 @@
             else // Afficher les factures
             {
                 $factures = (new Facture())->selection(
-                    $_BD, null, "idu = " . $_JETON->id()
+                    $_BD, null, "idu = " . $_JETON->id() . " ORDER BY date_d DESC"
                 );
                 if (count($factures) > 0)
                 {
