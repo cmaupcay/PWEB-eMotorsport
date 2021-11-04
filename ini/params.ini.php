@@ -17,4 +17,9 @@
     const U_EDITION = 'u_edit';
     const V_EDITION = 'v_edit';
     const F_EDITION = 'f_edit';
+
+    // Etat facture
+    const REGLEE = 'f_r';
+    const NON_REGLEE = 'f_nr';
+    const TOTAL = 'f_t';
 ?>

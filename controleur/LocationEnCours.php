@@ -11,7 +11,9 @@
                 $params[CTRL_MESSAGE] = "En tant que loueur, vous ne pouvez pas louer de véhicule.";
             else // Afficher les location en cours
             {
-                $factures = (new Facture())->selection($_BD, ['date_d','date_f','idv'], "etat_r = false AND idu = " . $_JETON->id());
+                $factures = (new Facture())->selection(
+                    $_BD, ['date_d','date_f','idv'], "date_f >= CURRENT_DATE AND idu = " . $_JETON->id()
+                );
                 if (count($factures) > 0)
                 {
                     $params[FACTURE] = $factures;

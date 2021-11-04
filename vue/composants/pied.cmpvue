@@ -11,6 +11,7 @@
                 <li><a href="/profil/">Profil</a></li>
                 <?php if (!$_JETON->est_du_role('loueur')): ?>
                     <li><a href="/en-cours/">Location en cours</a></li>
+                    <li><a href="/reglements/">Règlements</a></li>
                 <?php endif ?>
             <?php endif ?>
             <?php if ($_JETON != null && $_JETON->est_du_role('loueur')): ?>

@@ -50,7 +50,7 @@ CREATE TABLE facture(
    idv INT NOT NULL,
    date_d DATE,
    date_f DATE NOT NULL,
-   valeur DECIMAL(19,4) NOT NULL,
+   valeur DECIMAL(19,4),
    etat_r BOOLEAN NOT NULL,
    PRIMARY KEY(id, date_d),
    FOREIGN KEY(idu) REFERENCES utilisateur(id),
