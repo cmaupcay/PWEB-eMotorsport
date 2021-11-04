@@ -6,9 +6,6 @@
         ]);
         
         var_dump($_PARAMS[VEHICULE]);
-        // $_V->composant('vehicule', $_JETON, [
-        //     VEHICULE => $_PARAMS[VEHICULE]
-        // ]);
 
         $_V->composant('pied', $_JETON);
     }

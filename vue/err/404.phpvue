@@ -6,7 +6,7 @@
     <div class="container text-center text-danger mt-4">
         <h3>
             <strong>
-                <?= $_PARAMS[CTRL_MESSAGE] ?? '<a href='/'>Vous êtes perdu ?</a>' ?>
+                <?= $_PARAMS[CTRL_MESSAGE] ?? '<a href="/">Vous êtes perdu ?</a>' ?>
             </strong>
         </h3>
     </div>

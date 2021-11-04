@@ -6,13 +6,15 @@
 
     // Entête
     const NOM_PAGE = 'np';
-    const FORM_CONNEXION = 'fconnexion';
+    const FORM_CONNEXION = 'form_connexion';
 
     // Modèles
     const UTILISATEUR = 'u';
     const VEHICULE = 'v';
     const FACTURE = 'f';
 
-    // Profil
+    // Edition modèle
     const U_EDITION = 'u_edit';
+    const V_EDITION = 'v_edit';
+    const F_EDITION = 'f_edit';
 ?>

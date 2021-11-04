@@ -1,5 +1,6 @@
 <?php if (isset($_PARAMS)): ?>
 
+    <!-- NAVIGATION TEMPORAIRE -->
     <div class="container text-center">
         <ul>
             <li><a href="/">Accueil</a></li>
@@ -8,6 +9,9 @@
                 <li><a href="/inscription/">Inscription</a></li>
             <?php else: ?>
                 <li><a href="/profil/">Profil</a></li>
+                <?php if (!$_JETON->est_du_role('loueur')): ?>
+                    <li><a href="/en-cours/">Location en cours</a></li>
+                <?php endif ?>
             <?php endif ?>
             <?php if ($_JETON != null && $_JETON->est_du_role('loueur')): ?>
                 <li><a href="/loueur/">Espace Loueur</a></li>
