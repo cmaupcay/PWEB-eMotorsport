@@ -1,0 +1,13 @@
+<?php
+    if (isset($_PARAMS[VEHICULE]))
+    {
+        $_V->composant('entete', $_JETON, [
+            NOM_PAGE => 'Edition ' . (ucwords($_PARAMS[NOM_PAGE] ?? 'vehicules'))
+        ]);
+        
+        var_dump($_PARAMS[VEHICULE]);
+
+        $_V->composant('pied', $_JETON);
+    }
+    else include 'vue/err/404.phpvue';
+?>

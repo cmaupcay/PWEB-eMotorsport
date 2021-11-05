@@ -179,7 +179,7 @@
         // Redirection vers une vue
         // Si $vue === null, la redirection se fera sur la vue par défaut.
         public function redirection(?string $vue)
-        { header('Location: /' . ($vue ?? '')); die('Redirection...'); }
+        { header('Location: /' . ($vue ?? '') . '/'); die('Redirection...'); }
     }
 
 ?>

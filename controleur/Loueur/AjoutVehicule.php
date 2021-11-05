@@ -13,12 +13,12 @@
         const CLE_CARACT = 'av_caract';
         const CLE_PHOTO = 'av_photo';
 
-        private function _charger_photo(string $marque, string $modele) : ?string
+        public static function charger_photo(string $marque, string $modele, string $cle = self::CLE_PHOTO) : ?string
         {
-            if (isset($_FILES[self::CLE_PHOTO]))
+            if (isset($_FILES[$cle]))
             {
-                if (!isset($_FILES[self::CLE_PHOTO]['error']) || is_array($_FILES[self::CLE_PHOTO]['error'])) return null;
-                switch ($_FILES[self::CLE_PHOTO]['error'])
+                if (!isset($_FILES[$cle]['error']) || is_array($_FILES[$cle]['error'])) return null;
+                switch ($_FILES[$cle]['error'])
                 {
                     case UPLOAD_ERR_OK:
                         break;
@@ -30,7 +30,7 @@
                 }
                 $mime = new \finfo(FILEINFO_MIME_TYPE);
                 if (!($ext = array_search(
-                    $mime->file($_FILES[self::CLE_PHOTO]['tmp_name']),
+                    $mime->file($_FILES[$cle]['tmp_name']),
                     [
                         'jpg' => 'image/jpeg',
                         'jpeg' => 'image/jpeg',
@@ -40,7 +40,7 @@
                 ))) return null;
                 $nom =  $marque . '_' . $modele . '.' . $ext;
                 if (move_uploaded_file(
-                    $_FILES[self::CLE_PHOTO]['tmp_name'],
+                    $_FILES[$cle]['tmp_name'],
                     './media/' . $nom
                 )) return $nom;
             }
@@ -55,7 +55,7 @@
             {
                 if (json_decode($_POST[self::CLE_CARACT]) !== false)
                 {
-                    $nom_photo = $this->_charger_photo($post[self::CLE_MARQUE], $post[self::CLE_MODELE]);
+                    $nom_photo = self::charger_photo($post[self::CLE_MARQUE], $post[self::CLE_MODELE]);
                     if ($nom_photo !== null)
                     {
                         ($vehicule = new \Vehicule())->depuis_tableau([
