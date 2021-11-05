@@ -21,7 +21,7 @@
         public function modifier_modele(?string $valeur) { $this->_modele = $valeur; }
         private $_nb;
         public function nb() : ?int { return $this->_nb; }
-        public function modifier_nb(?float $valeur) { $this->_nb = $valeur; }
+        public function modifier_nb(?int $valeur) { $this->_nb = $valeur; }
         private $_caract;
         public function caract() : ?array { return $this->_caract; }
         public function modifier_caract(?string $valeur) { $this->_caract = json_decode($valeur, true); }

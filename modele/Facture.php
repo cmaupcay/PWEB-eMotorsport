@@ -12,8 +12,10 @@
         
         protected $_idu;
         public function idu() : ?int { return $this->_idu; }
+        public function modifier_idu(?int $valeur) { $this->_idu = $valeur; }
         protected $_idv;
         public function idv() : ?int { return $this->_idv; }
+        public function modifier_idv(?int $valeur) { $this->_idv = $valeur; }
         private $_date_d;
         public function date_d() : ?DateTime { return $this->_date_d; }
         public function modifier_date_d(?string $valeur) { $this->_date_d = new DateTime($valeur); }
