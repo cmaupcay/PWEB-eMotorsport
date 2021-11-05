@@ -1,5 +1,5 @@
 <?php
-    include_once 'modele/ModeleBD.php';
+    include_once 'modele/Facture.php';
 
     class Vehicule extends ModeleBD
     {
@@ -31,6 +31,17 @@
         private $_dispo;
         public function dispo() : ?bool { return $this->_dispo; }
         public function modifier_dispo(?bool $valeur) { $this->_dispo = $valeur; }
+
+        public function est_loue(BD $bd) : bool
+        {
+            if ($this->id() !== null)
+            {
+                // Vérifier s'il existe une facture pour ce véhicule et dont la date de fin de location n'est pas encore passée.
+                $f = (new Facture())->selection($bd, ['idv'], 'idv = ' . $this->id() . ' AND date_f >= CURRENT_TIME', true);
+                return (count($f) === 1);
+            }
+            return false;
+        }
     }
 
 ?>

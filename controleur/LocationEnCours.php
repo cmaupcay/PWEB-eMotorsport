@@ -1,6 +1,5 @@
 <?php
     require_once 'controleur/Controleur.php';
-    require_once 'modele/Facture.php';
     require_once 'modele/Vehicule.php';
 
     class LocationEnCours extends Controleur

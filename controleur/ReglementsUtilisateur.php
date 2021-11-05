@@ -15,6 +15,7 @@
                 );
                 if (count($factures) > 0)
                 {
+                    // Séprarer entre les factures réglées et à régler
                     $params[FACTURE][REGLEE][TOTAL] = 0;
                     $params[FACTURE][NON_REGLEE][TOTAL] = 0;
                     foreach ($factures as $f)

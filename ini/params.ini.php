@@ -18,6 +18,10 @@
     const V_EDITION = 'v_edit';
     const F_EDITION = 'f_edit';
 
+    // Etat vehicule
+    const DISPO = 'v_d';
+    const REVISION = 'v_nd';
+
     // Etat facture
     const REGLEE = 'f_r';
     const NON_REGLEE = 'f_nr';

@@ -1,4 +1,5 @@
 <?php
+    require_once 'controleur/Controleur.php';
     include_once 'modele/JetonAuthentification.php';
     include_once 'modele/Cookie.php';
 

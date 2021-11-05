@@ -12,7 +12,11 @@
                 {
                     case 1: // Afficher la liste des vehicules disponibles et de la marque renseignée dans l'URI
                         $vehicules = (new Vehicule())->selection($_BD, null, 'marque = \'' . $params[URI][0] . '\' AND dispo = true');
-                        if (count($vehicules) > 0) $params[VEHICULE] = $vehicules;
+                        if (count($vehicules) > 0)
+                        {
+                            foreach ($vehicules as $v)
+                                if (!$v->est_loue($_BD)) $params[VEHICULE][] = $v;
+                        }
                         else $params[CTRL_MESSAGE] = 'Aucun véhicule de la marque ' . ucwords($params[URI][0]) . ' disponible.';
                         $params[NOM_PAGE] = $params[URI][0];
                         break;
@@ -28,7 +32,15 @@
                         break;
                 }
             } // Afficher la liste de tous les véhicules disponibles
-            else $params[VEHICULE] = (new Vehicule())->selection($_BD, null, 'dispo = true');
+            else
+            {
+                $vehicules = (new Vehicule())->selection($_BD, null, 'dispo = true');
+                if (count($vehicules) > 0)
+                {
+                    foreach ($vehicules as $v)
+                        if (!$v->est_loue($_BD)) $params[VEHICULE][] = $v;
+                }
+            }
         }
     }
 ?>
