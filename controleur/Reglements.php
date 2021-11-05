@@ -2,7 +2,7 @@
     require_once 'controleur/Controleur.php';
     require_once 'modele/Facture.php';
 
-    class ReglementsUtilisateur extends Controleur
+    class Reglements extends Controleur
     {
         public function executer(array &$server, array &$session, array &$post, array &$get, array &$params, BD &$_BD, Authentification &$_AUTH, Routeur &$_ROUTEUR, ?JetonAuthentification &$_JETON = null)
         {

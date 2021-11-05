@@ -16,6 +16,7 @@
                     else $params[VEHICULE][REVISION][] = $v;
                 }
             }
+            if (!isset($params[VEHICULE])) $params[CTRL_MESSAGE] = 'Aucun véhicule en stock.';
         }
     }
 ?>
