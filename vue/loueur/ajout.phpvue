@@ -1,0 +1,31 @@
+<?php
+    $_V->composant('entete', $_JETON, [
+        NOM_PAGE => 'Location en cours'
+    ]);
+?>
+<?php if (isset($_PARAMS[CTRL_SUCCES_AJOUT])): // Le véhicule précedement renseigné à bien été ajouté ?>
+    <h4 class="text-success">Véhicule ajouté !</h4>
+<?php else: // Affichage du formulaire d'ajout ?>
+    <form method="post">
+        <select name="<?= \Loueur\AjoutVehicule::CLE_TYPE ?>" id="<?= \Loueur\AjoutVehicule::CLE_TYPE ?>">
+            <option value="voiture">Voiture</option>
+            <option value="camion">Camion</option>
+            <option value="moto">Moto</option>
+            <option value="scooter">Scooter</option>
+        </select>
+        <input type="text" name="<?= \Loueur\AjoutVehicule::CLE_MARQUE ?>" id="<?= \Loueur\AjoutVehicule::CLE_MARQUE ?>" required>
+        <input type="text" name="<?= \Loueur\AjoutVehicule::CLE_MODELE ?>" id="<?= \Loueur\AjoutVehicule::CLE_MODELE ?>" required>
+        <input type="number" name="<?= \Loueur\AjoutVehicule::CLE_NB ?>" id="<?= \Loueur\AjoutVehicule::CLE_NB ?>"
+        min="0" required>
+        <textarea name="<?= \Loueur\AjoutVehicule::CLE_CARACT ?>" id="<?= \Loueur\AjoutVehicule::CLE_CARACT ?>"
+        cols="30" rows="3" style="resize: none" required></textarea>
+        <input type="file" name="<?= \Loueur\AjoutVehicule::CLE_PHOTO ?>" id="<?= \Loueur\AjoutVehicule::CLE_PHOTO ?>" required>
+        <input type="submit" name="<?= \Loueur\AjoutVehicule::FORMULAIRE ?>" value="Ajouter">
+    </form>
+    <?php if (isset($_PARAMS[CTRL_MESSAGE])): ?>
+        <p class="text-center text-danger"><?= $_PARAMS[CTRL_MESSAGE] ?></p>
+    <?php endif ?>
+<?php endif ?>
+<?php
+    $_V->composant('pied', $_JETON);
+?>

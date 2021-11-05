@@ -3,6 +3,7 @@
     const URI = 'uri';
     // Controleurs
     const CTRL_MESSAGE = 'ctrl_msg';
+    const CTRL_SUCCES_AJOUT = 'ctrl_s_a';
 
     // Entête
     const NOM_PAGE = 'np';
