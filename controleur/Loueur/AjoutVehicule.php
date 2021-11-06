@@ -38,7 +38,7 @@
                     ],
                     true
                 ))) return null;
-                $nom =  $marque . '_' . $modele . '.' . $ext;
+                $nom = strtolower(str_replace(' ', '_', $marque) . '_' . str_replace(' ', '_', $modele) . '.' . $ext);
                 if (move_uploaded_file(
                     $_FILES[$cle]['tmp_name'],
                     './media/' . $nom
@@ -53,7 +53,7 @@
                 $post[self::FORMULAIRE], $post[self::CLE_TYPE], $post[self::CLE_MARQUE], $post[self::CLE_MODELE], $post[self::CLE_NB], $post[self::CLE_CARACT]
             ))
             {
-                if (json_decode($_POST[self::CLE_CARACT]) !== false)
+                if (json_decode($_POST[self::CLE_CARACT]) !== null)
                 {
                     $nom_photo = self::charger_photo($post[self::CLE_MARQUE], $post[self::CLE_MODELE]);
                     if ($nom_photo !== null)
@@ -62,13 +62,18 @@
                             'typeV' => $post[self::CLE_TYPE],
                             'marque' => $post[self::CLE_MARQUE], 
                             'modele' => $post[self::CLE_MODELE], 
-                            'nb' => $post[self::CLE_NB], 
-                            'caract' => $post[self::CLE_CARACT], 
+                            'nb' => $post[self::CLE_NB],
+                            'caract' => $post[self::CLE_CARACT],  
                             'photo' => '?' . $_ROUTEUR->imedia() . '=' . $nom_photo,
                             'dispo' => true
                         ]);
-                        if ($vehicule->envoyer($_BD, ['id'])) $params[CTRL_SUCCES_AJOUT] = true;
-                        else $params[CTRL_MESSAGE] = "Impossible d'ajouter le véhicule. Veuillez vérifier les informations du formulaire.";
+                        if ($vehicule->envoyer($_BD, ['id']))
+                            $params[CTRL_SUCCES] = true;
+                        else
+                        {
+                            unlink("./media/$nom_photo");
+                            $params[CTRL_MESSAGE] = "Impossible d'ajouter le véhicule. Veuillez vérifier les informations du formulaire.";
+                        }
                     }
                     else $params[CTRL_MESSAGE] = "Le téléversement du fichier n'a pu aboutir.";
                 }

@@ -76,7 +76,10 @@
             }
             $statut = $this->_pdo->prepare($sql);
             foreach ($params as $cle => $val)
+            {
+                if (is_array($val)) $val = json_encode($val);
                 $statut->bindValue($cle, $val, is_int($val) ? PDO::PARAM_INT : PDO::PARAM_STR);
+            }
             if ($statut->execute())
                 return $statut->fetchAll(PDO::FETCH_ASSOC);
             $this->_gerer_erreur_PDO(new PDOException($statut->errorInfo()[2]));

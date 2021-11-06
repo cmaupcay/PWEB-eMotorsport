@@ -66,6 +66,8 @@
                 $vue = $this->_auth->verifier_droits($vue, $_JETON, $this->_routeur);
                 // Chargement les controleurs liés à la vue défine précedemment
                 $controleurs = $this->_routeur->charger_controleurs($vue);
+                // Conversion des données de formulaire : permet de gérer les accents
+                foreach ($post as &$v) $v = utf8_decode($v);
                 // Execution du code des controleurs
                 foreach ($controleurs as $c)
                     $c->executer(

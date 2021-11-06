@@ -47,7 +47,10 @@
             if (strlen($args[0]) === 0) return [];
             // Sécurisation face aux injections SQL
             foreach ($args as &$arg)
+            {
+                $arg = str_replace('-', ' ', $arg);
                 $arg = str_replace(['"','\'',';'], '', $arg);
+            }
             return $args;
         }
 

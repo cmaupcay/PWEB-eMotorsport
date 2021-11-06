@@ -33,7 +33,8 @@
                         'caract' => $post[self::CLE_CARACT],
                         'dispo' => $post[self::CLE_DISPO]
                     ], false);
-                    $vehicule->envoyer($_BD);
+                    if ($vehicule->envoyer($_BD)) $params[CTRL_MESSAGE] = "Modifications enregistrées.";
+                    else $params[CTRL_MESSAGE] = "Les modifications n'ont pas pu être enregistrées.";
                 }
                 $params[VEHICULE] = $vehicule;
             } // Rediriger vers le stock sinon
