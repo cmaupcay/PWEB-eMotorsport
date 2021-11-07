@@ -78,6 +78,7 @@
             foreach ($params as $cle => $val)
             {
                 if (is_array($val)) $val = json_encode($val);
+                else if (is_string($val)) $val = utf8_decode($val);
                 $statut->bindValue($cle, $val, is_int($val) ? PDO::PARAM_INT : PDO::PARAM_STR);
             }
             if ($statut->execute())

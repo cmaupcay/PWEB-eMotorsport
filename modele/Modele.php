@@ -13,6 +13,8 @@
         }
         public function depuis_tableau(?array $data, bool $effacer = true, array $ignorer = []) : bool
         {
+            foreach ($data as &$v)                                                  // Encodage en UTF-8
+                if (is_string($v))  $v = utf8_encode($v);
             $infos = $this->informations();                                         // Chargement des informations du modèle
             $reussi = false;
             self::_formater_ignorer($ignorer);

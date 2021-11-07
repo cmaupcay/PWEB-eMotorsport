@@ -13,7 +13,7 @@
         const CLE_CARACT = 'av_caract';
         const CLE_PHOTO = 'av_photo';
 
-        public static function charger_photo(string $marque, string $modele, string $cle = self::CLE_PHOTO) : ?string
+        public static function charger_photo(string $cle = self::CLE_PHOTO) : ?string
         {
             if (isset($_FILES[$cle]))
             {
@@ -38,7 +38,7 @@
                     ],
                     true
                 ))) return null;
-                $nom = strtolower(str_replace(' ', '_', $marque) . '_' . str_replace(' ', '_', $modele) . '.' . $ext);
+                $nom = sha1_file($_FILES[$cle]['tmp_name']) . '.' . $ext;
                 if (move_uploaded_file(
                     $_FILES[$cle]['tmp_name'],
                     './media/' . $nom
@@ -55,7 +55,7 @@
             {
                 if (json_decode($_POST[self::CLE_CARACT]) !== null)
                 {
-                    $nom_photo = self::charger_photo($post[self::CLE_MARQUE], $post[self::CLE_MODELE]);
+                    $nom_photo = self::charger_photo();
                     if ($nom_photo !== null)
                     {
                         ($vehicule = new \Vehicule())->depuis_tableau([
@@ -64,7 +64,7 @@
                             'modele' => $post[self::CLE_MODELE], 
                             'nb' => $post[self::CLE_NB],
                             'caract' => $post[self::CLE_CARACT],  
-                            'photo' => '?' . $_ROUTEUR->imedia() . '=' . $nom_photo,
+                            'photo' => $nom_photo,
                             'dispo' => true
                         ]);
                         if ($vehicule->envoyer($_BD, ['id']))

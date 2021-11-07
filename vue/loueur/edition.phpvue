@@ -1,13 +1,37 @@
 <?php
-    if (isset($_PARAMS[VEHICULE]))
-    {
-        $_V->composant('entete', $_JETON, [
-            NOM_PAGE => 'Edition ' . (ucwords($_PARAMS[NOM_PAGE] ?? 'vehicules'))
-        ]);
-        
-        var_dump($_PARAMS[VEHICULE]);
+    $_V->composant('entete', $_JETON, [
+        NOM_PAGE => 'Edition ' . ucwords($_PARAMS[VEHICULE]->marque() . ' ' . $_PARAMS[VEHICULE]->modele())
+    ]);
+?>
+    <form method="post" style="display: inline-grid;">
+        <label for="<?= \Loueur\URI_EditionStock::CLE_MARQUE ?>">Marque</label>
+        <input type="text" name="<?= \Loueur\URI_EditionStock::CLE_MARQUE ?>" id="<?= \Loueur\URI_EditionStock::CLE_MARQUE ?>" required
+        value="<?= $_PARAMS[VEHICULE]->marque() ?>">
+        <label for="<?= \Loueur\URI_EditionStock::CLE_MODELE ?>">Modèle</label>
+        <input type="text" name="<?= \Loueur\URI_EditionStock::CLE_MODELE ?>" id="<?= \Loueur\URI_EditionStock::CLE_MODELE ?>" required
+        value="<?= $_PARAMS[VEHICULE]->modele() ?>">
+        <label for="<?= \Loueur\URI_EditionStock::CLE_NB ?>">Nombre en stock</label>
+        <input type="number" name="<?= \Loueur\URI_EditionStock::CLE_NB ?>" id="<?= \Loueur\URI_EditionStock::CLE_NB ?>"
+        min="0" required value="<?= $_PARAMS[VEHICULE]->nb() ?>">
+        <label for="<?= \Loueur\URI_EditionStock::CLE_CARACT ?>">Caractéristiques</label>
+        <textarea name="<?= \Loueur\URI_EditionStock::CLE_CARACT ?>" id="<?= \Loueur\URI_EditionStock::CLE_CARACT ?>"
+        cols="30" rows="3" style="resize: none" required><?= json_encode($_PARAMS[VEHICULE]->caract()) ?></textarea>
+        <label for="<?= \Loueur\URI_EditionStock::CLE_DISPO ?>">Disponibilité</label>
+        <input type="checkbox" name="<?= \Loueur\URI_EditionStock::CLE_DISPO ?>" id="<?= \Loueur\URI_EditionStock::CLE_DISPO ?>"
+        <?= $_PARAMS[VEHICULE]->dispo() ? 'checked' : '' ?>>
+        <input type="submit" name="<?= \Loueur\URI_EditionStock::FORMULAIRE ?>" value="Modifier">
+    </form>
+    <form method="post" enctype="multipart/form-data" style="display: inline-grid;">
+        <label for="actuelle">Photographie actuelle</label>
+        <img id="actuelle" src="\?media=<?= $_PARAMS[VEHICULE]->photo() ?>" alt="Photographie actuelle">
+        <label for="<?= \Loueur\URI_EditionStock::CLE_PHOTO ?>">Remplacer la photographie</label>
+        <input type="file" name="<?= \Loueur\URI_EditionStock::CLE_PHOTO ?>" id="<?= \Loueur\URI_EditionStock::CLE_PHOTO ?>" required>
+        <input type="submit" name="<?= \Loueur\URI_EditionStock::MODIF_PHOTO ?>" value="Modifier">
+    </form>
+    <?php if (isset($_PARAMS[CTRL_MESSAGE])): ?>
+        <p class="text-center text-warning"><?= $_PARAMS[CTRL_MESSAGE] ?></p>
+    <?php endif ?>
 
-        $_V->composant('pied', $_JETON);
-    }
-    else include 'vue/err/404.phpvue';
+<?php
+    $_V->composant('pied', $_JETON);
 ?>
