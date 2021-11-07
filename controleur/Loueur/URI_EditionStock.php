@@ -14,8 +14,11 @@
         const MODIF_PHOTO = 'ev_mphoto';
         const CLE_PHOTO = 'ev_photo';
 
+        const SUPPRIMER = 'sv';
+
         public function executer(array &$server, array &$session, array &$post, array &$get, array &$params, \BD &$_BD, \Authentification &$_AUTH, \Routeur &$_ROUTEUR, ?\JetonAuthentification &$_JETON = null)
         {
+            var_dump($post);
             if (isset($params[URI]) && count($params[URI]) === 1) // Un véhicule est renseigné
             {
                 try { $vehicule = new \Vehicule($params[URI][0], $_BD); }
@@ -65,6 +68,11 @@
                         }
                     }
                     else $params[CTRL_MESSAGE] = "Impossible de charger la photo.";
+                }
+                else if (isset($post[self::SUPPRIMER]))
+                {
+                    $vehicule->supprimer($_BD);
+                    $_ROUTEUR->redirection('loueur/stock');
                 }
                 $params[VEHICULE] = $vehicule;
             } // Rediriger vers le stock sinon

@@ -28,6 +28,11 @@
         <input type="file" name="<?= \Loueur\URI_EditionStock::CLE_PHOTO ?>" id="<?= \Loueur\URI_EditionStock::CLE_PHOTO ?>" required>
         <input type="submit" name="<?= \Loueur\URI_EditionStock::MODIF_PHOTO ?>" value="Modifier">
     </form>
+    <form name="suppression" method="post" style="display: inline-grid;">
+        <input type="button" value="Supprimer"
+        onclick="if (confirm('Voulez-vous supprimer définitivement ce véhicule ?')) document.suppression.submit()">
+        <input type="hidden" name="<?= \Loueur\URI_EditionStock::SUPPRIMER ?>">
+    </form>
     <?php if (isset($_PARAMS[CTRL_MESSAGE])): ?>
         <p class="text-center text-warning"><?= $_PARAMS[CTRL_MESSAGE] ?></p>
     <?php endif ?>
