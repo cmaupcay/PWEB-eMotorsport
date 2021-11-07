@@ -34,7 +34,11 @@
                         'dispo' => $post[self::CLE_DISPO]
                     ], false);
                     // Envoi des modifications
-                    if ($vehicule->envoyer($_BD)) $params[CTRL_MESSAGE] = "Modifications enregistrées.";
+                    if ($vehicule->envoyer($_BD))
+                    {
+                        $params[CTRL_MESSAGE] = "Modifications enregistrées.";
+                        $vehicule->recevoir($_BD);
+                    }
                     else $params[CTRL_MESSAGE] = "Les modifications n'ont pas pu être enregistrées.";
                 }
                 else if (isset($post[self::MODIF_PHOTO])) // Edition de la photo
@@ -51,10 +55,12 @@
                             if ($ancienne !== $vehicule->photo() && file_exists('./media/' . $ancienne))
                                 unlink('./media/' . $ancienne);
                             $params[CTRL_MESSAGE] = "Photo modifiée.";
+                            $vehicule->recevoir($_BD);
                         }
                         else
                         {
-                            if ($ancienne !== null) unlink('./media/' . $ancienne);
+                            if ($ancienne !== null && file_exists('./media/' . $ancienne))
+                                unlink('./media/' . $ancienne);
                             $params[CTRL_MESSAGE] = "Impossible de modifier la photo.";
                         }
                     }
