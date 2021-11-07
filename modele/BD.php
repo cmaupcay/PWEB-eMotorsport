@@ -79,10 +79,10 @@
             {
                 $type = PDO::PARAM_STR;
                 if (is_array($val)) $val = json_encode($val);
-                else if (is_string($val)) $val = utf8_decode($val);
+                if (is_string($val)) $val = utf8_decode($val);
                 else if (is_int($val)) $type = PDO::PARAM_INT;
                 else if (is_bool($val)) $type = PDO::PARAM_BOOL;
-                else throw new Exception("Type non pris en charge : " . print_r($val, true));
+                else if ($val !== null) throw new Exception("Type non pris en charge : " . var_dump($val));
                 $statut->bindValue($cle, $val, $type);
             }
             if ($statut->execute())

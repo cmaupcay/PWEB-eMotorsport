@@ -56,7 +56,7 @@
             foreach ($ignorer as $i)
                 if (isset($infos[$i])) unset($infos[$i]);
             $params = $this->_liste_parametres($infos);
-            if ($this->existe($bd))
+            if ($this->_id !== null && $this->existe($bd))
             {
                 $sql = "UPDATE " . $this->table() . " SET ";
                 $sql .= $this->_formater_informations(', ', '%i = :%i', $infos);
@@ -71,7 +71,7 @@
         }
         public function recevoir(BD &$bd, string $param = 'id', ?array $infos = null) : bool                                     // Charge les informations du modèle depuis la BD
         { 
-            $liste_infos = $this->_formater_informations(', ', '%i', $infos);
+            $liste_infos = ($infos === null) ? '*' : $this->_formater_informations(', ', '%i', $infos);
             $sql = "SELECT " . $liste_infos . " FROM " . $this->table() . " WHERE $param = :$param";
             $params = [':' . $param => $this->{$param}()];
             $obj = $bd->executer($sql, $params) ?? [];

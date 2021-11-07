@@ -1,0 +1,16 @@
+<?php
+    $_V->composant('entete', $_JETON, [
+        NOM_PAGE => 'Facture'
+    ]);
+
+    if (isset($_PARAMS[FACTURE]))
+    {
+        var_dump($_PARAMS[FACTURE]);
+    }
+    else
+    {
+        print($_PARAMS[CTRL_MESSAGE] ?? "L'application n'a rien renvoyée...");
+    }
+
+    $_V->composant('pied', $_JETON);
+?>

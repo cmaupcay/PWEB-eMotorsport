@@ -17,7 +17,7 @@
                             foreach ($vehicules as $v)
                                 if (!$v->est_loue($_BD)) $params[VEHICULE][] = $v;
                         }
-                        else $params[CTRL_MESSAGE] = 'Aucun véhicule de la marque ' . ucwords($params[URI][0]) . ' disponible.';
+                        else $_ROUTEUR->redirection('vehicules');
                         $params[NOM_PAGE] = $params[URI][0];
                         break;
                     case 2: // Afficher le véhicule désigné dans l'URI (<marque>/<modele>/)
@@ -25,7 +25,7 @@
                             $_BD, null, 'marque = \'' . $params[URI][0] . '\' AND modele = \'' . $params[URI][1] . '\''
                         );
                         if (count($vehicule) === 1) $params[VEHICULE] = $vehicule[0];
-                        else $params[CTRL_MESSAGE] = 'Ce véhicule est inconnu.';
+                        else $_ROUTEUR->redirection('vehicules/' . $params[URI][0]);
                         $params[NOM_PAGE] = $params[URI][0] . ' ' . $params[URI][1];
                         break;
                     default:
