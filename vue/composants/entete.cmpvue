@@ -25,10 +25,8 @@
         <link href="/?css=style" rel="stylesheet">
     </head>
     <body>
-        <div class="container text-center">
         <?php 
-            if (!isset($_PARAMS[FORM_CONNEXION]) || $_PARAMS[FORM_CONNEXION])
-                $_V->composant('connexion', $_JETON);
+            $_V->composant('navigation', $_JETON);
         ?>
         </div>
 <?php else: ?>

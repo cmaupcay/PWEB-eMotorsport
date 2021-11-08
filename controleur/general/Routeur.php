@@ -7,7 +7,7 @@
         { return [
             'index', 'control',
             'args',
-            'ierr', 'icss', 'imedia'
+            'ierr', 'icss', 'ijs', 'imedia'
         ]; }
          
         /// PARAMETRES
@@ -21,6 +21,9 @@
         // Clé d'appel d'un fichier CSS
         protected $_icss;
         public function icss() : string { return $this->_icss; }
+        // Clé d'appel d'un fichier CSS
+        protected $_ijs;
+        public function ijss() : string { return $this->_ijs; }
         // Clé d'appel d'un fichier multimédia
         protected $_imedia;
         public function imedia() : string { return $this->_imedia; }
@@ -77,6 +80,14 @@
             $fichier = 'vue/style/' . $fichier . '.css';
             $this->_charger_fichier($fichier, 'text/css');
         }
+        // Chargement d'un fichier JavaScript
+        private function _charger_js(string $fichier)
+        {
+            // Les fichiers JavaScript ne sont chargés que depuis la racine '/js/' !
+            // L'extension de fichier '.js' ne doit pas être spécifiée.
+            $fichier = 'js/' . $fichier . '.js';
+            $this->_charger_fichier($fichier, 'text/javascript');
+        }
         // Chargement d'un fichier multimédia
         private function _charger_media(string $fichier)
         {
@@ -110,6 +121,10 @@
                 // Chargement d'un fichier CSS
                 case $this->_icss:
                     $this->_charger_css($var[1]);
+                    break;
+                // Chargement d'un fichier JavaScript
+                case $this->_ijs:
+                    $this->_charger_js($var[1]);
                     break;
                 // Type inconnu : redirection vers la page d'erreur 404
                 default:

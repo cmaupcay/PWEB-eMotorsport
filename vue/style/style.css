@@ -1,4 +1,71 @@
-html, body
+@import url('/?css=couleurs');
+@import url('https://fonts.googleapis.com/css2?family=Ceviche+One&display=swap');
+
+/* PRINCIPAL */
+* 
 {
-    height: 100%;
+    user-select: none;
+    transition: all 0.15s ease-in;
+    scrollbar-width: thin;
+    margin: 0;
+    padding: 0;
+}
+*::-webkit-scrollbar
+{
+    width: 0.5rem;
+}
+*::-webkit-scrollbar-button
+{ height: 0; }
+*::-webkit-scrollbar-thumb
+{ border-radius: 0.25rem; }
+body
+{
+    margin: 0!important;
+    padding: 0!important;
+    overflow-x: hidden;
+    background-color: var(--b);
+    color: var(--e);
+    min-width: 520px;
+}
+.btn
+{
+    background-color: var(--d);
+    color: var(--a);
+    border-radius: 0.92rem;
+    display: flex;
+    align-items: center;
+}
+.btn i { font-size: 1rem; }
+.btn:hover, .btn:focus, .btn:active
+{
+    background-color: var(--a);
+    color: var(--d);
+}
+
+/* NAVIGATION */
+nav
+{
+    width: 100vw;
+    min-width: 520px;
+    margin-bottom: 1.25rem;
+    padding: .5rem;
+    background-color: var(--d);
+    color: var(--a);
+}
+nav div#logo
+{
+    position: relative;
+    bottom: .5rem;
+    text-align: center;
+}
+nav div#logo h1
+{
+    font-size: 5rem;
+    font-family: 'Ceviche One'; 
+}
+nav div#logo h1 i
+{
+    font-size: 6rem;
+    position: relative;
+    top: 1.25rem;
 }

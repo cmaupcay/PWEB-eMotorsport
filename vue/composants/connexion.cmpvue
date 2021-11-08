@@ -1,20 +1,26 @@
 <?php if (isset($_PARAMS, $_JETON)): ?>
-    <?php if ($_JETON->valide() || isset($_PARAMS[Authentification::CLE_DECO])): ?>
-        <h5>Connecté en tant que <b><?= $_JETON->pseudo() ?></b></h5>
-        <h6><b>Rôle<?= (count($_JETON->roles()) > 1) ? 's' : '' ?> : </b><?= implode(', ', $_JETON->roles()) ?></h6>
-        <form method="post">
-            <input type="submit" name="<?= Authentification::CLE_DECO ?>" value="Se déconnecter">
-        </form>
-    <?php else: ?>
-        <form method="post" class="mb-2">
-            <label for="<?= Authentification::CLE_ID_CONNEXION ?>">Pseudo</label>
-            <input type="text" name="<?= Authentification::CLE_ID_CONNEXION ?>" id="<?= Authentification::CLE_ID_CONNEXION ?>" required
-            value="<?= $_JETON->pseudo() ?? '' ?>">
-            <label for="<?= Authentification::CLE_MDP ?>">Mot de passe</label>
-            <input type="password" name="<?= Authentification::CLE_MDP ?>" id="<?= Authentification::CLE_MDP ?>" required>
-            <input type="submit" name="<?= Authentification::FORMULAIRE ?>" value="Se connecter">
-            <input type="checkbox" name="<?= Authentification::CLE_COOKIE ?>" id="<?= Authentification::CLE_COOKIE ?>" checked>
-            <label for="<?= Authentification::CLE_COOKIE ?>">Rester connecté</label>
+    <?php if (!$_JETON->valide()): ?>
+        <form method="post" class="row">
+            <div class="col-4">
+                <div class="form-outline">
+                    <input class="form-control mb-2" type="text" name="<?= Authentification::CLE_ID_CONNEXION ?>" id="<?= Authentification::CLE_ID_CONNEXION ?>" required
+                    value="<?= $_JETON->pseudo() ?? '' ?>">
+                    <label class="form-label" for="<?= Authentification::CLE_ID_CONNEXION ?>">Pseudo</label>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-outline">
+                    <input class="form-control mb-2" type="password" name="<?= Authentification::CLE_MDP ?>" id="<?= Authentification::CLE_MDP ?>" required>
+                    <label class="form-label" for="<?= Authentification::CLE_MDP ?>">Mot de passe</label>
+                </div>
+            </div>
+            <div class="col-4">
+                <button class="btn d-block w-100 py-2 my-1" type="submit" name="<?= Authentification::FORMULAIRE ?>">Se connecter</button>
+                <div class="form-check mt-2">
+                    <input class="form-check-input" type="checkbox" name="<?= Authentification::CLE_COOKIE ?>" id="<?= Authentification::CLE_COOKIE ?>" checked>
+                    <label class="form-label" for="<?= Authentification::CLE_COOKIE ?>">Rester connecté</label>
+                </div>
+            </div>
         </form>
         <?php if ($_JETON->pseudo() !== null): ?>
             <p class="text-center text-danger">Identifiants incorrects.</p>

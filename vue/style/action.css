@@ -1,0 +1,28 @@
+@import '/?css=couleurs';
+
+.ferme, .ferme-v
+{
+    visibility: collapse;
+    transition: all 0.14s ease-out; 
+}
+.ferme button, .ferme-v button
+{ font-size: 0rem!important; }
+.ouvert, .ouvert-v
+{
+    visibility: visible;
+    transition: all 0.14s ease-in;
+}
+.ferme
+{ width: 0%; }
+.ouvert
+{ width: 100%; }
+.ferme-v
+{ height: 0%; }
+.ouvert-v
+{ height: 100%; }
+
+.obscur
+{
+    filter: brightness(0.4);
+    transition: all 0.2s ease-in;
+}

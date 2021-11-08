@@ -48,7 +48,7 @@ CREATE TABLE facture(
    id BIGINT AUTO_INCREMENT,
    idu INT NOT NULL,
    idv INT NOT NULL,
-   date_d DATE,
+   date_d DATE NOT NULL,
    date_f DATE,
    valeur DECIMAL(19,4),
    etat_r BOOLEAN NOT NULL,

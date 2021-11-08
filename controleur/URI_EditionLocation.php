@@ -7,7 +7,9 @@
         const FORMULAIRE = 'form_edition_f';
         const CLE_DATE_D = 'f_dd';
         const CLE_DATE_F = 'f_df';
+
         const CLE_ETAT_R = 'f_er';
+        const CLE_VALEUR = 'f_ev';
 
         public function executer(array &$server, array &$session, array &$post, array &$get, array &$params, BD &$_BD, Authentification &$_AUTH, Routeur &$_ROUTEUR, ?JetonAuthentification &$_JETON = null)
         {
@@ -16,7 +18,7 @@
                 try
                 {
                     $f = new Facture($params[URI][0], $_BD);
-                    if ($f->idu() !== $_JETON->id() && !$_JETON->est_du_role('loueur')) throw new Exception();
+                    if ($f->etat_r() || ($f->idu() !== $_JETON->id() && !$_JETON->est_du_role('loueur'))) throw new Exception();
                 }
                 // Si la facture n'existe pas, rediriger vers les locations en cours
                 catch (\Exception $e) { $_ROUTEUR->redirection('en-cours'); }
@@ -29,17 +31,23 @@
                         'date_f' => $post[self::CLE_DATE_F]
                     ], false);
                     if ($post[self::CLE_DATE_F] === '') $f->modifier_date_f(null);
-                    // Envoi des modifications
-                    if ($f->envoyer($_BD))
+                    if ($f->DT_date_f()->getTimestamp() < $f->DT_date_d()->getTimestamp()) $params[CTRL_MESSAGE] = "Dates eronnées.";
+                    else
                     {
-                        $params[CTRL_MESSAGE] = "Modifications enregistrées.";
-                        $f->recevoir($_BD);
+                        // Envoi des modifications
+                        if ($f->envoyer($_BD))
+                        {
+                            $params[CTRL_MESSAGE] = "Modifications enregistrées.";
+                            $f->recevoir($_BD);
+                        }
+                        else $params[CTRL_MESSAGE] = "Les modifications n'ont pas pu être enregistrées.";
                     }
-                    else $params[CTRL_MESSAGE] = "Les modifications n'ont pas pu être enregistrées.";
                 }
-                else if (!$f->etat_r() && isset($post[self::CLE_ETAT_R]) && $_JETON->est_du_role('loueur'))
+                else if (!$f->etat_r() && $_JETON->est_du_role('loueur') &&
+                        (isset($post[self::CLE_VALEUR]) || isset($post[self::CLE_ETAT_R])))
                 {
-                    $f->modifier_etat_r(true);
+                    if (isset($post[self::CLE_VALEUR]) && $f->valeur() === null) $f->modifier_valeur($post[self::CLE_VALEUR]);
+                    else if (isset($post[self::CLE_ETAT_R]))$f->modifier_etat_r(true);
                     // Envoi des modifications
                     if ($f->envoyer($_BD)) $_ROUTEUR->redirection('loueur/facture');
                     else $params[CTRL_MESSAGE] = "Les modifications n'ont pas pu être enregistrées.";
