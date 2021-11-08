@@ -14,11 +14,6 @@
     const VEHICULE = 'v';
     const FACTURE = 'f';
 
-    // Edition modèle
-    const U_EDITION = 'u_edit';
-    const V_EDITION = 'v_edit';
-    const F_EDITION = 'f_edit';
-
     // Etat vehicule
     const DISPO = 'v_d';
     const REVISION = 'v_nd';

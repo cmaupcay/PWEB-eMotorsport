@@ -4,8 +4,7 @@
     ]);
 
     $_V->composant('utilisateur', $_JETON, [
-        UTILISATEUR => $_JETON,
-        U_EDITION => true
+        UTILISATEUR => $_JETON
     ]);
 
     $_V->composant('pied', $_JETON);

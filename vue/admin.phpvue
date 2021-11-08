@@ -2,10 +2,8 @@
     $_V->composant('entete', $_JETON, [
         NOM_PAGE => 'Administration'
     ]);
-?>
 
+    var_dump($_PARAMS[UTILISATEUR]);
 
-
-<?php 
     $_V->composant('pied', $_JETON);
 ?>
