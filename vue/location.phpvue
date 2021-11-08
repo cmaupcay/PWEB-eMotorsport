@@ -1,0 +1,29 @@
+<?php
+    $_V->composant('entete', $_JETON, [
+        NOM_PAGE => 'Location' . (isset($_PARAMS[FACTURE]) ? ' #' . $_PARAMS[FACTURE]->id() : '')
+    ]);
+?>
+<?php if (isset($_PARAMS[FACTURE])): ?>
+    <?php if ($_JETON->est_du_role('loueur')): ?>
+        <?php if ($_PARAMS[FACTURE]->etat_r()): ?>
+            <h3 class="text-warning">Cette facture à déjà été réglée.</h3>
+        <?php else: ?>
+            <form method="post">
+                <input type="submit" name="<?= URI_EditionLocation::CLE_ETAT_R ?>" id="<?= URI_EditionLocation::CLE_ETAT_R ?>"
+                value="Je confirme que la facture liée à cette location à été réglée.">
+            </form>
+        <?php endif ?>
+    <?php else: ?>
+        <form method="post">
+            <input type="date" name="<?= URI_EditionLocation::CLE_DATE_D ?>" id="<?= URI_EditionLocation::CLE_DATE_D ?>" required
+            value="<?= $_PARAMS[FACTURE]->date_d() ?>">
+            <input type="date" name="<?= URI_EditionLocation::CLE_DATE_F ?>" id="<?= URI_EditionLocation::CLE_DATE_F ?>"
+            value="<?= $_PARAMS[FACTURE]->date_f() ?>">
+            <input type="submit" name="<?= URI_EditionLocation::FORMULAIRE ?>" id="<?= URI_EditionLocation::FORMULAIRE ?>"
+            value="Confirmer">
+        </form>
+    <?php endif ?>
+<?php endif ?>
+<?php
+    $_V->composant('pied', $_JETON);
+?>

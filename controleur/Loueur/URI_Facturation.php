@@ -1,6 +1,5 @@
 <?php
     namespace Loueur;
-
     require_once 'controleur/Controleur.php';
     require_once 'modele/Facture.php';
     require_once 'modele/Reduction.php';
@@ -22,7 +21,7 @@
             if ($valeur > 0)
             {
                 if ( $facture->date_f() === null ||
-                    (($facture->date_f()->getTimestamp() - $facture->date_d()->getTimestamp()) >= ($this->_reductions['duree']->condition() * 86400))
+                    (($facture->DT_date_f()->getTimestamp() - $facture->DT_date_d()->getTimestamp()) >= ($this->_reductions['duree']->condition() * 86400))
                 ) $valeur -= ($valeur * $this->_reductions['duree']->valeur());
             }
             return $valeur;
@@ -58,7 +57,7 @@
             else
             {
                 $factures = (new \Facture())->selection($_BD, null,
-                'date_f IS NULL OR (date_d >= DATE_SUB(CURRENT_DATE, INTERVAL 31 DAY) AND date_f < DATE_ADD(CURRENT_DATE, INTERVAL 31 DAY)) ORDER BY id DESC');
+                'date_f IS NULL OR (date_d >= DATE_SUB(CURRENT_DATE, INTERVAL 31 DAY) OR date_f < DATE_ADD(CURRENT_DATE, INTERVAL 31 DAY)) ORDER BY id DESC');
                 if (count($factures) > 0)
                 {
                     foreach ($factures as $f)
@@ -78,8 +77,7 @@
                             $u[TOTAL] -= ($u[TOTAL] * $this->_reductions['quantite']->valeur());
                         $params[UTILISATEUR][TOTAL] += $u[TOTAL];
                     }
-                }
-
+                } else $params[CTRL_MESSAGE] = 'Aucune facture sur le mois courant.';
             }
         }
     }
