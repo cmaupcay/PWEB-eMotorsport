@@ -1,28 +1,43 @@
 <?php if (isset($_PARAMS)): ?>
     
-    <form method="post">
-        <label for="<?= Inscription::CLE_NOM ?>">Nom</label>
-        <input type="text" name="<?= Inscription::CLE_NOM ?>" id="<?= Inscription::CLE_NOM ?>"
-        required autocomplete="off">
-        <label for="<?= Inscription::CLE_EMAIL ?>">Adresse eMail</label>
-        <input type="email" name="<?= Inscription::CLE_EMAIL ?>" id="<?= Inscription::CLE_EMAIL ?>"
-        required autocomplete="off">
-        <label for="<?= Inscription::CLE_PSD ?>">Pseudo</label>
-        <input type="text" name="<?= Inscription::CLE_PSD ?>" id="<?= Inscription::CLE_PSD ?>"
-        required autocomplete="off">
-        <label for="<?= Inscription::CLE_MDP ?>">Mot de passe</label>
-        <input type="password" name="<?=Inscription::CLE_MDP ?>" id="<?=Inscription::CLE_MDP ?>"
-        required>
-        <h4>Entreprise</h4>
-        <label for="<?= Inscription::CLE_NOM_E ?>">Nom</label>
-        <input type="text" name="<?= Inscription::CLE_NOM_E ?>" id="<?= Inscription::CLE_NOM_E ?>"
-        required autocomplete="off">
-        <label for="<?= Inscription::CLE_ADR_E ?>">Adresse</label>
-        <input type="text" name="<?= Inscription::CLE_ADR_E ?>" id="<?= Inscription::CLE_ADR_E ?>"
-        required autocomplete="off">
-        <input type="submit" name="<?= Inscription::FORMULAIRE ?>" value="S'inscrire">
-        <?= $_PARAMS[CTRL_MESSAGE] ?? null ?>
-    </form>
+    <div class="row mb-5">
+        <div class="col-0 col-md-1 col-lg-2"></div>
+        <div class="col-12 col-md-10 col-lg-8">
+            <h1 class="my-3 text-center text-uppercase">Inscription</h1>
+            <?= isset($_PARAMS[CTRL_MESSAGE]) ? '<div class="note note-danger">'.$_PARAMS[CTRL_MESSAGE].'</div>' : '' ?>
+            <form method="post">
+                <div class="row mb-2">
+                    <div class="col-8">
+                        <div class="form-outline">
+                            <input type="text" name="<?= Inscription::CLE_NOM ?>" id="<?= Inscription::CLE_NOM ?>" class="form-control" 
+                            required autocomplete="off" placeholder="Nom complet"/>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-outline">
+                            <input type="text" name="<?= Inscription::CLE_PSD ?>" id="<?= Inscription::CLE_PSD ?>" class="form-control" 
+                            required autocomplete="off" placeholder="Pseudo"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-outline mb-2">
+                    <input type="email" name="<?= Inscription::CLE_EMAIL ?>" id="<?= Inscription::CLE_EMAIL ?>" class="form-control" 
+                    required autocomplete="off" placeholder="eMail"/>
+                </div>
+                <h4 class="mt-3 text-center">Entreprise</h4>
+                <div class="form-outline mt-3 mb-2">
+                    <input type="text" name="<?= Inscription::CLE_NOM_E ?>" id="<?= Inscription::CLE_NOM_E ?>" class="form-control" 
+                    required autocomplete="off" placeholder="Nom"/>
+                </div>
+                <div class="form-outline mt-3 mb-2">
+                    <input type="text" name="<?= Inscription::CLE_ADR_E ?>" id="<?= Inscription::CLE_ADR_E ?>" class="form-control" 
+                    required autocomplete="off" placeholder="Adresse"/>
+                </div>
+                <button type="submit" class="btn d-block w-100 mt-4 mb-2" name="<?= Inscription::FORMULAIRE ?>">S'inscrire</button>                
+            </form>
+        </div>
+        <div class="col-0 col-md-1 col-lg-2"></div>
+    </div>
     
 <?php else: ?>
     <h3><strong>Problème lors du chargement du composant...</strong></h3>
