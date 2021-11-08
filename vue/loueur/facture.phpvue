@@ -7,6 +7,10 @@
     {
         var_dump($_PARAMS[FACTURE]);
     }
+    else if (isset($_PARAMS[UTILISATEUR]))
+    {
+        var_dump($_PARAMS[UTILISATEUR]);
+    }
     else
     {
         print($_PARAMS[CTRL_MESSAGE] ?? "L'application n'a rien renvoyée...");

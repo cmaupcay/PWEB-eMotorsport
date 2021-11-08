@@ -18,7 +18,6 @@
 
         public function executer(array &$server, array &$session, array &$post, array &$get, array &$params, \BD &$_BD, \Authentification &$_AUTH, \Routeur &$_ROUTEUR, ?\JetonAuthentification &$_JETON = null)
         {
-            var_dump($post);
             if (isset($params[URI]) && count($params[URI]) === 1) // Un véhicule est renseigné
             {
                 try { $vehicule = new \Vehicule($params[URI][0], $_BD); }

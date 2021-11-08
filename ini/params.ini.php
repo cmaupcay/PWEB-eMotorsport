@@ -27,4 +27,5 @@
     const REGLEE = 'f_r';
     const NON_REGLEE = 'f_nr';
     const TOTAL = 'f_t';
+    const MOIS = 'f_m';
 ?>
