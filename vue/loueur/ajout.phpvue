@@ -3,34 +3,54 @@
         NOM_PAGE => 'Location en cours'
     ]);
 ?>
-<?php if (isset($_PARAMS[CTRL_SUCCES])): // Le véhicule précedement renseigné à bien été ajouté ?>
-    <h4 class="text-success">Véhicule ajouté !</h4>
-<?php else: // Affichage du formulaire d'ajout ?>
-    <form method="post" enctype="multipart/form-data" style="display: inline-grid;">
-        <select name="<?= \Loueur\AjoutVehicule::CLE_TYPE ?>" id="<?= \Loueur\AjoutVehicule::CLE_TYPE ?>">
-            <option value="voiture">Voiture</option>
-            <option value="camion">Camion</option>
-            <option value="moto">Moto</option>
-            <option value="scooter">Scooter</option>
-        </select>
-        <label for="<?= \Loueur\AjoutVehicule::CLE_MARQUE ?>">Marque</label>
-        <input type="text" name="<?= \Loueur\AjoutVehicule::CLE_MARQUE ?>" id="<?= \Loueur\AjoutVehicule::CLE_MARQUE ?>" required>
-        <label for="<?= \Loueur\AjoutVehicule::CLE_MODELE ?>">Modèle</label>
-        <input type="text" name="<?= \Loueur\AjoutVehicule::CLE_MODELE ?>" id="<?= \Loueur\AjoutVehicule::CLE_MODELE ?>" required>
-        <label for="<?= \Loueur\AjoutVehicule::CLE_NB ?>">Nombre en stock</label>
-        <input type="number" name="<?= \Loueur\AjoutVehicule::CLE_NB ?>" id="<?= \Loueur\AjoutVehicule::CLE_NB ?>"
-        min="0" required>
-        <label for="<?= \Loueur\AjoutVehicule::CLE_CARACT ?>">Caractéristiques</label>
-        <textarea name="<?= \Loueur\AjoutVehicule::CLE_CARACT ?>" id="<?= \Loueur\AjoutVehicule::CLE_CARACT ?>"
-        cols="30" rows="3" style="resize: none" required></textarea>
-        <label for="<?= \Loueur\AjoutVehicule::CLE_PHOTO ?>">Photographie</label>
-        <input type="file" name="<?= \Loueur\AjoutVehicule::CLE_PHOTO ?>" id="<?= \Loueur\AjoutVehicule::CLE_PHOTO ?>" required>
-        <input type="submit" name="<?= \Loueur\AjoutVehicule::FORMULAIRE ?>" value="Ajouter">
-    </form>
-    <?php if (isset($_PARAMS[CTRL_MESSAGE])): ?>
-        <p class="text-center text-danger"><?= $_PARAMS[CTRL_MESSAGE] ?></p>
-    <?php endif ?>
-<?php endif ?>
+    <div class="row mb-5">
+        <div class="col-0 col-md-1 col-lg-2"></div>
+        <div class="col-12 col-md-10 col-lg-8">
+            <h1 class="my-3 text-center text-uppercase">Ajout d'un véhicule</h1>
+            <?php if (isset($_PARAMS[CTRL_SUCCES])): // Le véhicule précedement renseigné à bien été ajouté ?>
+                <div class="note note-success">
+                    <h4 class="text-sucess"><b>Ajout effectué !</b></h4>
+                </div>
+            <?php else: // Affichage du formulaire d'ajout ?>
+                <?= isset($_PARAMS[CTRL_MESSAGE]) ? '<div class="note note-danger">'.$_PARAMS[CTRL_MESSAGE].'</div>' : '' ?>
+                <form method="post" enctype="multipart/form-data">
+                    <div class="my-2">
+                        <select class="form-select" name="<?= \Loueur\AjoutVehicule::CLE_TYPE ?>" id="<?= \Loueur\AjoutVehicule::CLE_TYPE ?>">
+                            <option value="voiture">Voiture</option>
+                            <option value="camion">Camion</option>
+                            <option value="moto">Moto</option>
+                            <option value="scooter">Scooter</option>
+                        </select>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="form-outline mb-2">
+                            <input class="form-control" type="text" name="<?= \Loueur\AjoutVehicule::CLE_MARQUE ?>" id="<?= \Loueur\AjoutVehicule::CLE_MARQUE ?>" required
+                            placeholder="Marque">
+                        </div>
+                        <div class="form-outline mb-2">
+                            <input class="form-control" type="text" name="<?= \Loueur\AjoutVehicule::CLE_MODELE ?>" id="<?= \Loueur\AjoutVehicule::CLE_MODELE ?>" required
+                            placeholder="Modèle">
+                        </div>
+                        <div class="form-outline mb-2">
+                            <input class="form-control" type="number" name="<?= \Loueur\AjoutVehicule::CLE_NB ?>" id="<?= \Loueur\AjoutVehicule::CLE_NB ?>"
+                            min="0" required placeholder="Nombre en stock">
+                        </div>
+                        <div class="form-outline mb-2">
+                            <textarea name="<?= \Loueur\AjoutVehicule::CLE_CARACT ?>" id="<?= \Loueur\AjoutVehicule::CLE_CARACT ?>"
+                            cols="30" rows="3" style="resize: none" required class="form-control"></textarea>
+                            <label class="form-label" for="<?= \Loueur\AjoutVehicule::CLE_CARACT ?>">Caractéristiques</label>
+                        </div>
+                        <div class="form-outline mb-2">
+                            <input class="form-control" type="file" name="<?= \Loueur\AjoutVehicule::CLE_PHOTO ?>" id="<?= \Loueur\AjoutVehicule::CLE_PHOTO ?>" required>
+                        </div>
+                        <button class="btn btn-louer mt-4" type="submit" name="<?= \Loueur\AjoutVehicule::FORMULAIRE ?>">Ajouter</button>
+                    </div>
+                </form>
+            <?php endif ?>
+        </div>
+        <div class="col-0 col-md-1 col-lg-2"></div>
+    </div>
+
 <?php
     $_V->composant('pied', $_JETON);
 ?>

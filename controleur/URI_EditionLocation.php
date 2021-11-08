@@ -61,11 +61,14 @@
                         $params[FACTURE] = $f;
                         break;
                     case 2:
-                        if ($_JETON->est_du_role('loueur')) $_ROUTEUR->redirection('loueur/facture');
-                        if ($params[URI][0] !== self::NOUVELLE_LOCATION) break;
-                        try { $v = new Vehicule($params[URI][1], $_BD); }
-                        catch (\Exception $e) { break; }
-                        if (!$v->dispo() || $v->est_loue($_BD)) break;
+                        if ($_JETON->est_du_role('loueur') || $params[URI][0] !== self::NOUVELLE_LOCATION)
+                            $_ROUTEUR->redirection('loueur/facture');
+                        try 
+                        { 
+                            $v = new Vehicule($params[URI][1], $_BD);
+                            if (!$v->dispo() || $v->est_loue($_BD)) throw new Exception();
+                        }
+                        catch (\Exception $e) { $_ROUTEUR->redirection('loueur/facture'); }
                         ($f = new Facture())->depuis_tableau([
                             'idu' => $_JETON->id(),
                             'idv' => $params[URI][1],
@@ -75,6 +78,7 @@
                         if ($f->envoyer($_BD))
                         {
                             $f = $f->selection($_BD, null, '1 ORDER BY id DESC')[0];
+                            var_dump($f);
                             $_ROUTEUR->redirection('location/'. $f->id());
                         }
                     default:

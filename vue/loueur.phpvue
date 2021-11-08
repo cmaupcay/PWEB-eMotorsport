@@ -6,31 +6,25 @@
 
     <div class="row mb-5">
         <div class="col-12 col-sm-6 mb-2">
-            <button class="btn btn-louer m-2 p-3 d-grid">
+            <button class="btn btn-louer m-2 p-3 d-grid" onclick="document.location = '/loueur/stock/'">
                 <i style="font-size: 14vh;" class="fa fa-car"></i>
                 <h1>Stock</h1>
             </button>
         </div>
         <div class="col-12 col-sm-6 mb-2">
-            <button class="btn btn-louer m-2 p-3 d-grid">
+            <button class="btn btn-louer m-2 p-3 d-grid" onclick="document.location = '/loueur/facture/'">
                 <i  style="font-size: 14vh;" class="fas fa-money-bill"></i>
                 <h1>Facturation</h1>
             </button>
         </div>
-        <div class="col-12 col-sm-6 col-md-4 mb-2">
-            <button class="btn btn-louer m-1 p-3 d-grid">
+        <div class="col-12 col-sm-6 mb-2">
+            <button class="btn btn-louer m-1 p-3 d-grid" onclick="document.location = '/loueur/ajout/'">
                 <i style="font-size: 7vh;" class="fa fa-plus"></i>
                 <h3>Ajouter</h3>
             </button>
         </div>
-        <div class="col-12 col-sm-6 col-md-4 mb-2">
-            <button class="btn btn-louer m-1 p-3 d-grid">
-                <i style="font-size: 7vh;" class="fa fa-pen"></i>
-                <h3>Edition</h3>
-            </button>
-        </div>
-        <div class="col-12 col-md-4 mb-2">
-            <button class="btn btn-louer m-1 p-3 d-grid">
+        <div class="col-12 col-sm-6 mb-2">
+            <button class="btn btn-louer m-1 p-3 d-grid" onclick="document.location = '/loueur/en-cours/'">
                 <i style="font-size: 7vh;" class="fa fa-eye"></i>
                 <h3>Activité</h3>
             </button>

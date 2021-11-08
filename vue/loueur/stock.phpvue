@@ -2,15 +2,15 @@
     $_V->composant('entete', $_JETON, [
         NOM_PAGE => 'Stock'
     ]);
-
-    if (isset($_PARAMS[VEHICULE]))
-    {
-        var_dump($_PARAMS[VEHICULE]);
-    }
-    else
-    {
-        print($_PARAMS[CTRL_MESSAGE] ?? "L'application n'a rien renvoyée...");
-    }
-
+?>
+    <div class="row mb-5">
+        <h1 class="my-3 text-center text-uppercase">Disponibles</h1>
+        <?php $_V->composant('vehicules', $_JETON, [VEHICULE => $_PARAMS[VEHICULE][DISPO]]); ?>
+    </div>
+    <div class="row mb-5">
+        <h1 class="my-3 text-center text-uppercase">En révision</h1>
+        <?php $_V->composant('vehicules', $_JETON, [VEHICULE => $_PARAMS[VEHICULE][REVISION]]); ?>
+    </div>
+<?php
     $_V->composant('pied', $_JETON);
 ?>

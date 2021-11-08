@@ -6,8 +6,7 @@
     {
         public function executer(array &$server, array &$session, array &$post, array &$get, array &$params, BD &$_BD, Authentification &$_AUTH, Routeur &$_ROUTEUR, ?JetonAuthentification &$_JETON = null)
         {
-            if ($_JETON->est_du_role('loueur'))
-                $params[CTRL_MESSAGE] = "En tant que loueur, vous ne pouvez pas louer de véhicule.";
+            if ($_JETON->est_du_role('loueur')) $_ROUTEUR->redirection('loueur/en-cours');
             else // Afficher les location en cours
             {
                 $factures = (new Facture())->selection(
