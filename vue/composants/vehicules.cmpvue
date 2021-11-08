@@ -1,43 +1,86 @@
 <?php if (isset($_PARAMS) && isset($_PARAMS[VEHICULE])): ?>
-    <div class="row">
-        <?php
+    <?php if (is_array($_PARAMS[VEHICULE])): ?>
+        <div class="row">
+            <?php
                 foreach ($_PARAMS[VEHICULE] as &$v)
-            {
-                if (isset($_PARAMS[FACTURE][$v->id()])) $lien = '/location/'. $_PARAMS[FACTURE][$v->id()]->id() .'/';
-                else $lien = str_replace(' ', '-', htmlspecialchars(strtolower('/vehicules/'.$v->marque().'/'.$v->modele().'/')));
-                $caract = "";
-                $i = 0;
-                foreach ($v->caract() as $car => $val)
                 {
-                    if ($i++ === 5) break;
-                    $caract .= $car . ' : ' . $val . " <br>\n";
-                }
-                print('
-                <div class="col-12 col-md-4 col-lg-3 pt-3 pb-4">
-                    <div class="card">
-                        <img
-                            src="/?media='. $v->photo() .'"
-                            class="card-img-top"
-                        />
-                        <div class="card-body pt-2">
-                            <h4 class="card-title text-center">
-                                <span style="color: var(--d)">'. $v->marque() .' </span>
-                                '. $v->modele() .'
-                            </h4>
-                            <p class="card-text">
-                            '. $caract . '
-                            </p>
-                            <div class="row mx-2">
-                                <button class="btn btn-louer" onclick="document.location = \''. $lien .'\'"
-                                >'. (isset($_PARAMS[FACTURE][$v->id()]) ? 'Modifier' : 'Voir') .'</button>
+                    if (isset($_PARAMS[FACTURE])) $lien = '/location/'. $_PARAMS[FACTURE][$v->id()]->id() .'/';
+                    else $lien = htmlentities(
+                        strtolower(str_replace(' ', '-', '/vehicules/'.$v->marque().'/'.$v->modele().'/')),
+                        ENT_IGNORE
+                    );
+                    $caract = "";
+                    $i = 0;
+                    foreach ($v->caract() as $car => $val)
+                    {
+                        if ($i++ === 4) break;
+                        $caract .= $car . ' : ' . $val . " <br>\n";
+                    }
+                    print('
+                    <div class="col-12 col-md-4 col-lg-3 pt-3 pb-4">
+                        <div class="card">
+                            <img
+                                src="/?media='. $v->photo() .'"
+                                class="card-img-top"
+                            />
+                            <div class="card-body pt-2">
+                                <h4 class="card-title text-center">
+                                    <span style="color: var(--d)">'. $v->marque() .' </span>
+                                    '. $v->modele() .'
+                                </h4>
+                                <p class="card-text">
+                                '. $caract . '
+                                </p>
+                                <div class="row mx-2">
+                                    <button class="btn btn-louer" onclick="document.location = \''. $lien .'\'"
+                                    >'. (isset($_PARAMS[FACTURE][$v->id()]) ? 'Modifier' : 'Voir') .'</button>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    ');
+                }
+            ?>
+        </div>
+    <?php else: ?>
+        <div class="row mx-3 mb-5">
+            <div id="photo" class="col-12 col-md-7 col-lg-6 p-0">
+                <img src="/?media=<?= $_PARAMS[VEHICULE]->photo() ?>">
+            </div>
+            <div id="infos" class="col-12 col-md-5 col-lg-6 px-2 py-3">
+                <div class="row">
+                    <div class="col-10">
+                        <h2 class="card-title text-center">
+                            <span style="color: var(--d)"><?= $_PARAMS[VEHICULE]->marque() ?></span>
+                            <?= $_PARAMS[VEHICULE]->modele() ?>
+                        </h2>
+                    </div>
+                    <div class="col-2 pr-5">
+                        <h4><span class="badge bg-info text-uppercase"><?= $_PARAMS[VEHICULE]->typeV() ?></span></h4>
+                    </div>
                 </div>
-                ');
-            }
-        ?>
-    </div>
+                <div class="row text-center mt-2">
+                    <h5 class="text-muted"><b><?= $_PARAMS[VEHICULE]->nb() ?></b> en stock</h5>
+                </div>
+                <div class="row m-3">
+                    <?php
+                        foreach ($_PARAMS[VEHICULE]->caract() as $nom => $val)
+                        {
+                            print('
+                                <div class="my-1">
+                                    <b style="color: var(--c)">'. ucwords($nom) .' : </b>
+                                    <i>'. ucwords($val) .'</i>
+                                </div>
+                            ');
+                        }
+                    ?>
+                </div>
+                <div class="row my-4 mx-3">
+                    <button class="btn btn-louer" onclick="document.location = '/location/v/<?= $_PARAMS[VEHICULE]->id() ?>/'"
+                    >Louer</button>
+                </div>
+            </div>
+    <?php endif ?>
 <?php else: ?>
     <h3><strong>Problème lors du chargement du composant...</strong></h3>
 <?php endif ?>

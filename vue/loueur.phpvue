@@ -4,6 +4,8 @@
     ]);
 ?>
 
+    
+
 <?php 
     $_V->composant('pied', $_JETON);
 ?>

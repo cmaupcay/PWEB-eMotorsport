@@ -3,38 +3,65 @@
         NOM_PAGE => 'Location' . (isset($_PARAMS[FACTURE]) ? ' #' . $_PARAMS[FACTURE]->id() : '')
     ]);
 ?>
+<div class="row mb-5">
+    <div class="col-0 col-md-1 col-lg-2"></div>
+    <div class="col-12 col-md-10 col-lg-8">
+    <h1 class="my-3 text-center text-uppercase">Location <?= (isset($_PARAMS[FACTURE]) ? ' #' . $_PARAMS[FACTURE]->id() : '') ?></h1>
 <?php if (isset($_PARAMS[FACTURE])): ?>
     <?php if ($_JETON->est_du_role('loueur')): ?>
         <?php if ($_PARAMS[FACTURE]->etat_r()): ?>
-            <h3 class="text-warning">Cette facture à déjà été réglée.</h3>
+            <div class="note note-warning my-3">
+                <h3 class="text-warning">Cette location à déjà été réglée.</h3>
+        </div>
         <?php else: ?>
             <?php if ($_PARAMS[FACTURE]->valeur() === null): ?>
-                <form method="post">
-                    <input type="number" name="<?= URI_EditionLocation::CLE_VALEUR ?>" id="<?= URI_EditionLocation::CLE_VALEUR ?>"
-                    min="0" step="0.01">
-                    <input type="submit" value="Confirmer">
+                <form method="post" class="d-grid mb-4">
+                    <div class="form-outline mb-2">
+                        <input type="number" name="<?= URI_EditionLocation::CLE_VALEUR ?>" id="<?= URI_EditionLocation::CLE_VALEUR ?>"
+                        min="0" step="0.01" class="form-control">
+                        <label class="form-label" for="<?= URI_EditionLocation::CLE_VALEUR ?>">Montant dû</label>
+                    </div>
+                    <button class="btn btn-louer mt-4" type="submit">Confirmer le montant</button>
                 </form>
             <?php else: ?>
-                <form method="post">
-                    <input type="submit" name="<?= URI_EditionLocation::CLE_ETAT_R ?>" id="<?= URI_EditionLocation::CLE_ETAT_R ?>"
-                    value="Je confirme que la facture liée à cette location à été réglée.">
+                <form method="post" class="d-grid mb-4">
+                    <button  class="btn btn-louer" type="submit" name="<?= URI_EditionLocation::CLE_ETAT_R ?>" id="<?= URI_EditionLocation::CLE_ETAT_R ?>"
+                    >Je confirme que la facture liée à cette location à été réglée.</button>
                 </form>
             <?php endif ?>
         <?php endif ?>
     <?php else: ?>
-        <form method="post">
-            <input type="date" name="<?= URI_EditionLocation::CLE_DATE_D ?>" id="<?= URI_EditionLocation::CLE_DATE_D ?>" required
-            value="<?= $_PARAMS[FACTURE]->date_d() ?>">
-            <input type="date" name="<?= URI_EditionLocation::CLE_DATE_F ?>" id="<?= URI_EditionLocation::CLE_DATE_F ?>"
-            value="<?= $_PARAMS[FACTURE]->date_f() ?>">
-            <input type="submit" name="<?= URI_EditionLocation::FORMULAIRE ?>" id="<?= URI_EditionLocation::FORMULAIRE ?>"
-            value="Confirmer">
+        <form method="post" class="d-grid mb-4">  
+            <div class="row">
+                <div class="col">
+                    <div class="form-outline mb-2">
+                        <input type="date" name="<?= URI_EditionLocation::CLE_DATE_D ?>" id="<?= URI_EditionLocation::CLE_DATE_D ?>" required
+                        class="form-control mb-2" value="<?= $_PARAMS[FACTURE]->date_d() ?>" autofocus>
+                        <label class="form-label" for="<?= URI_EditionLocation::CLE_DATE_D ?>">du</label>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-outline mb-2">
+                        <input type="date" name="<?= URI_EditionLocation::CLE_DATE_F ?>" id="<?= URI_EditionLocation::CLE_DATE_F ?>"
+                        class="form-control mb-2" value="<?= $_PARAMS[FACTURE]->date_f() ?>">
+                        <label class="form-label" for="<?= URI_EditionLocation::CLE_DATE_F ?>">au</label>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-louer mt-4" type="submit" name="<?= URI_EditionLocation::FORMULAIRE ?>" id="<?= URI_EditionLocation::FORMULAIRE ?>"
+            >Confirmer les dates</button>
         </form>
+        <div class="note note-warning my-3">
+            <b class="text-warning">Location mensualisée : </b> en laissant la date de fin vide, la location sera considérée comme mensualisée.
+        </div>
     <?php endif ?>
     <?php if (isset($_PARAMS[CTRL_MESSAGE])): ?>
         <?= $_PARAMS[CTRL_MESSAGE] ?>
     <?php endif ?>
 <?php endif ?>
+    </div>
+    <div class="col-0 col-md-1 col-lg-2"></div>
+</div>
 <?php
     $_V->composant('pied', $_JETON);
 ?>

@@ -19,7 +19,7 @@
         <!-- Bootstrap core CSS -->
         <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
         <!-- Material Design Bootstrap -->
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
+        <link href="/?css=mdb.min" rel="stylesheet">
 
         <!-- CSS Personnel -->
         <link href="/?css=style" rel="stylesheet">
@@ -27,7 +27,7 @@
     </head>
     <body>
         <?php 
-            $_V->composant('navigation', $_JETON);
+            $_V->composant('navigation', $_JETON, isset($_PARAMS[FORM_CONNEXION]) ? [FORM_CONNEXION => $_PARAMS[FORM_CONNEXION]] : []);
         ?>
         <main id="page" class="container-fluid">
 <?php else: ?>

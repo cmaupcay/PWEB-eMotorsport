@@ -11,34 +11,34 @@
             <div id="menu" class="col-12 col-lg-7">
                 <div class="pr-4">
                     <div class="row">
-                        <div class="col-6 col-md-4">
+                        <div class="col-6 col-md-4 pb-2">
                             <button class="btn d-block w-100" type="button" onclick="document.location = '/'"><i class="fas fa-home mr-2"></i>Accueil</button>
                         </div>
                         <?php if ($_JETON === null || !$_JETON->valide()): ?>
-                            <div class="col-6 col-md-4">
+                            <div class="col-6 col-md-4 pb-2">
                                 <button class="btn d-block w-100" type="button" onclick="document.location = '/connexion/'"><i class="fas fa-sign-in-alt mr-2"></i>Connexion</button>
                             </div>
-                            <div class="col-6 col-md-4">
+                            <div class="col-6 col-md-4 pb-2">
                                 <button class="btn d-block w-100" type="button" onclick="document.location = '/inscription/'"><i class="fas fa-signature mr-2"></i>Inscription</button>
                             </div>
                         <?php else: ?>
-                            <div class="col-6 col-md-4">
+                            <div class="col-6 col-md-4 pb-2">
                                 <button class="btn d-block w-100" type="button" onclick="document.location = '/profil/'"><i class="fas fa-user mr-2"></i><?= $_JETON->pseudo() ?></button>
                             </div>
                             <?php if (!$_JETON->est_du_role('loueur')): ?>
-                                <div class="col-6 col-md-4">
+                                <div class="col-6 col-md-4 pb-2">
                                     <button class="btn d-block w-100" type="button" onclick="document.location = '/en-cours/'"><i class="fas fa-car mr-2"></i>Locations</button>
                                 </div>
-                                <div class="col-6 col-md-4">
+                                <div class="col-6 col-md-4 pb-2">
                                     <button class="btn d-block w-100" type="button" onclick="document.location = '/reglements/'"><i class="fas fa-money-bill-wave-alt mr-2"></i>Règlements</button>
                                 </div>
                             <?php else: ?>
-                                <div class="col-6 col-md-4">
+                                <div class="col-6 col-md-4 pb-2">
                                     <button class="btn d-block w-100" type="button" onclick="document.location = '/loueur/'"><i class="fas fa-wrench mr-2"></i>Loueur</button>
                                 </div>
                             <?php endif ?>
                             <?php if ($_JETON->est_du_role('admin')): ?>
-                                <div class="col-6 col-md-4">
+                                <div class="col-6 col-md-4 pb-2">
                                     <button class="btn d-block w-100" type="button" onclick="document.location = '/admin/'"><i class="fas fa-cog mr-2"></i>Administration</button>
                                 </div>
                             <?php endif ?>
@@ -50,7 +50,7 @@
                         <?php endif ?>
                     </div>
                     <div class="d-inline-grid px-3 align-items-center pt-3">
-                        <?php $_V->composant('connexion', $_JETON); ?>
+                        <?php if (!isset($_PARAMS[FORM_CONNEXION]) || $_PARAMS[FORM_CONNEXION] === true) $_V->composant('connexion', $_JETON); ?>
                     </div>
                 </div>
             </div>

@@ -28,6 +28,11 @@ body
     min-width: 520px;
     min-height: 100vh;
 }
+img 
+{ 
+    object-fit: cover;
+    width: 100%;
+}
 a, a:active, a:visited, a:hover
 {
     color: var(--c);
@@ -64,11 +69,16 @@ main#page div.card div.card-body .card-title
     line-height: 2rem;
     font-family: 'Ceviche One'; 
 }
+main#page div#infos .card-title 
+{ 
+    font-size: 4rem;
+    line-height: 2rem;
+    font-family: 'Ceviche One'; 
+}
 main#page div.card img
 {
     border-radius: 1rem 1rem 0 0;
     height: 32vh;
-    object-fit: cover;
 }
 main#page button.btn.btn-louer
 {
@@ -77,6 +87,18 @@ main#page button.btn.btn-louer
     padding: .24rem 1.4rem;
     display: block;
     width: 100%;
+}
+
+/* VEHICULE */
+main#page div#photo img
+{
+    border-radius: 1rem 0 0 1rem;
+}
+main#page div#infos
+{
+    background-color: var(--a);
+    color: var(--e);
+    border-radius: 0 1rem 1rem 0;
 }
 
 /* NAVIGATION */
@@ -89,6 +111,7 @@ nav, footer
     background-color: var(--d);
     color: var(--a);
 }
+nav label.form-label { color: var(--a)!important; }
 footer { margin-bottom: -3.3vh; }
 footer div#liens
 {

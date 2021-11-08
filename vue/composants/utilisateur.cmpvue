@@ -1,18 +1,21 @@
 <?php if (isset($_PARAMS) && isset($_PARAMS[UTILISATEUR])): ?>
-    
-        <div>
-            <ul>
-                <li><b>Nom : </b><?= $_PARAMS[UTILISATEUR]->nom() ?></li>
-                <li><b>Pseudo : </b><?= $_PARAMS[UTILISATEUR]->pseudo() ?></li>
-                <li><b>Email : </b><?= $_PARAMS[UTILISATEUR]->email() ?></li>
-            </ul>
-            <h4>Entreprise</h4>
-            <ul>
-                <li><b>Nom : </b><?= $_PARAMS[UTILISATEUR]->nom_e() ?></li>
-                <li><b>Adresse : </b><?= $_PARAMS[UTILISATEUR]->adresse_e() ?></li>
-            </ul>
-        </div>
 
+    <div class="row mb-5">
+        <div class="col-0 col-md-1 col-lg-2"></div>
+        <div class="col-12 col-md-10 col-lg-8 text-center">
+            <h2 class="mt-3 mb-0 text-uppercase"><?= $_PARAMS[UTILISATEUR]->nom() ?></h2>
+            <h4 class="mb-3 style="color: var(--d)"><?= $_PARAMS[UTILISATEUR]->pseudo() ?></h4>
+            <p>
+                <b style="color: var(--d)">Adresse mail : </b><?= $_PARAMS[UTILISATEUR]->email() ?>
+            </p>
+            <div class="mx-2 mt-5">
+                <h3 class="my-2 text-center text-uppercase"><?= $_PARAMS[UTILISATEUR]->nom_e() ?></h3>
+                <p>
+                    <b style="color: var(--d)">Adresse : </b><?= $_PARAMS[UTILISATEUR]->adresse_e() ?>
+                </p>
+            </div>
+        </div>
+    </div>
 <?php else: ?>
     <h3><strong>Problème lors du chargement du composant...</strong></h3>
 <?php endif ?>

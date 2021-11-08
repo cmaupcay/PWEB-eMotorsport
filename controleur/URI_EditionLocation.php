@@ -61,6 +61,7 @@
                         $params[FACTURE] = $f;
                         break;
                     case 2:
+                        if ($_JETON->est_du_role('loueur')) $_ROUTEUR->redirection('loueur/facture');
                         if ($params[URI][0] !== self::NOUVELLE_LOCATION) break;
                         try { $v = new Vehicule($params[URI][1], $_BD); }
                         catch (\Exception $e) { break; }
@@ -73,7 +74,7 @@
                         $f->modifier_date_d(date_format(new DateTime(), 'Y-m-d'));
                         if ($f->envoyer($_BD))
                         {
-                            $f->recevoir($_BD, 'idv');
+                            $f = $f->selection($_BD, null, '1 ORDER BY id DESC')[0];
                             $_ROUTEUR->redirection('location/'. $f->id());
                         }
                     default:
