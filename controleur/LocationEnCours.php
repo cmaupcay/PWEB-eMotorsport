@@ -11,13 +11,15 @@
             else // Afficher les location en cours
             {
                 $factures = (new Facture())->selection(
-                    $_BD, ['date_d','date_f','idv'], "(date_f IS NULL OR date_f >= CURRENT_DATE) AND idu = " . $_JETON->id() . " ORDER BY date_d DESC"
+                    $_BD, ['id', 'date_d','date_f','idv'], "(date_f IS NULL OR date_f >= CURRENT_DATE) AND idu = " . $_JETON->id() . " ORDER BY date_d DESC"
                 );
                 if (count($factures) > 0)
                 {
-                    $params[FACTURE] = $factures;
                     foreach ($factures as $f)
-                        $params[VEHICULE][] = new Vehicule($f->idv(), $_BD);
+                    {
+                        $params[VEHICULE][] = ($v = new Vehicule($f->idv(), $_BD));
+                        $params[FACTURE][$v->id()] = $f;
+                    }
                 }
                 else $params[CTRL_MESSAGE] = "Vous n'avez aucune location en cours.";
             }

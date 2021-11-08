@@ -1,0 +1,28 @@
+<?php if (isset($_PARAMS) && isset($_PARAMS[UTILISATEUR])): ?>
+    <div class="row">
+        <?php
+            foreach ($_PARAMS[UTILISATEUR] as &$u)
+            {
+                print('
+                <div class="col-12 col-md-4 col-lg-3 pt-3 pb-4">
+                    <div class="card" style="height: auto">
+                        <div class="card-body pt-2">
+                            <h4 class="card-title text-center">
+                                '. $u->nom() .'
+                                <span class="small" style="color: var(--d)">'. $u->pseudo() .'</span>
+                            </h4>
+                            <p class="card-text text-center" style="user-select: text">
+                            '. $u->nom_e() . ', <br>
+                            '. $u->adresse_e() .' <br><br>
+                            <a href="mailto:'. $u->email() .'">'. $u->email() .'</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                ');
+            }
+        ?>
+    </div>
+<?php else: ?>
+    <h3><strong>Problème lors du chargement du composant...</strong></h3>
+<?php endif ?>

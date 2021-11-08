@@ -23,7 +23,7 @@ require_once 'controleur/Controleur.php';
                 }
                 $_ROUTEUR->redirection('admin');
             } // Afficher la liste de tous les utilisateurs (sauf l'admin actif)
-            else $params[UTILISATEUR] = (new \Utilisateur())->selection($_BD, ['id', 'pseudo', 'nom_e'], 'id != ' . $_JETON->id());
+            else $params[UTILISATEUR] = (new \Utilisateur())->selection($_BD, null, 'id != ' . $_JETON->id());
         }
     }
 ?>

@@ -1,0 +1,43 @@
+<?php if (isset($_PARAMS) && isset($_PARAMS[VEHICULE])): ?>
+    <div class="row">
+        <?php
+                foreach ($_PARAMS[VEHICULE] as &$v)
+            {
+                if (isset($_PARAMS[FACTURE][$v->id()])) $lien = '/location/'. $_PARAMS[FACTURE][$v->id()]->id() .'/';
+                else $lien = str_replace(' ', '-', htmlspecialchars(strtolower('/vehicules/'.$v->marque().'/'.$v->modele().'/')));
+                $caract = "";
+                $i = 0;
+                foreach ($v->caract() as $car => $val)
+                {
+                    if ($i++ === 5) break;
+                    $caract .= $car . ' : ' . $val . " <br>\n";
+                }
+                print('
+                <div class="col-12 col-md-4 col-lg-3 pt-3 pb-4">
+                    <div class="card">
+                        <img
+                            src="/?media='. $v->photo() .'"
+                            class="card-img-top"
+                        />
+                        <div class="card-body pt-2">
+                            <h4 class="card-title text-center">
+                                <span style="color: var(--d)">'. $v->marque() .' </span>
+                                '. $v->modele() .'
+                            </h4>
+                            <p class="card-text">
+                            '. $caract . '
+                            </p>
+                            <div class="row mx-2">
+                                <button class="btn btn-louer" onclick="document.location = \''. $lien .'\'"
+                                >'. (isset($_PARAMS[FACTURE][$v->id()]) ? 'Modifier' : 'Voir') .'</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                ');
+            }
+        ?>
+    </div>
+<?php else: ?>
+    <h3><strong>Problème lors du chargement du composant...</strong></h3>
+<?php endif ?>

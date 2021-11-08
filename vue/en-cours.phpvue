@@ -4,14 +4,9 @@
     ]);
 
     if (isset($_PARAMS[VEHICULE]))
-    {
-        var_dump($_PARAMS[FACTURE]);
-        var_dump($_PARAMS[VEHICULE]);
-    }
+        $_V->composant('vehicules', $_JETON, [VEHICULE => $_PARAMS[VEHICULE], FACTURE => $_PARAMS[FACTURE]]);
     else
-    {
         print($_PARAMS[CTRL_MESSAGE] ?? "L'application n'a rien renvoyée...");
-    }
 
     $_V->composant('pied', $_JETON);
 ?>

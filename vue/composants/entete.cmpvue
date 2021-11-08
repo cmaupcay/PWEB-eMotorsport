@@ -23,12 +23,13 @@
 
         <!-- CSS Personnel -->
         <link href="/?css=style" rel="stylesheet">
+        <link rel="shortcut icon" href="/?media=ui/logo.ico" type="image/x-icon">
     </head>
     <body>
         <?php 
             $_V->composant('navigation', $_JETON);
         ?>
-        </div>
+        <main id="page" class="container-fluid">
 <?php else: ?>
     <h3><strong>Problème lors du chargement du composant...</strong></h3>
 <?php endif ?>

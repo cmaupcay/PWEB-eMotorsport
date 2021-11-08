@@ -2,16 +2,8 @@
     $_V->composant('entete', $_JETON, [
         NOM_PAGE => 'Accueil'
     ]);
-?>
 
-    <div class="container text-center">
-        <h1 class="text-danger py-4">
-            <strong>Wesh la zone.</strong>
-        </h1>
-    </div>
-
-<?php 
-    var_dump($_PARAMS[VEHICULE]);
+    $_V->composant('vehicules', $_JETON, [VEHICULE => $_PARAMS[VEHICULE]]);
 
     $_V->composant('pied', $_JETON);
 ?>

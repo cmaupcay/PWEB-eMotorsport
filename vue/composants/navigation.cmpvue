@@ -2,10 +2,11 @@
     <nav>
         <div class="row">
             <div id="logo" class="col-12 col-lg-5">
-                <h1>
+                <h1 onclick="document.location = '/'">
                     <i class="fab fa-sith"></i>
                     eMotorsport
                 </h1>
+                <h5 class="font-italic"><b>Location professionnelle pour les professionels</b></h5>
             </div>
             <div id="menu" class="col-12 col-lg-7">
                 <div class="pr-4">
@@ -26,10 +27,10 @@
                             </div>
                             <?php if (!$_JETON->est_du_role('loueur')): ?>
                                 <div class="col-6 col-md-4">
-                                    <button class="btn d-block w-100" type="button" onclick="document.location = '/connexion/'"><i class="fas fa-car mr-2"></i>Locations</button>
+                                    <button class="btn d-block w-100" type="button" onclick="document.location = '/en-cours/'"><i class="fas fa-car mr-2"></i>Locations</button>
                                 </div>
                                 <div class="col-6 col-md-4">
-                                    <button class="btn d-block w-100" type="button" onclick="document.location = '/inscription/'"><i class="fas fa-money-bill-wave-alt mr-2"></i>Règlements</button>
+                                    <button class="btn d-block w-100" type="button" onclick="document.location = '/reglements/'"><i class="fas fa-money-bill-wave-alt mr-2"></i>Règlements</button>
                                 </div>
                             <?php else: ?>
                                 <div class="col-6 col-md-4">

@@ -1,27 +1,27 @@
 <?php if (isset($_PARAMS)): ?>
+    </main>
 
-    <!-- NAVIGATION TEMPORAIRE -->
-    <div class="container text-center">
-        <ul>
-            <li><a href="/">Accueil</a></li>
-            <?php if ($_JETON === null || !$_JETON->valide()): ?>
-                <li><a href="/connexion/">Connexion</a></li>
-                <li><a href="/inscription/">Inscription</a></li>
-            <?php else: ?>
-                <li><a href="/profil/">Profil</a></li>
-                <?php if (!$_JETON->est_du_role('loueur')): ?>
-                    <li><a href="/en-cours/">Location en cours</a></li>
-                    <li><a href="/reglements/">Règlements</a></li>
-                <?php endif ?>
-            <?php endif ?>
-            <?php if ($_JETON != null && $_JETON->est_du_role('loueur')): ?>
-                <li><a href="/loueur/">Espace Loueur</a></li>
-            <?php endif ?>
-            <?php if ($_JETON != null && $_JETON->est_du_role('admin')): ?>
-                <li><a href="/admin/">Espace Administration</a></li>
-            <?php endif ?>
-        </ul>
-    </div>
+    <footer class="text-center">
+        <div id="liens" class="row pt-1 pb-3">
+            <div class="col-3" onclick="document.location = '#mail'">
+                <i class="fas fa-envelope-square"></i>
+            </div>
+            <div class="col-3" onclick="document.location = '#whatsapp'">
+                <i class="fab fa-whatsapp-square"></i>
+            </div>
+            <div class="col-3" onclick="document.location = '#facebook'">
+                <i class="fab fa-facebook-square"></i>
+            </div>
+            <div class="col-3" onclick="document.location = '#twitter'">
+                <i class="fab fa-twitter-square"></i>
+            </div>
+        </div>
+        <div class="row py-2">
+            <div class="col-4"><b>Clément PROST</b></div>
+            <div class="col-4"><b>Robin FAUCHERY</b></div>
+            <div class="col-4"><b>Clément MAUPERON</b></div>
+        </div>
+    </footer>
 
     <!-- MDB 4.19.1 (JS) -->
     <!-- JQuery -->

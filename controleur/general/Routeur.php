@@ -51,8 +51,10 @@
             // Sécurisation face aux injections SQL
             foreach ($args as &$arg)
             {
+                $arg = urldecode($arg);
                 $arg = str_replace('-', ' ', $arg);
                 $arg = str_replace(['"','\'',';'], '', $arg);
+                $arg = utf8_decode($arg);
             }
             return $args;
         }

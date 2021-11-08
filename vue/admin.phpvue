@@ -3,7 +3,7 @@
         NOM_PAGE => 'Administration'
     ]);
 
-    var_dump($_PARAMS[UTILISATEUR]);
+    $_V->composant('utilisateurs', $_JETON, [UTILISATEUR => $_PARAMS[UTILISATEUR]]);
 
     $_V->composant('pied', $_JETON);
 ?>

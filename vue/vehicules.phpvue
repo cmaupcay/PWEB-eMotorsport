@@ -5,7 +5,7 @@
             NOM_PAGE => ucwords($_PARAMS[NOM_PAGE] ?? 'Vehicules')
         ]);
         
-        var_dump($_PARAMS[VEHICULE]);
+        $_V->composant('vehicules', $_JETON, [VEHICULE => $_PARAMS[VEHICULE]]);
 
         $_V->composant('pied', $_JETON);
     }
