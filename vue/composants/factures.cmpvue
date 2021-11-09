@@ -16,7 +16,7 @@
                     if ($c === TOTAL) continue;
                     print('
                     <tr>
-                        <th scope="row"># '. $f->id() .'</th>
+                        <th scope="row"><a href="/location/'. $f->id() .'/"># '. $f->id() .'</a></th>
                         <th scope="row"># '. $f->idv() .'</th>
                         <td>'. $f->DT_date_d()->format('d/m/Y') .'</td>
                         <td>'. (($f->date_f() === null) ? 'Mensualisé' : $f->DT_date_f()->format('d/m/Y')) .'</td>
@@ -26,6 +26,18 @@
                 }
             ?>
         </tbody>
+        <?php
+            if (isset($_PARAMS[FACTURE][TOTAL]))
+            print('
+            <thead>
+                <tr>
+                    <td colspan="3"></td>
+                    <th scope="row">TOTAL</th>
+                    <td>'. $_PARAMS[FACTURE][TOTAL] .' €</td>
+                </tr>
+            </thead>'
+            )
+        ?>
     </table>
 <?php else: ?>
     <h3><strong>Problème lors du chargement du composant...</strong></h3>

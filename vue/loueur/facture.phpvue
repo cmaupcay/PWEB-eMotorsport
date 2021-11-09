@@ -15,10 +15,23 @@
                 <div class="row mb-5">
                     <div class="col-0 col-md-1 col-lg-2"></div>
                     <div class="col-12 col-md-10 col-lg-8">
-                    <h1 class="my-3 text-center text-uppercase">Factures</h1>
+                        <h1 class="my-3 text-center text-uppercase">Factures</h1>
+                        <div class="row mb-4">
+                            <h3 class="text-center text-uppercase">Non reglée</h3>
                 ');
-                $_V->composant('factures', $_JETON, [FACTURE => $_PARAMS[FACTURE]]);
+                if (isset($_PARAMS[FACTURE][NON_REGLEE]) && count($_PARAMS[FACTURE][NON_REGLEE]) > 1) 
+                    $_V->composant('factures', $_JETON, [FACTURE => $_PARAMS[FACTURE][NON_REGLEE]]);
+                else print('<div class="note note-success"><h6 class="text-success">Aucune facture à reglée !</h6></div>');
                 print('
+                        </div>
+                        <div class="row mb-4">
+                            <h3 class="text-center text-uppercase">Reglée</h3>
+                ');
+                if (isset($_PARAMS[FACTURE][REGLEE]) && count($_PARAMS[FACTURE][REGLEE]) > 1) 
+                    $_V->composant('factures', $_JETON, [FACTURE => $_PARAMS[FACTURE][REGLEE]]);
+                else print('<div class="note note-warning"><h6 class="text-warning">Aucune facture reglée.</h6></div>');
+                print('
+                        </div>
                     </div>
                     <div class="col-0 col-md-1 col-lg-2"></div>
                 </div>');
