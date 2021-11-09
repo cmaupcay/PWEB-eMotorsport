@@ -2,17 +2,29 @@
     $_V->composant('entete', $_JETON, [
         NOM_PAGE => 'Facture'
     ]);
-
-    if (isset($_PARAMS[FACTURE]))
-    {
-        var_dump($_PARAMS[FACTURE]);
-    }
-    else if (isset($_PARAMS[UTILISATEUR]))
-        $_V->composant('factures', $_JETON, [UTILISATEUR => $_PARAMS[UTILISATEUR]]);
-    else
-    {
-        print($_PARAMS[CTRL_MESSAGE] ?? "L'application n'a rien renvoyée...");
-    }
-
+?>
+        <?php if (isset($_PARAMS[CTRL_MESSAGE])): ?>
+            <div class="note note-warning">
+                <h6 class="text-warning mb-0"><?= $_PARAMS[CTRL_MESSAGE] ?></h6>
+            </div>
+        <?php endif ?>
+        <?php 
+            if (isset($_PARAMS[FACTURE])) 
+            {
+                print('
+                <div class="row mb-5">
+                    <div class="col-0 col-md-1 col-lg-2"></div>
+                    <div class="col-12 col-md-10 col-lg-8">
+                    <h1 class="my-3 text-center text-uppercase">Factures</h1>
+                ');
+                $_V->composant('factures', $_JETON, [FACTURE => $_PARAMS[FACTURE]]);
+                print('
+                    </div>
+                    <div class="col-0 col-md-1 col-lg-2"></div>
+                </div>');
+            }
+            else if (isset($_PARAMS[UTILISATEUR])) $_V->composant('factures_globales', $_JETON, [UTILISATEUR => $_PARAMS[UTILISATEUR]]); 
+        ?>
+<?php
     $_V->composant('pied', $_JETON);
 ?>

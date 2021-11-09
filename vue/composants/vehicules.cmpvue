@@ -49,18 +49,18 @@
             </div>
             <div id="infos" class="col-12 col-md-5 col-lg-6 px-2 py-3">
                 <div class="row">
-                    <div class="col-10">
+                    <div class="col-9">
                         <h2 class="card-title text-center">
                             <span style="color: var(--d)"><?= $_PARAMS[VEHICULE]->marque() ?></span>
                             <?= $_PARAMS[VEHICULE]->modele() ?>
                         </h2>
+                        <div class="row text-center mt-2">
+                            <h5 class="text-muted"><b><?= $_PARAMS[VEHICULE]->nb() ?></b> en stock</h5>
+                        </div>
                     </div>
-                    <div class="col-2 pr-5">
-                        <h4><span class="badge bg-info text-uppercase"><?= $_PARAMS[VEHICULE]->typeV() ?></span></h4>
+                    <div class="col-3">
+                        <h4><span class="badge bg-info mr-5 text-uppercase"><?= $_PARAMS[VEHICULE]->typeV() ?></span></h4>
                     </div>
-                </div>
-                <div class="row text-center mt-2">
-                    <h5 class="text-muted"><b><?= $_PARAMS[VEHICULE]->nb() ?></b> en stock</h5>
                 </div>
                 <div class="row m-3">
                     <?php
@@ -80,8 +80,14 @@
                     <button class="btn btn-louer" onclick="document.location = '/loueur/edition/<?= $_PARAMS[VEHICULE]->id() ?>/'"
                     >Editer</button>
                 <?php else: ?>
-                    <button class="btn btn-louer" onclick="document.location = '/location/v/<?= $_PARAMS[VEHICULE]->id() ?>/'"
-                    >Louer</button>
+                    <?php if ($_PARAMS[VEHICULE]->dispo()): ?>
+                        <button class="btn btn-louer" onclick="document.location = '/location/v/<?= $_PARAMS[VEHICULE]->id() ?>/'"
+                        >Louer</button>
+                    <?php else : ?>
+                        <div class="note note-warning">
+                            <h5 class="text-warning mb-0">Ce véhicule n'est pas disponible actuellement.</h5>
+                        </div>
+                    <?php endif ?>
                 <?php endif ?>
                 </div>
             </div>

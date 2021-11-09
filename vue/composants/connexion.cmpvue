@@ -19,7 +19,7 @@
             </div>
         </form>
         <?php if ($_JETON->pseudo() !== null): ?>
-            <p class="text-center text-danger">Identifiants incorrects.</p>
+            <p class="text-center m-0"><i class="fa fa-exclamation-triangle me-2"></i> Identifiants incorrects.</p>
         <?php endif ?>
     <?php endif ?>
     

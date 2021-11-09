@@ -2,15 +2,37 @@
     $_V->composant('entete', $_JETON, [
         NOM_PAGE => 'Règelements'
     ]);
+?>
 
-    if (isset($_PARAMS[FACTURE]))
-    {
-        var_dump($_PARAMS[FACTURE]);
-    }
-    else
-    {
-        print($_PARAMS[CTRL_MESSAGE] ?? "L'application n'a rien renvoyée...");
-    }
+<div class="row mb-5">
+    <div class="col-0 col-md-1 col-lg-2"></div>
+    <div class="col-12 col-md-10 col-lg-8">
+        <h1 class="my-3 text-center text-uppercase">Factures</h1>
+        <?php if (isset($_PARAMS[CTRL_MESSAGE])): ?>
+            <div class="note note-warning">
+                <h6 class="text-warning mb-0"><?= $_PARAMS[CTRL_MESSAGE] ?></h6>
+            </div>
+        <?php endif ?>
+        <div class="row mb-4">
+            <h3 class="text-center text-uppercase">Non reglée</h3>
+            <?php 
+                if (isset($_PARAMS[FACTURE][NON_REGLEE]) && count($_PARAMS[FACTURE][NON_REGLEE]) > 1) 
+                    $_V->composant('factures', $_JETON, [FACTURE => $_PARAMS[FACTURE][NON_REGLEE]]);
+                else print('<div class="note note-success"><h6 class="text-success">Aucune facture à reglée !</h6></div>');
+            ?>
+        </div>
+        <div class="row mb-4">
+            <h3 class="text-center text-uppercase">Reglée</h3>
+            <?php
+                if (isset($_PARAMS[FACTURE][REGLEE]) && count($_PARAMS[FACTURE][REGLEE]) > 1) 
+                    $_V->composant('factures', $_JETON, [FACTURE => $_PARAMS[FACTURE][REGLEE]]);
+                else print('<div class="note note-warning"><h6 class="text-warning">Aucune facture reglée.</h6></div>');
+            ?>
+        </div>
+    </div>
+    <div class="col-0 col-md-1 col-lg-2"></div>
+</div>
 
+<?php
     $_V->composant('pied', $_JETON);
 ?>

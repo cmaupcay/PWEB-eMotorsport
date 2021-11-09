@@ -1,31 +1,32 @@
-<?php if (isset($_PARAMS) && isset($_PARAMS[UTILISATEUR])): ?>
-    <div class="row mb-5">
-        <?php
-            foreach ($_PARAMS[UTILISATEUR] as $c => $u)
-            {
-                if ($c === TOTAL) continue;
-                print('
-                <div class="col-12 col-md-4 col-lg-3 pt-3 pb-4">
-                    <div class="card" style="height: auto">
-                        <div class="card-body pt-2">
-                            <h4 class="card-title text-center">
-                                '. $u[UTILISATEUR]->nom_e() .'
-                                <span class="small" style="color: var(--d)">'. $u[UTILISATEUR]->nom() .'</span>
-                            </h4>
-                            <h5 class="text-center">'. $u[TOTAL] .' €</h5>
-                            <p class="card-text text-center" style="user-select: text">
-                            '. $u[UTILISATEUR]->adresse_e() .' <br>
-                            <a href="mailto:'. $u[UTILISATEUR]->email() .'">'. $u[UTILISATEUR]->email() .'</a>
-                            </p>
-                            <button class="btn mt-3 btn-louer" onclick="document.location = \'/loueur/facture/'. $u[UTILISATEUR]->id() .'/\'"
-                            >Examiner</button>
-                        </div>
-                    </div>
-                </div>
-                ');
-            }
-        ?>
-    </div>
+<?php if (isset($_PARAMS) && isset($_PARAMS[FACTURE])): ?>
+    <table class="table my-2 table-hover table-striped text-center">
+        <thead>
+            <tr>
+                <th scope="col" class="col-1">Ref</th>
+                <th scope="col" class="col-2">Véhicule</th>
+                <th scope="col" class="col-3">Date de début</th>
+                <th scope="col" class="col-3">Date de fin</th>
+                <th scope="col" class="col-3">Montant</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+                foreach ($_PARAMS[FACTURE] as $c => $f)
+                {
+                    if ($c === TOTAL) continue;
+                    print('
+                    <tr>
+                        <th scope="row"># '. $f->id() .'</th>
+                        <th scope="row"># '. $f->idv() .'</th>
+                        <td>'. $f->DT_date_d()->format('d/m/Y') .'</td>
+                        <td>'. (($f->date_f() === null) ? 'Mensualisé' : $f->DT_date_f()->format('d/m/Y')) .'</td>
+                        <td>'. ($f->valeur() ?? '-') .' €</td>
+                    </tr>
+                    ');
+                }
+            ?>
+        </tbody>
+    </table>
 <?php else: ?>
     <h3><strong>Problème lors du chargement du composant...</strong></h3>
 <?php endif ?>

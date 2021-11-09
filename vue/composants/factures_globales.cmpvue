@@ -1,0 +1,31 @@
+<?php if (isset($_PARAMS) && isset($_PARAMS[UTILISATEUR])): ?>
+    <div class="row mb-5">
+        <?php
+            foreach ($_PARAMS[UTILISATEUR] as $c => $u)
+            {
+                if ($c === TOTAL) continue;
+                print('
+                <div class="col-12 col-md-4 col-lg-3 pt-3 pb-4">
+                    <div class="card" style="height: auto">
+                        <div class="card-body pt-2">
+                            <h4 class="card-title text-center">
+                                '. $u[UTILISATEUR]->nom_e() .'
+                                <span class="small" style="color: var(--d)">'. $u[UTILISATEUR]->nom() .'</span>
+                            </h4>
+                            <h5 class="text-center">'. $u[TOTAL] .' €</h5>
+                            <p class="card-text text-center" style="user-select: text">
+                            '. $u[UTILISATEUR]->adresse_e() .' <br>
+                            <a href="mailto:'. $u[UTILISATEUR]->email() .'">'. $u[UTILISATEUR]->email() .'</a>
+                            </p>
+                            <button class="btn mt-3 btn-louer" onclick="document.location = \'/loueur/facture/'. $u[UTILISATEUR]->id() .'/\'"
+                            >Examiner</button>
+                        </div>
+                    </div>
+                </div>
+                ');
+            }
+        ?>
+    </div>
+<?php else: ?>
+    <h3><strong>Problème lors du chargement du composant...</strong></h3>
+<?php endif ?>
