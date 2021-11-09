@@ -1,9 +1,9 @@
 <?php
     namespace Loueur;
     require_once 'controleur/Controleur.php';
-    require_once 'modele/Facture.php';
     require_once 'modele/Reduction.php';
     require_once 'modele/Utilisateur.php';
+    require_once 'modele/Vehicule.php';
 
     class URI_Facturation extends \Controleur
     {
@@ -31,8 +31,8 @@
         {
             if (isset($params[URI]))
             {
-                if (count($params[URI]) === 1 && (new \Utilisateur($params[URI][0], $_BD))->id() !== null
-                    && (count(($factures = (new \Facture())->selection($_BD, null, 'idu = ' . $params[URI][0]))) !== 0))
+                if (count($params[URI]) === 1 && $idu = (new \Utilisateur($params[URI][0], $_BD))->id() !== null
+                    && (count(($factures = (new \Facture())->selection($_BD, null, '(date_f IS NULL OR date_f >= CURRENT_DATE) AND idu = ' . $params[URI][0]))) !== 0))
                 {
                     $params[FACTURE][NON_REGLEE][TOTAL] = 0;
                     $params[FACTURE][REGLEE][TOTAL] = 0;
@@ -50,6 +50,11 @@
                             $params[FACTURE][NON_REGLEE][TOTAL] += $f->valeur();
                         }
                     }
+                    // Réductions
+                    if (count($params[FACTURE][NON_REGLEE]) > $this->_reductions['quantite']->condition())
+                        $params[FACTURE][NON_REGLEE][TOTAL] -= ($params[FACTURE][NON_REGLEE][TOTAL] * $this->_reductions['quantite']->valeur());
+                    if (count($params[FACTURE][REGLEE]) > $this->_reductions['quantite']->condition())
+                        $params[FACTURE][REGLEE][TOTAL] -= ($params[FACTURE][REGLEE][TOTAL] * $this->_reductions['quantite']->valeur());
                     return;
                 }
                 $_ROUTEUR->redirection('loueur/facture');

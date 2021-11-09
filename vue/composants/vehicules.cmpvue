@@ -2,9 +2,9 @@
     <?php if (is_array($_PARAMS[VEHICULE])): ?>
         <div class="row">
             <?php
-                foreach ($_PARAMS[VEHICULE] as &$v)
+                foreach ($_PARAMS[VEHICULE] as $c => &$v)
                 {
-                    if (isset($_PARAMS[FACTURE])) $lien = '/location/'. $_PARAMS[FACTURE][$v->id()]->id() .'/';
+                    if (isset($_PARAMS[FACTURE][$c])) $lien = '/location/'. $_PARAMS[FACTURE][$c]->id() .'/';
                     else $lien = htmlentities(
                         strtolower(str_replace(' ', '-', '/vehicules/'.$v->marque().'/'.$v->modele().'/')),
                         ENT_IGNORE
@@ -33,9 +33,9 @@
                                 </p>
                                 <div class="row mx-2">
                                     <button class="btn btn-louer" onclick="document.location = \''. $lien .'\'"
-                                    >'. (isset($_PARAMS[FACTURE][$v->id()]) ? 'Modifier' : 'Voir') .'</button>
+                                    >'. (isset($_PARAMS[FACTURE][$c]) ? 'Modifier' : 'Voir') .'</button>
                                 </div>
-                            </div>
+                            </div>  
                         </div>
                     </div>
                     ');
