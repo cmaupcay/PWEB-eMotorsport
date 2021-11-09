@@ -8,7 +8,7 @@
         <div class="col-1 col-md-3"></div>
         <div class="col-10 col-md-6">
             <h1 class="my-3 text-center text-uppercase">Connexion</h1>
-            <?= isset($_PARAMS[CTRL_MESSAGE]) ? '<div class="note note-danger">'.$_PARAMS[CTRL_MESSAGE].'</div>' : '' ?>
+            <?= isset($_PARAMS[CTRL_MESSAGE]) ? '<div class="note note-danger mb-2">'.$_PARAMS[CTRL_MESSAGE].'</div>' : '' ?>
             <form method="post" class="d-grid">
             <div class="form-outline mb-2">
                 <input class="form-control" type="text" name="<?= Authentification::CLE_ID_CONNEXION ?>" id="<?= Authentification::CLE_ID_CONNEXION ?>" required

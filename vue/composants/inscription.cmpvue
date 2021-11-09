@@ -4,7 +4,7 @@
         <div class="col-0 col-md-1 col-lg-2"></div>
         <div class="col-12 col-md-10 col-lg-8">
             <h1 class="my-3 text-center text-uppercase">Inscription</h1>
-            <?= isset($_PARAMS[CTRL_MESSAGE]) ? '<div class="note note-danger">'.$_PARAMS[CTRL_MESSAGE].'</div>' : '' ?>
+            <?= isset($_PARAMS[CTRL_MESSAGE]) ? '<div class="note note-danger mb-2">'.$_PARAMS[CTRL_MESSAGE].'</div>' : '' ?>
             <form method="post">
                 <div class="row mb-2">
                     <div class="col-8">
@@ -23,6 +23,10 @@
                 <div class="form-outline mb-2">
                     <input type="email" name="<?= Inscription::CLE_EMAIL ?>" id="<?= Inscription::CLE_EMAIL ?>" class="form-control" 
                     required autocomplete="off" placeholder="eMail"/>
+                </div>
+                <div class="form-outline mb-2">
+                    <input type="password" name="<?= Inscription::CLE_MDP ?>" id="<?= Inscription::CLE_MDP ?>" class="form-control" 
+                    required autocomplete="off" placeholder="Mot de passe"/>
                 </div>
                 <h4 class="mt-3 text-center">Entreprise</h4>
                 <div class="form-outline mt-3 mb-2">
